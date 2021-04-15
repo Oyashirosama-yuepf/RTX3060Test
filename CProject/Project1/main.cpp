@@ -3,20 +3,10 @@
 #include "math.h"
 #include "stddef.h"
 
-#define MAX_DIFF_LINEAR_VELOCITY
-#define MAX_DIFF_ANGULAR_VELOCITY
-#define MIN_IR_DATA
-#define MIN_LDS_DATA
-
-typedef struct InputIdentifyVolume_ {
-    LdsInformation ldsInformationl;
-    IrInformation irInformation;
-    BumperStatus bumperStatus;
-    GyroOriginData gyroData;
-    DiffLiearVelocitySlamEncoder diffLinearVelocity;
-    DiffAngularVelocityEncoderGyro diffAngularVelocity;
-    StuckIdentifyStatus stuckIdentifyStatus;
-} InputStuckIdentifyVolume;
+#define MAX_DIFF_LINEAR_VELOCITY 10
+#define MAX_DIFF_ANGULAR_VELOCITY 10
+#define MIN_IR_DATA 10
+#define MIN_LDS_DATA 10
 
 typedef struct LdsInformation_ {
     int frontObstacleDistance;
@@ -78,7 +68,27 @@ typedef enum CheckResult_ {
     RobotCompleteStucked = 0x07,
 } CheckResult;
 
-CheckResult SlidWindowProcess(InputStuckIdentifyVolume input_stuck_identify_volume)
+typedef struct InputIdentifyVolume_ {
+    LdsInformation ldsInformationl;
+    IrInformation irInformation;
+    BumperStatus bumperStatus;
+    GyroOriginData gyroData;
+    DiffLiearVelocitySlamEncoder diffLinearVelocity;
+    DiffAngularVelocityEncoderGyro diffAngularVelocity;
+    StuckIdentifyStatus stuckIdentifyStatus;
+} InputStuckIdentifyVolume;
+
+
+class RobotStuckedIdentify
+{
+public:
+    InputStuckIdentifyVolume inputStuckIdentifyVolume;
+    _Bool SlidWindowProcess(InputStuckIdentifyVolume input_stuck_identify_volume);
+};
+
+
+
+_Bool RobotStuckedIdentify::SlidWindowProcess(InputStuckIdentifyVolume input_stuck_identify_volume)
 {
     static int checkCount = 0;
     static int checkCountEffect = 0;
@@ -96,14 +106,18 @@ CheckResult SlidWindowProcess(InputStuckIdentifyVolume input_stuck_identify_volu
     if (checkCountEffect > 5) {
         checkCountEffect = 0;
         checkCount = 0;
-        return 
+        return 1;
     }
 
 }
 
 void StuckIdentify(InputStuckIdentifyVolume input_stuck_identify_volume)
 {
+    return 0;
+}
 
+void main(void) {
+    return 0;
 }
 
 
