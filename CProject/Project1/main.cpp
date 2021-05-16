@@ -29,9 +29,9 @@ typedef struct IrInformation_ {
 } IrInformation;
 
 typedef struct BumperStatus_ {
-    _Bool leftBumper;
-    _Bool rightBumper;
-    _Bool ldsBumper;
+    bool leftBumper;
+    bool rightBumper;
+    bool ldsBumper;
 } BumperStatus;
 
 typedef struct GyroOriginData_ {
@@ -49,12 +49,12 @@ typedef struct DiffAngularVelocityEncoderGyro_ {
 } DiffAngularVelocityEncoderGyro;
 
 typedef struct StuckIdentifyStatus_ {
-    _Bool ldsOutputStuck;
-    _Bool irOutputStuck;
-    _Bool bumperOutputStuck;
-    _Bool gyroOutputStuck;
-    _Bool diffLinearOutputStuck;
-    _Bool diffAngularOutputStuck;
+    bool ldsOutputStuck;
+    bool irOutputStuck;
+    bool bumperOutputStuck;
+    bool gyroOutputStuck;
+    bool diffLinearOutputStuck;
+    bool diffAngularOutputStuck;
 } StuckIdentifyStatus;
 
 typedef enum CheckResult_ {
@@ -83,25 +83,25 @@ class RobotStuckedIdentify
 {
 public:
     InputStuckIdentifyVolume inputStuckIdentifyVolume;
-    _Bool SlidWindowProcess(InputStuckIdentifyVolume input_stuck_identify_volume);
+    bool SlidWindowProcess(InputStuckIdentifyVolume input_stuck_identify_volume);
 };
 
 
 
-_Bool RobotStuckedIdentify::SlidWindowProcess(InputStuckIdentifyVolume input_stuck_identify_volume)
+bool RobotStuckedIdentify::SlidWindowProcess(InputStuckIdentifyVolume input_stuck_identify_volume)
 {
     static int checkCount = 0;
     static int checkCountEffect = 0;
 
     checkCount++;
-    if (input_stuck_identify_volume.diffLinearVelocity > MAX_DIFF_LINEAR_VELOCITY) {
-        checkCountEffect++;
-    }
-    else {
-        if (checkCountEffect > 0) {
-            checkCountEffect--;
-        }
-    }
+    //if (input_stuck_identify_volume.diffLinearVelocity > MAX_DIFF_LINEAR_VELOCITY) {
+    //    checkCountEffect++;
+    //}
+    //else {
+    //    if (checkCountEffect > 0) {
+    //        checkCountEffect--;
+    //    }
+    //}
 
     if (checkCountEffect > 5) {
         checkCountEffect = 0;
@@ -113,10 +113,10 @@ _Bool RobotStuckedIdentify::SlidWindowProcess(InputStuckIdentifyVolume input_stu
 
 void StuckIdentify(InputStuckIdentifyVolume input_stuck_identify_volume)
 {
-    return 0;
+   
 }
 
-void main(void) {
+int main(void) {
     return 0;
 }
 
