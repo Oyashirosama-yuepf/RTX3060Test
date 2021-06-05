@@ -1,0 +1,7 @@
+# ninja log v5
+72	1089	6686244010098167	AStarLib/CMakeFiles/AStarFunctions.dir/AStarBase.obj	7e050661fa167ee
+1	1092	6686244010098167	CMakeFiles/demo.dir/CMakeProject1.obj	65502663451f4b98
+1	331	6686244506802257	AStarLib/AStarFunctions.lib	51e1aaf019e977de
+1	386	6686245158821598	Hanoi/CMakeFiles/Hanoi.dir/hanoi.obj	e0370a64033c9a3e
+386	568	6686245160612422	Hanoi/Hanoi.lib	f2e5446de71f7478
+568	1137	6686245166242481	demo.exe	8f0da8fc3751c22c

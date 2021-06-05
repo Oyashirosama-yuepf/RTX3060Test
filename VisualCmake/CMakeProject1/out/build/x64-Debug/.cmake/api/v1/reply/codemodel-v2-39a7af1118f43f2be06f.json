@@ -1,0 +1,98 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"childIndexes" : 
+					[
+						1,
+						2
+					],
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						2
+					]
+				},
+				{
+					"build" : "AStarLib",
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "AStarLib",
+					"targetIndexes" : 
+					[
+						0
+					]
+				},
+				{
+					"build" : "Hanoi",
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "Hanoi",
+					"targetIndexes" : 
+					[
+						1
+					]
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0,
+						1,
+						2
+					],
+					"name" : "CMakeProject1",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 1,
+					"id" : "AStarFunctions::@7cbdd5c18db832831f5e",
+					"jsonFile" : "target-AStarFunctions-Debug-14e28e8414f70b013a26.json",
+					"name" : "AStarFunctions",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 2,
+					"id" : "Hanoi::@526c05f041f3a99be7f5",
+					"jsonFile" : "target-Hanoi-Debug-5af1d9e79a34cceca15f.json",
+					"name" : "Hanoi",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "demo::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-demo-Debug-ee358b18443176cb1b76.json",
+					"name" : "demo",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "E:/UbuntuShareDocuments/VisualCmake/CMakeProject1/out/build/x64-Debug",
+		"source" : "E:/UbuntuShareDocuments/VisualCmake/CMakeProject1"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 2
+	}
+}

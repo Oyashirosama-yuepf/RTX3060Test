@@ -1,3 +1,0 @@
-﻿  main.cpp
-E:\UbuntuShareDocuments\CProject\Project1\main.cpp(113): warning C4715: “RobotStuckedIdentify::SlidWindowProcess”: 不是所有的控件路径都返回值
-  Project1.vcxproj -> E:\UbuntuShareDocuments\CProject\Project1\Debug\Project1.exe
