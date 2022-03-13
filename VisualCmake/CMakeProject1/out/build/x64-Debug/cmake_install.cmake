@@ -33,10 +33,13 @@ if(NOT DEFINED CMAKE_CROSSCOMPILING)
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
-  # Include the install script for each subdirectory.
+  # Include the install script for the subdirectory.
   include("E:/UbuntuShareDocuments/VisualCmake/CMakeProject1/out/build/x64-Debug/AStarLib/cmake_install.cmake")
-  include("E:/UbuntuShareDocuments/VisualCmake/CMakeProject1/out/build/x64-Debug/Hanoi/cmake_install.cmake")
+endif()
 
+if(NOT CMAKE_INSTALL_LOCAL_ONLY)
+  # Include the install script for the subdirectory.
+  include("E:/UbuntuShareDocuments/VisualCmake/CMakeProject1/out/build/x64-Debug/Hanoi/cmake_install.cmake")
 endif()
 
 if(CMAKE_INSTALL_COMPONENT)
