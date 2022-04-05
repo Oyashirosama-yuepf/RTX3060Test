@@ -1,0 +1,113 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"childIndexes" : 
+					[
+						1,
+						2
+					],
+					"jsonFile" : "directory-.-Debug-d0094a50bb2071803777.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.20"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						2
+					]
+				},
+				{
+					"build" : "AStarLib",
+					"jsonFile" : "directory-AStarLib-Debug-e01e8b133f2bc1d4263c.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.20"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "AStarLib",
+					"targetIndexes" : 
+					[
+						0
+					]
+				},
+				{
+					"build" : "Hanoi",
+					"jsonFile" : "directory-Hanoi-Debug-6d546174aebd01d4d638.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.20"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "Hanoi",
+					"targetIndexes" : 
+					[
+						1
+					]
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0,
+						1,
+						2
+					],
+					"name" : "CMakeProject1",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 1,
+					"id" : "AStarFunctions::@7cbdd5c18db832831f5e",
+					"jsonFile" : "target-AStarFunctions-Debug-c165450bc120efd1ef4f.json",
+					"name" : "AStarFunctions",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 2,
+					"id" : "Hanoi::@526c05f041f3a99be7f5",
+					"jsonFile" : "target-Hanoi-Debug-2ae3a114a2970e080658.json",
+					"name" : "Hanoi",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "demo::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-demo-Debug-ad902556619cd350a501.json",
+					"name" : "demo",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "D:/GitProject/VisualCmake/CMakeProject1/out/build/x64-Debug",
+		"source" : "D:/GitProject/VisualCmake/CMakeProject1"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 3
+	}
+}

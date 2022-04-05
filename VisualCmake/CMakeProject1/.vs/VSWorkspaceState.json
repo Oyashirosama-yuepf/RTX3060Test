@@ -3,7 +3,8 @@
     "",
     "\\AStarLib",
     "\\Hanoi",
-    "\\out"
+    "\\MultiFunction",
+    "\\SingleTon"
   ],
   "SelectedNode": "\\CMakeProject1.cpp",
   "PreviewInSolutionExplorer": false

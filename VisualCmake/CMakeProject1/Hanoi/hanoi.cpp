@@ -1,7 +1,7 @@
 #include <iostream>
 
 using namespace std;
-class Hanoilmpl {
+class Hanoilmpl {    
 public:
     static void hanoi(int n, char A, char B, char C) {
         if (n == 1) {

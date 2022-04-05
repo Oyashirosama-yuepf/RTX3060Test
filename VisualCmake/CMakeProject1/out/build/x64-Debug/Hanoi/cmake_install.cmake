@@ -1,8 +1,8 @@
-# Install script for directory: E:/UbuntuShareDocuments/VisualCmake/CMakeProject1/Hanoi
+# Install script for directory: D:/GitProject/VisualCmake/CMakeProject1/Hanoi
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "E:/UbuntuShareDocuments/VisualCmake/CMakeProject1/out/install/x64-Debug")
+  set(CMAKE_INSTALL_PREFIX "D:/GitProject/VisualCmake/CMakeProject1/out/install/x64-Debug")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 
