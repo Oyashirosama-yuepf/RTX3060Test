@@ -1,10 +1,8 @@
 {
   "ExpandedNodes": [
     "",
-    "\\AStarLib",
-    "\\Hanoi",
-    "\\MultiFunction",
-    "\\SingleTon"
+    "\\ExternFunction",
+    "\\Hanoi"
   ],
   "SelectedNode": "\\CMakeProject1.cpp",
   "PreviewInSolutionExplorer": false

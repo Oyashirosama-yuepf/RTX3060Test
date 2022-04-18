@@ -7,22 +7,30 @@
 #include "MultiFunction/MultiFunction.h"
 #include "AstarLib/AStarBase.h"
 #include "SingleTon/SingleTon.h"
+#include "ExternFunction/ExternFunction.h"
 
 using namespace std;
+
+extern ExternFunction externFunction;
+extern ExternFunction* externFunctionPoint;
 
 SingleTon* SingleTon::instance = NULL;
 int main(int argc, char* argv[])
 {
-	TakeBus* take_bus = new TakeBus();
+	externFunction.ExternOutput();
+	externFunctionPoint->ExternOutput();
+	//TakeBus* take_bus = new TakeBus();
 
-	Bus* subway = new Subway();
-	Bus* station = new Station();
+	//Bus* subway = new Subway();
+	//Bus* station = new Station();
 
-	cout << "test initial" << endl;
-	subway->TakeBusToSomewhere(*take_bus);
-	station->TakeBusToSomewhere(*take_bus);
+	//cout << "test initial" << endl;
+	//subway->TakeBusToSomewhere(*take_bus);
+	//station->TakeBusToSomewhere(*take_bus);
 
-	SingleTon::GetSingleTonInstance()->testSingleTonOutput();
+	//SingleTon::GetSingleTonInstance()->testSingleTonOutput();
+
+
 	//char pBuff[5][7] = {
 	//	'0','0','0','1','0','0','0',
 	//	'0','1','1','0','0','1','1',
@@ -34,7 +42,7 @@ int main(int argc, char* argv[])
 	//Astarbase.PrintCharArr();
 	//PAPoint pPoint = Astarbase.CalcNextPoint(NULL);
 	//if (pPoint == NULL)
-	//{
+	//{                 
 	//	cout  <<  "no path can arrive!" <<  endl ;
 	//}
 	//else {

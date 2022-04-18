@@ -56,6 +56,13 @@ build CMakeFiles\demo.dir\CMakeProject1.cpp.obj: CXX_COMPILER__demo_Debug D$:\Gi
   TARGET_COMPILE_PDB = CMakeFiles\demo.dir\
   TARGET_PDB = demo.pdb
 
+build CMakeFiles\demo.dir\ExternTest.cpp.obj: CXX_COMPILER__demo_Debug D$:\GitProject\VisualCmake\CMakeProject1\ExternTest.cpp || cmake_object_order_depends_target_demo
+  FLAGS = /DWIN32 /D_WINDOWS /EHsc /Zi /Ob0 /Od /RTC1 -MDd
+  OBJECT_DIR = CMakeFiles\demo.dir
+  OBJECT_FILE_DIR = CMakeFiles\demo.dir
+  TARGET_COMPILE_PDB = CMakeFiles\demo.dir\
+  TARGET_PDB = demo.pdb
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target demo
@@ -64,7 +71,7 @@ build CMakeFiles\demo.dir\CMakeProject1.cpp.obj: CXX_COMPILER__demo_Debug D$:\Gi
 #############################################
 # Link the executable demo.exe
 
-build demo.exe: CXX_EXECUTABLE_LINKER__demo_Debug CMakeFiles\demo.dir\CMakeProject1.cpp.obj | AStarLib\AStarFunctions.lib Hanoi\Hanoi.lib || AStarLib\AStarFunctions.lib Hanoi\Hanoi.lib
+build demo.exe: CXX_EXECUTABLE_LINKER__demo_Debug CMakeFiles\demo.dir\CMakeProject1.cpp.obj CMakeFiles\demo.dir\ExternTest.cpp.obj | AStarLib\AStarFunctions.lib Hanoi\Hanoi.lib || AStarLib\AStarFunctions.lib Hanoi\Hanoi.lib
   FLAGS = /DWIN32 /D_WINDOWS /EHsc /Zi /Ob0 /Od /RTC1 -MDd
   LINK_FLAGS = /machine:x64 /debug /INCREMENTAL /subsystem:console
   LINK_LIBRARIES = AStarLib\AStarFunctions.lib  Hanoi\Hanoi.lib  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib
