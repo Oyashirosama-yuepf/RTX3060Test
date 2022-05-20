@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet type='text/xsl' href='_UpgradeReport_Files/UpgradeReport.xslt'?><UpgradeLog>
+<Properties><Property Name="Solution" Value="9790OS_Chapter_4">
+</Property><Property Name="解决方案文件" Value="C:\Users\wxm\Desktop\新建文件夹\C++多线程编程实战Code\9790OS_Chapter_4\9790OS_Chapter_4\9790OS_Chapter_4.sln">
+</Property><Property Name="Date" Value="2017年9月17日">
+</Property><Property Name="Time" Value="16:42">
+</Property></Properties><Event ErrorLevel="0" Project="" Source="9790OS_Chapter_4.sln" Description="文件已成功备份为 C:\Users\wxm\Desktop\新建文件夹\C++多线程编程实战Code\9790OS_Chapter_4\9790OS_Chapter_4\9790OS_Chapter_4.sln.old">
+</Event><Event ErrorLevel="3" Project="basic_MPI" Source="basic_MPI\basic_MPI.vcxproj" Description="无需转换">
+</Event><Event ErrorLevel="3" Project="queue_MPI" Source="queue_MPI\queue_MPI.vcxproj" Description="无需转换">
+</Event><Event ErrorLevel="3" Project="threadMPI" Source="threadMPI\threadMPI.vcxproj" Description="无需转换">
+</Event><Event ErrorLevel="3" Project="pipe_server" Source="pipe_server\pipe_server.vcxproj" Description="无需转换">
+</Event><Event ErrorLevel="3" Project="pipe_client" Source="pipe_client\pipe_client.vcxproj" Description="无需转换">
+</Event><Event ErrorLevel="0" Project="" Source="9790OS_Chapter_4.sln" Description="成功转换解决方案">
+</Event><Event ErrorLevel="3" Project="" Source="9790OS_Chapter_4.sln" Description="Converted">
+</Event></UpgradeLog>

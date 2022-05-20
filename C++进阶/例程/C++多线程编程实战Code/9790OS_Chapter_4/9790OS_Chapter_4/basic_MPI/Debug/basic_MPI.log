@@ -1,0 +1,28 @@
+﻿生成启动时间为 2017/9/17 16:45:36。
+     1>项目“C:\Users\wxm\Desktop\新建文件夹\C++多线程编程实战Code\9790OS_Chapter_4\9790OS_Chapter_4\basic_MPI\basic_MPI.vcxproj”在节点 2 上(build 个目标)。
+       项目文件包含 ToolsVersion="12.0"。此工具集可能未知或缺失(您可以通过安装相应版本的 MSBuild 来解决该问题)，或者该生成因策略原因已被强制更改为特殊 ToolsVersion。将此项目视作具有 ToolsVersion="4.0"。有关更多信息，请参见 http://go.microsoft.com/fwlink/?LinkId=291333。
+     1>InitializeBuildStatus:
+         正在创建“Debug\basic_MPI.unsuccessfulbuild”，因为已指定“AlwaysCreate”。
+       ClCompile:
+         D:\安装软件\vs2010\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _WINDOWS /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt basic_MPI.cpp
+         basic_MPI.cpp
+       ManifestResourceCompile:
+         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\rc.exe /nologo /fo"Debug\basic_MPI.exe.embed.manifest.res" Debug\basic_MPI_manifest.rc 
+       Link:
+         D:\安装软件\vs2010\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\wxm\Desktop\新建文件夹\C++多线程编程实战Code\9790OS_Chapter_4\9790OS_Chapter_4\Debug\basic_MPI.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Debug\basic_MPI.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"C:\Users\wxm\Desktop\新建文件夹\C++多线程编程实战Code\9790OS_Chapter_4\9790OS_Chapter_4\Debug\basic_MPI.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\wxm\Desktop\新建文件夹\C++多线程编程实战Code\9790OS_Chapter_4\9790OS_Chapter_4\Debug\basic_MPI.lib" /MACHINE:X86 Debug\basic_MPI.exe.embed.manifest.res
+         Debug\basic_MPI.obj
+       Manifest:
+         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /out:"Debug\basic_MPI.exe.embed.manifest" /manifest Debug\basic_MPI.exe.intermediate.manifest
+         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\rc.exe /nologo /fo"Debug\basic_MPI.exe.embed.manifest.res" Debug\basic_MPI_manifest.rc 
+       LinkEmbedManifest:
+         D:\安装软件\vs2010\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\wxm\Desktop\新建文件夹\C++多线程编程实战Code\9790OS_Chapter_4\9790OS_Chapter_4\Debug\basic_MPI.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Debug\basic_MPI.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"C:\Users\wxm\Desktop\新建文件夹\C++多线程编程实战Code\9790OS_Chapter_4\9790OS_Chapter_4\Debug\basic_MPI.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\wxm\Desktop\新建文件夹\C++多线程编程实战Code\9790OS_Chapter_4\9790OS_Chapter_4\Debug\basic_MPI.lib" /MACHINE:X86 Debug\basic_MPI.exe.embed.manifest.res
+         Debug\basic_MPI.obj
+         basic_MPI.vcxproj -> C:\Users\wxm\Desktop\新建文件夹\C++多线程编程实战Code\9790OS_Chapter_4\9790OS_Chapter_4\Debug\basic_MPI.exe
+       FinalizeBuildStatus:
+         正在删除文件“Debug\basic_MPI.unsuccessfulbuild”。
+         正在对“Debug\basic_MPI.lastbuildstate”执行 Touch 任务。
+     1>已完成生成项目“C:\Users\wxm\Desktop\新建文件夹\C++多线程编程实战Code\9790OS_Chapter_4\9790OS_Chapter_4\basic_MPI\basic_MPI.vcxproj”(build 个目标)的操作。
+
+生成成功。
+
+已用时间 00:00:03.60

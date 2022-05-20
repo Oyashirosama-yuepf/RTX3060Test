@@ -1,0 +1,44 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "basic_MPI", "basic_MPI\basic_MPI.vcxproj", "{088C7D9C-7412-4901-971A-DF1B56B36D67}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "queue_MPI", "queue_MPI\queue_MPI.vcxproj", "{7590AA1F-5D54-42BD-950B-DEC0E3CA3E5B}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "threadMPI", "threadMPI\threadMPI.vcxproj", "{AD03748D-49CD-436A-839D-A7794A0C9D1F}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "pipe_server", "pipe_server\pipe_server.vcxproj", "{B18048FB-79C3-44E1-B1BB-C79C89C587A9}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "pipe_client", "pipe_client\pipe_client.vcxproj", "{3E671DCC-44DC-4109-B4F1-691974822FF8}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{088C7D9C-7412-4901-971A-DF1B56B36D67}.Debug|Win32.ActiveCfg = Debug|Win32
+		{088C7D9C-7412-4901-971A-DF1B56B36D67}.Debug|Win32.Build.0 = Debug|Win32
+		{088C7D9C-7412-4901-971A-DF1B56B36D67}.Release|Win32.ActiveCfg = Release|Win32
+		{088C7D9C-7412-4901-971A-DF1B56B36D67}.Release|Win32.Build.0 = Release|Win32
+		{7590AA1F-5D54-42BD-950B-DEC0E3CA3E5B}.Debug|Win32.ActiveCfg = Debug|Win32
+		{7590AA1F-5D54-42BD-950B-DEC0E3CA3E5B}.Debug|Win32.Build.0 = Debug|Win32
+		{7590AA1F-5D54-42BD-950B-DEC0E3CA3E5B}.Release|Win32.ActiveCfg = Release|Win32
+		{7590AA1F-5D54-42BD-950B-DEC0E3CA3E5B}.Release|Win32.Build.0 = Release|Win32
+		{AD03748D-49CD-436A-839D-A7794A0C9D1F}.Debug|Win32.ActiveCfg = Debug|Win32
+		{AD03748D-49CD-436A-839D-A7794A0C9D1F}.Debug|Win32.Build.0 = Debug|Win32
+		{AD03748D-49CD-436A-839D-A7794A0C9D1F}.Release|Win32.ActiveCfg = Release|Win32
+		{AD03748D-49CD-436A-839D-A7794A0C9D1F}.Release|Win32.Build.0 = Release|Win32
+		{B18048FB-79C3-44E1-B1BB-C79C89C587A9}.Debug|Win32.ActiveCfg = Debug|Win32
+		{B18048FB-79C3-44E1-B1BB-C79C89C587A9}.Debug|Win32.Build.0 = Debug|Win32
+		{B18048FB-79C3-44E1-B1BB-C79C89C587A9}.Release|Win32.ActiveCfg = Release|Win32
+		{B18048FB-79C3-44E1-B1BB-C79C89C587A9}.Release|Win32.Build.0 = Release|Win32
+		{3E671DCC-44DC-4109-B4F1-691974822FF8}.Debug|Win32.ActiveCfg = Debug|Win32
+		{3E671DCC-44DC-4109-B4F1-691974822FF8}.Debug|Win32.Build.0 = Debug|Win32
+		{3E671DCC-44DC-4109-B4F1-691974822FF8}.Release|Win32.ActiveCfg = Release|Win32
+		{3E671DCC-44DC-4109-B4F1-691974822FF8}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
