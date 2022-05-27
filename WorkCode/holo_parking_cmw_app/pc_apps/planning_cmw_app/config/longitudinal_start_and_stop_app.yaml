@@ -1,0 +1,6 @@
+hz : 10
+lib_config_name : longitudinal_start_and_stop.yaml
+path_topic : /holo/planning/path
+planning_command_topic : /holo/planning/planning_command
+chassis_state_topic : /holo/car_state_hpp
+odometry_topic : /vehicle_odometry_hpp

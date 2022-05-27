@@ -1,0 +1,3 @@
+wheel_speed_correction_coefficient:
+    a: 1.01178
+    b: 0.0

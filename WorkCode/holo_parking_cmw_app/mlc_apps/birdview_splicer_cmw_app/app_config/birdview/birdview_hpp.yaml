@@ -1,0 +1,54 @@
+cameras:
+    - topic: "/holo/sensors/camera/front_center_gs_counter"
+      #0:RGB 1:GRAYSCALE 7:NV12
+      image_encoding: 7
+      intrinsic: "holo_sensors/intrinsics/camera/front_center_fisheye_sphere.yaml"
+      HK: "holo_sensors/birdview/camera/front_center_fisheye_HK.txt"
+    - topic: "/holo/sensors/camera/rear_center_counter"
+      image_encoding: 7
+      intrinsic: "holo_sensors/intrinsics/camera/rear_center_fisheye_sphere.yaml"
+      HK: "holo_sensors/birdview/camera/rear_center_fisheye_HK.txt"
+    - topic: "/holo/sensors/camera/front_left_counter"
+      image_encoding: 7
+      intrinsic: "holo_sensors/intrinsics/camera/front_left_fisheye_sphere.yaml"
+      HK: "holo_sensors/birdview/camera/front_left_fisheye_HK.txt"
+    - topic: "/holo/sensors/camera/front_right_counter"
+      image_encoding: 7
+      intrinsic: "holo_sensors/intrinsics/camera/front_right_fisheye_sphere.yaml"
+      HK: "holo_sensors/birdview/camera/front_right_fisheye_HK.txt"
+
+birdview_parameters:
+    topic: "/holo/sensors/camera/avm"
+    sensor_id: 0x29a
+    #range of the real world negative X-axis (unit / mm) shown in the aerial view.
+    min_x: -5120
+    #range of the real world positive X-axis (unit / mm) shown in the aerial view.
+    max_x: 5120
+    #range of the real world negative Y-axis (unit / mm) shown in the aerial view.
+    min_y: -3720
+    #range of the real world positive Y-axis (unit / mm) shown in the aerial view.
+    max_y: 6520
+    #Distance from the rear wheel to the front of the car (unit / mm)
+    car_front_length: 3500
+    #Distance from rear wheel to rear end of vehicle (unit / mm)
+    car_rear_length: 550
+    #The distance from the center of two wheels to two wheels (unit / mm)
+    car_half_width: 900
+    #Real world range represented by each pixel (unit / mm)
+    milimeter_per_pixel: 10
+    # whether enable encoder, please disable it on tda4
+    enable_birdview_image_encoder: false
+
+mask_parameters:
+    #half of max angle between two boundaries of the overlapping region (unit / degree)
+    half_max_theta: 2
+    #the input point sets to compute image mask
+    mask_points:
+        - x: [-2500,-900,900,2500] # front image x [ top_left, -car_half_width, car_half_width, top_right ]
+          y: [6520,3500,3500,6520] # front image y [ max_y, car_front_length, car_front_length, max_y ]
+        - x: [2500,900,-900,-2500] # rear image x [ bottom_right, car_half_width, car_half_width, bottom_left ]
+          y: [-3720,-550,-550,-3720] # rear image y [ min_y, -car_rear_length, -car_rear_length, min_y ]
+        - x: [-2500,-900,-900,-2500,-5120,-5120] # left image x [ bottom_left, -car_half_width, -car_half_width, top_left, min_x, min_x ]
+          y: [-3720,-550,3500,6520,6520,-3720] # left image y [ min_y, -car_rear_length, car_front_length, max_y, max_y, min_y ]
+        - x: [2500,900,900,2500,5120,5120] # right image x [ top_right, car_half_width, car_half_width, bottom_right, max_x, max_x ]
+          y: [6520,3500,-550,-3720,-3720,6520] # right image y [ max_y, car_front_length, -car_rear_length, min_y, min_y, max_y ]

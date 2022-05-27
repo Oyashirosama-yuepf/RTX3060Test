@@ -1,0 +1,81 @@
+vslam_base_params_file: "holo_localization_parking/app_config/vslam/vslam_base.yaml"
+mode: "localization"
+# ${minimum_acceptable_frequency} is used by imu prediction thread.
+# if vslam thread's update frequency is lower than this threshold, imu prediction thread will not predict untill vslam update again.
+minimum_acceptable_frequency: 0.5 # [unit(hz)]
+imu_prediction_frequency: 20
+# flag which indicate if predict nav state by pure imu integration. if set to false, it will build a factor graph by imu and vehicle info
+# to optimize the nav state. NOTE. if the imu_prediction_frequency is larger than 50Hz, you can only use pure imu integration.
+predict_navstate_by_pure_imu_integration: false
+prebuilt_map: "/opt/holo/hpp/route_1/mappoints.bin"
+learned_path: "/opt/holo/hpp/route_1/vehicle_odometry.txt"
+initializer_params:
+    source_to_compute_initial_pose: "prebuilt_map" # {gravity_aligned_odometry, prebuilt_map, stationary, path_start_point}
+    checking_solved_pose_by_path_start_point: false # if checking the solved pose by start point of prebuilt map
+    # the follow three parameters define max acceptable difference between solved init vehicle pose and origin point of learned map
+    maximum_acceptable_diff_ypr: [15.0, 2.0, 2.0] # difference in [yaw, pitch, roll]. [degree]
+    maximum_acceptable_diff_z: 0.5    # difference in z. [meter]
+    maximum_acceptable_diff_dist: 2.0 #difference in distance. [meter]
+    initial_bias: [-0.3556, -0.1245, -0.0123,-1.0495e-04, -1.8073e-05, -5.8962e-06] # [acc, gyro]
+relocalization_params:
+    frequency: 1.0
+    measurements_queue_size: 1
+    distance_threshold: 15.0    # used to query candidate keyframe by pose. [meter]
+    angle_threshold: 30.0   # used to query candidate keyframe by pose. [degree]
+    maximum_keyframe_num: 6 # maximum keyframe to be processed
+    enable_pose_only_ba: true # enable pose only bundle adjustment after ransac pnp solver
+    visualize_matches: false
+    # ransac pnp solver parameters
+    iteration: 100
+    projection_threshold: 0.005 # error on normalized plane(z = 1)
+    confidence: 0.99
+    minimum_correspondence: 10
+    minimum_inliers: 8
+# define visual feature association parameters
+fa_params:
+    tracker_params:
+        # FlowMatching parameters
+        fm_window_size: 80.0
+        fm_descriptor_dist_th: 0.8
+        fm_ratio_test_th: 1.0
+        fm_cross_check: false
+        # specify tracking_algorithm. {DescriptorMatching, NONE}
+        tracking_algorithm: "NONE" # Disabale local feature tracking for efficiency reason
+        # fundamental matrix check parameters
+        confidence: 0.95
+        pixel_tolerance: 4.0
+        max_interations: 20
+        enable_optimization: true # true: optimize the fundamental matrix with all inliers
+    global_match_params:
+        window_size: 50.0
+        descriptor_distance_threshold: 1.2
+        ratio_test_threshold: 0.8
+        view_distance_threshold: 3.0 # meter
+        view_direction_threshold: 15.0 # degree
+sub_mapping_params:
+    frequency: 10.0
+    # EpipolarLineMatching parameters
+    elm_max_tracking_lost_frame: 3  # tracks whose tracking lost times is less than this parameters will still be matching in new frame
+    elm_epipolar_dist_th: 4e-3 # 4.0 pixel. [pixel_error / focal_length]
+    elm_descriptor_dist_th: 0.8
+    elm_ratio_test_th: 0.75
+    triangulator_params:
+        minimum_track_length: 10
+        max_acceptable_reproject_error: 3.0
+        minimum_disparity_angle: 1.0
+        maximum_landmark_distance: 60
+        minimum_landmark_distance: 2.0
+        minimum_triangulation_baseline: 0.5
+enable_sub_mapping: false
+# define map database manager parameters
+mdm_params:
+    # all file will located under directory ${HOLO_CONFIG_ROOT}
+    map_data_dir: "/opt/holo/hpp/"
+    map_names: ["route_1"]
+    mode: "localization"
+    keyframe_selection_params:
+        minimum_distance_interval: 5.0 # meter
+        minimum_angle_interval: 10.0 # degree
+        minimum_observed_landmark_num: 25
+do_imu_preintegration_with_fixed_frequency: true
+vslam_frequency: 1.0
