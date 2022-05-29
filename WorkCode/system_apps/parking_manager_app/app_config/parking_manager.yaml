@@ -1,0 +1,21 @@
+enable_dds_interface: true
+enable_cloud_interface: false
+enable_bluetooth_interface: false
+# Subscirbe topic
+chassis_state_topic: /holo/vs/chassis_state
+vehicle_body_state_topic: /holo/vs/vehicle_body_state
+user_operation_topic: /holo/vs/user_operation
+planning_state_topic: /holo/planning/planning_state
+hmi_command_topic: /holo/hmi_converter/hmi_command
+odometry_topic: /holo/localization/odometry
+psd_state_topic: /holo/parkingslotfusion/psd_state
+hand_shake_topic: /holo/vs/handshake_status
+# Publish topic
+apa_parking_manager_command_topic: /holo/parking_manager/APAParkingManagerCommand
+apa_parking_state_topic: /holo/apa_parking_manager/apa_parkint_state
+apa_ctrl_req_topic: /holo/parking_manager/APA_CtrlReq
+apa_route_id_topic: /holo/parking_manager/route_id
+apa_heartbeat_bag_topic: /holo/heartbeat_bag
+apa_takeover_recovery_topic: /holo/planning/recovery
+
+cloud_yaml_file: cloud_communication.yaml
