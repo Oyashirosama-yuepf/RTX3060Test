@@ -1,9 +1,8 @@
 {
   "ExpandedNodes": [
     "",
-    "\\ExternFunction",
-    "\\Hanoi"
+    "\\AStarLib"
   ],
-  "SelectedNode": "\\CMakeProject1.cpp",
+  "SelectedNode": "\\AStarLib\\CMakeLists.txt",
   "PreviewInSolutionExplorer": false
 }

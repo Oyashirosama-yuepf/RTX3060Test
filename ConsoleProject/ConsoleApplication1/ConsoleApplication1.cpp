@@ -4,8 +4,41 @@
 #include "DeepFieldSearch.h"
 #include "PictureScan.h"
 
+class Status;
+
+class FsmManager {
+    friend class Status;
+public:
+    FsmManager() {};
+public:
+    ~FsmManager() = default;
+private:
+    int FsmTestValue1;
+    int FsmTestValue2;
+};
+
+class Status {
+public:
+    Status() {};
+public:
+    ~Status() = default;
+public:
+    int16_t reviseFsmManagerValue(FsmManager &fsm_manager) {
+        fsm_manager.FsmTestValue1 = 1;
+        fsm_manager.FsmTestValue2 = fsm_manager.FsmTestValue1 + 1;
+        return fsm_manager.FsmTestValue2;
+    }
+
+    int16_t reviseFsmManagerValue(FsmManager* fsm_manager) {
+        fsm_manager->FsmTestValue1 = 1;
+        fsm_manager->FsmTestValue2 = fsm_manager->FsmTestValue1 + 1;
+        return fsm_manager->FsmTestValue2;
+    }
+};
+
 int main()
 {
+
     //vector<vector<int>> inputValue = { 
     //    {1, 0, 1, 1, 0, 1, 0, 1},
     //    {1, 0, 1, 1, 0, 1, 1, 1},
@@ -14,6 +47,11 @@ int main()
     //cout << "maximum island:" << inputValue[0].size() << "  "<< inputValue.size() << endl;
 
     //deep_field_search* dfs = new deep_field_search();
+
+    FsmManager fsm_manager_ ;
+    std::shared_ptr<Status> status_ = std::shared_ptr<Status>();
+
+    std::cout << status_->reviseFsmManagerValue(&fsm_manager_) << std::endl;
 
     picture_search* ps = new picture_search();
 
@@ -28,26 +66,16 @@ int main()
     //vector<pair<int, int>> current_node = myMap[0];   // 当前节点
     //cout << "myMap:" << myMap[0][0].second << myMap[2].size() << endl;
 
-    vector<vector<int>> inputValue1= { 
-        {0,2,6,4},
-        {9999, 0, 3, 9999},
-        {7,9999,0,1},
-        {5,9999,12,0}
-    };
+    //vector<vector<int>> inputValue1= { 
+    //    {0,2,6,4},
+    //    {9999, 0, 3, 9999},
+    //    {7,9999,0,1},
+    //    {5,9999,12,0}
+    //};
 
-    ps->minimumStep(inputValue1);
-    cout << "inputValue1 unit:" << inputValue1[0][2] << endl;
+    //ps->minimumStep(inputValue1);
+    //cout << "inputValue1 unit:" << inputValue1[0][2] << endl;
     //delete dfs;
     return 0;
 }
 
-// 运行程序: Ctrl + F5 或调试 >“开始执行(不调试)”菜单
-// 调试程序: F5 或调试 >“开始调试”菜单
-
-// 入门使用技巧: 
-//   1. 使用解决方案资源管理器窗口添加/管理文件
-//   2. 使用团队资源管理器窗口连接到源代码管理
-//   3. 使用输出窗口查看生成输出和其他消息
-//   4. 使用错误列表窗口查看错误
-//   5. 转到“项目”>“添加新项”以创建新的代码文件，或转到“项目”>“添加现有项”以将现有代码文件添加到项目
-//   6. 将来，若要再次打开此项目，请转到“文件”>“打开”>“项目”并选择 .sln 文件
