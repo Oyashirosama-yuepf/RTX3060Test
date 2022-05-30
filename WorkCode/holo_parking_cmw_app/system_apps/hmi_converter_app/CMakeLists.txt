@@ -1,0 +1,205 @@
+cmake_minimum_required(VERSION 2.8)
+cmake_policy(PUSH)
+cmake_policy(SET CMP0028 NEW)
+cmake_policy(SET CMP0048 NEW)
+
+project(holo_hmi_converter_app)
+
+## --------------------------- CONFIGURATIONS --------------------------------
+#Set project version
+set(${PROJECT_NAME}_VERSION_MAJOR 0)
+set(${PROJECT_NAME}_VERSION_MINOR 1)
+set(${PROJECT_NAME}_VERSION_PATCH 0)
+set(${PROJECT_NAME}_SOVERSION ${${PROJECT_NAME}_VERSION_MAJOR}.${${PROJECT_NAME}_VERSION_MINOR})
+set(${PROJECT_NAME}_VERSION ${${PROJECT_NAME}_SOVERSION}.${${PROJECT_NAME}_VERSION_PATCH})
+
+if(HOLO_BUILD_VERSION)
+    set(${PROJECT_NAME}_VERSION_TWEAK)
+    set(${PROJECT_NAME}_VERSION ${${PROJECT_NAME}_VERSION}.${HOLO_BUILD_VERSION})
+endif(HOLO_BUILD_VERSION)
+
+set(PROJECT_VERSION ${${PROJECT_NAME}_VERSION})
+
+# default options
+option(HOLO_BUILD_TEST                     "Build unit test"                          OFF)
+option(HOLO_CPU_PROFILE                    "Use Google CPU Profiler"                  OFF)
+option(HOLO_BUILD_COVERAGE                 "Generate coverage report"                 OFF)
+                      
+option(HOLO_BUILD_ON_MDC                   "Build project on MDC"                     OFF)
+option(HOLO_BUILD_ON_QNX                   "Build project on QNX"                     OFF)   
+
+option(HOLO_BUILD_MDC_CM_APP     	   "Build with MDC_CM enabled"     	      OFF)
+
+if(HOLO_BUILD_MDC_CM_APP)
+    add_definitions(-DHOLO_BUILD_MDC_CM_APP)
+endif()
+
+set(DEPEND_GH02_MSG_VERSION 0.0.0)
+
+set(TARGET_APP_TYPES)
+foreach(APP_TYPE OPENDDS ROS UMB DDS_MICRO MDC_CM)
+    if(HOLO_BUILD_${APP_TYPE}_APP)
+        LIST(APPEND TARGET_APP_TYPES ${APP_TYPE})
+    endif()
+endforeach()
+MESSAGE(STATUS "GENERATE APP TYPES = ${TARGET_APP_TYPES}")
+
+
+set(CMAKE_SYSTEM_NAME MDC)
+
+
+if(${CMAKE_SYSTEM_NAME} STREQUAL "QNX")
+    set(HOLO_BUILD_ON_QNX ON)
+endif()
+
+if(${CMAKE_SYSTEM_NAME} STREQUAL "MDC")
+    set(HOLO_BUILD_ON_MDC ON)
+endif()
+
+# dependency configuration
+set(DEPEND_holo_base_VERSION 0.0.0)
+set(DEPEND_holo_base_msg_VERSION 0.0.0)
+set(DEPEND_cmw_wrapper_VERSION 0.0.0)
+
+# Set C/CXX compiler flags.
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Werror -Wno-error=deprecated-declarations -fpermissive")
+set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -Wextra -Werror -Wno-error=deprecated-declarations -fpermissive")
+set(CMAKE_C_STANDARD 99)
+
+## -------------------------- CMAKE_SETUP ------------------------------------
+
+# Set CMake variable for additional .cmake file search path.
+if(NOT HOLO_ROOT AND NOT DEFINED ENV{HOLO_ROOT})
+    MESSAGE(FATAL_ERROR "Unable to set HOLO_ROOT. Please set HOLO_ROOT environment variable or HOLO_ROOT cmake commandline argument")
+else()
+    if(NOT HOLO_ROOT)
+        set(HOLO_ROOT $ENV{HOLO_ROOT})
+    endif()
+    set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${HOLO_ROOT}/cmake")
+    set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${HOLO_ROOT}/cmake/Modules")
+    set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOURCE_DIR}/cmake")
+    include(HoloProjectConfiguration)
+endif()
+
+## -------------------------- DEPENDENCIES -----------------------------------
+find_package(holo_base ${DEPEND_HOLO_BASE_VERSION} REQUIRED)
+find_package(gh02_msg ${DEPEND_GH02_MSG_VERSION} QUIET)
+find_package(holo_base_msg ${DEPEND_holo_base_msg_VERSION})
+find_package(holo_parking_base REQUIRED)
+#find_package(holo_parking_msg REQUIRED)
+find_package(cmw_wrapper ${DEPEND_cmw_wrapper_VERSION})
+MESSAGE(STATUS "gh02_msg_FOUND = ${gh02_msg_FOUND}  include ${gh02_msg_INCLUDE_DIRS}!")
+
+
+set(HOLO_CMW_MSG_LIBRARIES)
+if(holo_base_msg_FOUND)
+    LIST(APPEND HOLO_CMW_MSG_LIBRARIES holo_base_msg::holo_base_msg)
+endif()
+if(gh02_msg_FOUND)
+    LIST(APPEND HOLO_CMW_MSG_LIBRARIES gh02_msg::gh02_msg_mdc_cm)
+endif()
+MESSAGE(STATUS "HOLO_CMW_MSG_LIBRARIES = ${HOLO_CMW_MSG_LIBRARIES}")
+
+
+## -------------------------holomacros----------------------------------------
+include(HoloMacros)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../tinyfsm include)
+## ------------------------- DOXYGEN------------------------------------------
+GENERATE_DOXYGEN(INPUT include src)
+
+## ------------------------- COVERAGE ----------------------------------------
+if(HOLO_BUILD_COVERAGE)
+    if(CMAKE_BUILD_TYPE STREQUAL "DEBUG")
+        set(HOLO_BUILD_TEST ON)
+        set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O0 -DNDEBUG --coverage")
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O0 -DNDEBUG --coverage")
+        GENERATE_COVERAGE_REPORT(EXCLUDE_PATTERNS
+            "${PROJECT_BINARY_DIR}/src/*"
+            "${PROJECT_SOURCE_DIR}/test/*"
+        )
+    else()
+        MESSAGE(FATAL_ERROR "Unable to generate coverage report! CMAKE_BUILD_TYPE is not DEBUG!")
+    endif()
+endif()
+
+set(SYSTEM_LIBRARY_SOCKET "")
+if(${CMAKE_SYSTEM_NAME} STREQUAL "QNX")
+    set(HOLO_BUILD_ON_QNX ON)
+    set(SYSTEM_LIBRARY_SOCKET socket)
+    MESSAGE(STATUS "QNX System detected, set HOLO_BUILD_ON_QNX to ${HOLO_BUILD_ON_QNX}")
+endif()
+
+
+if(${CMAKE_SYSTEM_NAME} STREQUAL "MDC")
+    set(HOLO_BUILD_ON_MDC ON)
+    #set(SYSTEM_LIBRARY_SOCKET socket)
+    MESSAGE(STATUS "MDC System detected, set HOLO_BUILD_ON_MDC to ${HOLO_BUILD_ON_MDC}")
+endif()
+
+## ------------------------- generated code------------------------------------
+## ------------------------- general application -----------------------------
+## ------------------------- holo_cmw v2 application -------------------------
+if("${CMAKE_SYSTEM_NAME}" STREQUAL "QNX")
+    add_cmw_wrapper_executable(hmi_converter_cmw
+        SOURCES     src/hmi_converter/hmi_converter_app.cpp
+                    src/hmi_converter/hmi_state_machine/hmi_manager.cpp            
+                    src/hmi_converter/hmi_state_machine/hmi_state_machine.cpp
+                    src/hmi_converter/hmi_state_machine/hmi_fsm_state.cpp
+                    src/hmi_converter/common_interface/common_interface.cpp
+                    src/hmi_converter/utils/hmi_common_function.cpp
+        INCLUDES    include
+                    include_directories(../)
+        LIBRARIES   holo_base_msg::holo_base_msg
+                    #holo_parking_msg::holo_parking_msg
+                    holo_base::holo_base_common
+                    holo_base::holo_base_os
+                    holo_parking_base::holo_parking_base_system
+                    ${SYSTEM_LIBRARY_SOCKET}
+        INSTALL_DIR bin
+        # DDS_MICRO
+        PPS
+    )
+endif()
+
+MESSAGE(STATUS "#####holo root ${HOLO_ROOT}")
+
+if("${CMAKE_SYSTEM_NAME}" STREQUAL "MDC")
+    add_cmw_wrapper_executable(hmi_converter_cmw
+        SOURCES     src/hmi_converter/hmi_converter_app.cpp
+                    src/hmi_converter/hmi_state_machine/hmi_manager.cpp            
+                    src/hmi_converter/hmi_state_machine/hmi_state_machine.cpp
+                    src/hmi_converter/hmi_state_machine/hmi_fsm_state.cpp
+                    src/hmi_converter/common_interface/common_interface.cpp
+                    src/hmi_converter/utils/hmi_common_function.cpp
+        INCLUDES    include
+                    include_directories(../)
+		    #<INSTALL_INTERFACE:share/mdc_manifest/generated/includes>
+		    ${HOLO_ROOT}/share/mdc_manifest/generated/includes
+        LIBRARIES   holo_base_msg::holo_base_msg
+                    #holo_parking_msg::holo_parking_msg
+                    holo_base::holo_base_common
+                    holo_base::holo_base_os
+                    holo_parking_base::holo_parking_base_system
+                    #${SYSTEM_LIBRARY_SOCKET}
+		    ${HOLO_CMW_MSG_LIBRARIES}
+        INSTALL_DIR bin
+        # DDS_MICRO
+        ${TARGET_APP_TYPES}
+    )
+endif()
+
+INSTALL(DIRECTORY app_config/ DESTINATION ${HOLO_CONFIG_ROOT}/holo_parking_cmw_app/app_config)
+#--------------------------- test --------------------------------------------
+if(HOLO_BUILD_TEST)
+    enable_testing()
+    add_subdirectory(test)
+endif(HOLO_BUILD_TEST)
+
+#--------------------------- uninstall command -------------------------------
+add_custom_target(uninstall_hmi_converter
+    COMMAND cat install_manifest.txt | xargs rm 
+    WORKING_DIRECTORY ${PROJECT_BINARY_DIR}
+    COMMENT "Uninstall")
+
+cmake_policy(POP)

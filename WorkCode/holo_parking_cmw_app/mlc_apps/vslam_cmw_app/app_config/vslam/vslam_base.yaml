@@ -1,0 +1,101 @@
+topics:
+    input_images: ["/holo/sensors/camera/front_center_counter"]
+    input_obstacle_list: "/holo/perception/vision/camera_detection_2d"
+    input_imu: "/holo/sensors/aceinna/imu"
+    input_point_feature_list: "/holo/localization/deep/point_feature_list"
+    input_chassis_state: "/holo/sensors/chassis_state"
+    input_gps_position: "/holo/sensors/ublox/position"
+    input_gravity_aligned_odometry: "/holo/localization/fusion/alignment_odometry"
+    input_ground_truth_odometry: "/holo/sensors/novatel/odometry_wgs"
+    output_vslam_odometry: "/holo/localization/vslam/odometry" # in vslam frame, ~10Hz
+    output_imu_prediction_odometry: "/vehicle_odometry_hpp" # in world frame, frequency is equals to imu_prediction_frequency
+    output_hpa_local: "HPA_Local"
+    output_local_feature_map: "/holo/localization/vision/vslam/local_feature_map" # all landmarks retained in curernt sliding window state
+    # in mapping mode, global_feature_map is all landmarks accumulated in the whole history sliding window.
+    # in localization mode, global_feature_map is the prebuilt map.
+    output_global_feature_map: "/holo/localization/vision/vslam/global_feature_map"
+    # global_correspondence is the associated global mappoint with prebuilt map
+    output_global_correspondence: "/holo/localization/vision/vslam/global_correspondence"
+debugging_parameters:
+    use_ground_trurh_as_estimated: false # true: use ground truth odometry as final estimated result.
+    use_ground_trurh_as_gravity_aligned: true # true: use ground truth odometry as prior to initialize vslam
+    enable_result_logging: true # true: record gts.txt and ess.txt to evaluate vslam
+    publish_vslam_result: true # true: publish vslam odometry with ${output_vslam_odometry} topic
+    verbose: true
+vis:
+    enable_visualizer: false # please make sure the OpenCV's gtk is enable when enable visualizer
+    save_image: false # true: save image with feature trace and projection result in ${folder_name}
+    save_graph: false # true: save optimized factor graph in json file in ${folder_name}
+    folder_name: "/tmp"
+vslam:
+    camera_params:
+        camera_number: 1
+        camera_coords: ["front_center"] # eg: ["front_center", "rear_center", "left"]
+        lidar_extrinsic_file: "holo_sensors/extrinsics/camera/novatel_vlp_extrinsic.yaml"
+        body_gnss_extrinsic_file: "holo_sensors/extrinsics/camera/body_gnss_extrinsic.yaml"
+        front_center:
+            intrinsic: "holo_sensors/intrinsics/camera/front_center.yaml"
+            lidar_camera_extrinsic_file: "holo_sensors/extrinsics/camera/lidar_front_center_camera_extrinsic.yaml"
+            body_camera_extrinsic_file: "" # if has such a file, add the file name here.
+            camera_extrinsic_bias: [0, 0, 0]
+            available_fov: -1 # available fov for feature extraction, in degree. less than zero means all pixels are available
+            # covariance for create unit3 factor
+            sigma_uv: 1.5 # feature detection noise at image center. [pixel]
+            huber_loss: 2.5 # huber loss for visual factor. [pixel]
+        # add other camera's intrinsic and extrinsic here, meanehile modify `camera_number` and `camera_coords` accordingly
+    # raw measurement preprocessor parameters
+    rmpp_params:
+        pim_params:
+            gravity: 9.81
+            gyro_noise_sigma: [1e-2, 1e-2, 3e-3]
+            acc_noise_sigma: [0.2, 0.5, 0.3]
+        speed_correction_coeff_file: "holo_localization_parking/app_config/vslam/WheelSpeedCalibration/wheel_correction_parameter.yaml"
+        slope_threshold: 10.0 # slope threshold to enable slipping checking.[degree]
+        body_imu_extrinsic_file: "holo_sensors/extrinsics/imu/imu_extrinsic.yaml"
+    builder_params:
+            enable_velocity_factor: true # true: add velocity factor
+            enable_zero_velocity_factor: true # true: add pose3 between factor when the vehicle speed is zero
+            enable_prior_factor: true # true: add prior factor for the first frame of the sliding window
+            enable_unit3_factor: true # true: add unit3 factor @note projection factor and unit3 factor only one can be opened
+            enable_pose_only_unit3_factor: true
+            enable_gt_pose_factor: false # true: add prior pose factor when use Mapping mode
+            bias_between_sigma: [1e-3, 1e-3, 4e-4, 5e-6, 5e-6, 2e-6]
+            velocity_factor_sigma: [0.034, 0.034, 0.034]
+            velocity_factor_sigma_when_turns: [0.034, 0.1, 0.034]
+            low_precision_velocity_factor_sigma: [0.1, 0.034, 0.034]
+            pose_only_unit3_factor_sigma: [0.05, 0.05]
+            pose_only_huber_loss: 0.5 # the value should be fine tuned, we should consider the error from camera pose and map point
+            zero_velocity_between_pose_sigma: [1e-3, 1e-3, 1e-3, 0.00175, 0.00175, 0.00175]
+            gt_pose_sigma: [0.034, 0.034, 0.034, 0.1, 0.1, 0.1] # roll, pitch, yaw，x, y, z
+            prior_noise:
+                pose_sigma: [0.0349, 0.0349, 0.1, 1.0, 1.0, 0.01] # [roll(2deg), pitch(2deg), yaw, x, y, z]
+                velocity_sigma: [1e-9, 1e-9, 1e-9] # [vx, vy, vz]
+                bias_sigma: [1e-6, 1e-6, 1e-6, 1e-1, 1e-1, 1e-1] # [acc, gyro]
+    # sliding window estimator parameters
+    se_params:
+        tst_params:
+            minimum_track_length: 5 # the minimum tracked times that a FreatureTrack will be triangulated
+            maximum_candidate_track_length: 25 # the maximum tracked times that a FreatureTrack will be dropped if it is not successfully triangulated
+            triangulation_threshold: 3.0 # projection error threshold at image center for triangulation. [pixel]
+            tracking_threshold: 4.0 # projection error threshold at image center to determin whether accept the tracking result. [pixel]
+            rejection_threshold: 3.0 # projection error threshold at image center to determin whether accept the track after optimization. [pixel]
+            minimum_disparity_angle: 1.0 # [degree]
+            maximum_landmark_distance: 60 # the maximum distance of a triangulated landmark and the vehicle [m]
+            minimum_landmark_distance: 2.0 # [meter]
+            minimum_triangulation_baseline: 0.5 #[meter]
+        smoother_params:
+            lag_size: 25
+            enable_partial_relinearization_check: false
+            find_unused_factor_slots: true
+    fd_params:
+        x_translation_threshold: 3.3 # v_max / vslam_frequency = 120km/h * 0.1s
+        y_translation_threshold: 0.44 # radius * (1.0 - cos(yaw_threshold_in_rad)) = 3.0m * (1.0 - cos(0.55))
+        yaw_threshold: 0.55 # v_turn_max /vslam_frequency /radius = 60km/h * 0.1s / 3.0m
+        vehicle_speed_threshold: 33.0 # v_max = 120km/h
+    mmv_params:
+        image_queue_size: 50
+        point_feature_queue_size: 1
+        gravity_aligned_odometry_buffer_size: 1000
+        make_point_features_as_optional: false
+
+

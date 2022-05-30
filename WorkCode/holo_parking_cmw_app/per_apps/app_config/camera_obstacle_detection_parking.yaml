@@ -1,0 +1,33 @@
+hz: 10
+detection_params_file: "holo_perception_parking/lib_config/vision_detection_parking/camera_vision_detection_parking.yaml"
+camera_names:
+   - "FRONT_CENTER_CAMERA"
+   - "FRONT_CENTER_GS_CAMERA"
+   - "FRONT_LEFT_CAMERA"
+   - "FRONT_RIGHT_CAMERA"
+   - "REAR_CENTER_CAMERA"  
+camera_flag: [1,0,0,0,0]  
+topic_camera_image_subscriber:
+   - "/holo/sensors/camera/front_center_counter"
+   - "/holo/sensors/camera/front_center_gs_counter"
+   - "/holo/sensors/camera/front_left_counter"
+   - "/holo/sensors/camera/front_right_counter"
+   - "/holo/sensors/camera/rear_center_counter"
+# camera_resolution:
+#     - [1920, 1020]
+#     - [1280, 720]
+#     - [1280, 720]
+#     - [1280, 720]
+#     - [1280, 720]
+topic_camera_image_detection_publishers: 
+   - "/holo/perception/vision/camera_detection"
+   - "/holo/perception/vision/front_center_camera_detection"
+   - "/holo/perception/vision/front_center_camera_detection"
+   - "/holo/perception/vision/front_center_camera_detection"
+   - "/holo/perception/vision/rear_center_camera_detection"
+topic_detection_publishers:
+   - "/holo/perception/vision/camera_detection_2d"
+
+topic_car_state_subscriber: "/holo/car_state_hpp"
+topic_in_odometry_name: "vehicle_odometry_hpp"
+topic_planning_path: "/holo/planning/path" 

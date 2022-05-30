@@ -1,0 +1,7 @@
+hz: 1
+detection_params_file: "holo_perception_parking/lib_config/vision_parkingslot/vision_parkingslot.yaml"
+
+topic_avm_sub_subscriber: "/holo/avm_counter"
+topic_vision_parkingslot_publisher: "/holo/perception/vision/parkingslot"
+
+camera_resolution: [512, 512]

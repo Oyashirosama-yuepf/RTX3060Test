@@ -1,0 +1,17 @@
+hz : 10
+planner_yaml : hpp_weltmeister.yaml
+path_topic : /holo/planning/path
+pridict_path_topic : /holo/planning/pridict_path
+planning_command_topic : /holo/planning/planning_command
+path_attribute_topic : /holo/planning/path_attribute
+chassis_state_topic : /holo/sensors/chassis_state
+obstacle_list_topic : /holo/parking/fusion/car/obstacle_general_list
+free_space_topic : /holo/perception/vision/parking_freespace
+detection_topic : /holo/perception/vision/camera_detection
+odometry_topic : /vehicle_odometry_hpp
+recovery_topic : /holo/planning/recovery
+hpp_parking_command_topic : /holo/parking_manager/route_id
+heartbeat_topic : /holo/heartbeat_bag
+hpa_command_topic: /holo/parking_manager/hpa_command
+planning_state_topic: /holo/planning/planning_state
+fault_state_topic: /holo/planning/fault_state

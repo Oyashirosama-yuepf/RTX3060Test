@@ -1,0 +1,27 @@
+topics:
+    input_images: ["/holo/sensors/camera/front_center_counter"]
+    output_features: "/holo/localization/deep/point_feature_list"
+vis:
+    enable_visualizer: false # please make sure the OpenCV's gtk is enable when enable visualizer
+    save_image: false # true: save image with feature trace and projection result in ${folder_name}
+    folder_name: "/tmp"
+deepslam:
+    frequency: 5.0
+    camera_params:
+        camera_number: 1
+        camera_coords: ["front_center"] # eg: ["front_center", "rear_center", "left"]
+        front_center:
+            intrinsic: "holo_sensors/intrinsics/camera/front_center.yaml"
+    # raw measurement preprocessor parameters
+    rmpp_params:
+        spe_params:
+            framework: tda4 # {pytorch, tensorrt}
+            image_resize_width: 640
+            image_resize_height: 480
+            image_margin: 10
+            max_feature_num: 500
+            min_feature_distance: 4
+            confidence_threshold: 0.015
+            network_weight: ""
+            config_file: "holo_localization_deep/app_config/tda4_feature_detector.cfg"
+input_feature_num: 350

@@ -1,0 +1,30 @@
+vslam_base_params_file: "holo_localization_parking/app_config/vslam/vslam_base.yaml"
+mode: "mapping"
+initializer_params:
+    source_to_compute_initial_pose: "stationary" # {gravity_aligned_odometry, prebuilt_map, stationary}
+    initial_bias: [-0.3556, -0.1245, -0.0123,-1.0495e-04, -1.8073e-05, -5.8962e-06] # [acc, gyro]
+# define visual feature association parameters
+fa_params:
+    tracker_params:
+        # FlowMatching parameters
+        fm_window_size: 80.0
+        fm_descriptor_dist_th: 0.8
+        fm_ratio_test_th: 1.0
+        fm_cross_check: false
+        # specify tracking_algorithm. {DescriptorMatching, NONE}
+        tracking_algorithm: "DescriptorMatching"
+        # fundamental matrix check parameters
+        confidence: 0.95
+        pixel_tolerance: 4.0
+        max_interations: 20
+        enable_optimization: true # true: optimize the fundamental matrix with all inliers
+# define map database manager parameters
+mdm_params:
+    # all file will be saved under directory ${HOLO_CONFIG_ROOT}
+    map_data_dir: "holo_localization_parking/vslam/"
+    map_names: ["route_1"]
+    mode: "online_data_association" #{online_data_association, offline_optimization}
+    save_image: false
+do_imu_preintegration_with_fixed_frequency: false
+vslam_frequency: 5.0
+
