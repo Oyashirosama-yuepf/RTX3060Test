@@ -1,6 +1,0 @@
-ip: "39.104.91.9"
-port: 9515
-vin: 8888
-alive_sample_time: 1
-learn_sample_time: 1
-parkingstatus_sample_time: 1

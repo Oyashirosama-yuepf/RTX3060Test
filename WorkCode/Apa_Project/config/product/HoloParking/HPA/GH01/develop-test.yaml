@@ -1,0 +1,93 @@
+base: HoloParking/HPA/GH01/develop
+projects:
+  gh01_swit_checker:
+    url: ${git_url}/swtest/gh01_swit_checker.git
+    branch: master
+    dependencies:
+    - holo_cmw
+    - holo_parking_base
+    commands: {}
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  gh01_bag_filter:
+    url: ${git_url}/swtest/gh01_bag_filter.git
+    branch: master
+    dependencies:
+    - holo_cmw
+    - holo_parking_base
+    - holo_bag
+    commands:
+      configure:
+        arguments:
+          - -DHOLO_BUILD_PARKING_APP=ON
+          - ${SOURCE_ROOT}
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  gh01_common_py:
+    url: ${git_url}/swtest/gh01_common_py.git
+    branch: master
+    dependencies:
+    - holo_cmw
+    - holo_parking_base
+    - holo_bag
+    commands:
+      configure:
+        arguments:
+          - -DHOLO_BUILD_PARKING_APP=ON
+          - ${SOURCE_ROOT}
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_gh01_ubuntu_test_tools:
+    url: ${git_url}/swtest/holo_gh01_ubuntu_test_tools.git
+    branch: master
+    dependencies:
+    - holo_cmw
+    - holo_parking_base
+    commands: {}
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_gh01_parking_msg:
+    url: ${git_url}/swtest/holo_gh01_parking_msg.git
+    branch: master
+    dependencies:
+    - holo_cmw
+    - holo_parking_base
+    commands: {}
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  GH01_holoparking:
+    url: ${git_url}/swtest/gh01_holoparking.git
+    branch: master
+    dependencies: []
+    commands: {}
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  HoloX-Api-TestCase:
+    url: ${git_url}/api/holox-api-testcase.git
+    branch: master
+    dependencies: []
+    commands: {}
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+version: 1

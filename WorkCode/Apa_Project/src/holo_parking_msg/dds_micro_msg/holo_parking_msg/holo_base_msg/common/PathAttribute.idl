@@ -1,0 +1,36 @@
+#ifndef HOLO_BASE_MSG_COMMON_PATH_ATTRIBUTE_IDL_
+#define HOLO_BASE_MSG_COMMON_PATH_ATTRIBUTE_IDL_
+
+#include <holo_base_msg/common/Common.idl>
+
+module holo_base_msg
+{
+    module common
+    {
+#pragma DCPS_DATA_TYPE "holo_base_msg::planning::PathAttribute"
+
+        struct PathAttribute
+        {
+            holo_base_msg::common::Timestamp timestamp;
+
+            holo_base_msg::core::uint8_t   path_gear;
+            holo_base_msg::core::uint8_t   path_id;
+            holo_base_msg::core::uint8_t   path_type;
+            holo_base_msg::core::uint8_t   path_size;
+            holo_base_msg::core::uint8_t   plan_complete;
+            holo_base_msg::core::uint8_t   plan_error;
+            holo_base_msg::core::float32_t path_len;
+            holo_base_msg::core::float32_t remain_path_len;
+            holo_base_msg::core::uint8_t   brk_flag;
+            holo_base_msg::core::float32_t brk_dist;
+            holo_base_msg::core::float32_t speed_limit;
+            holo_base_msg::core::uint8_t   lamp_req;
+            holo_base_msg::core::uint8_t   read_file_status;
+            holo_base_msg::core::float32_t ref_lat_error;
+            holo_base_msg::core::float32_t ref_heading_error;
+            holo_base_msg::core::float32_t road_curvature;
+        };
+    };
+};
+
+#endif

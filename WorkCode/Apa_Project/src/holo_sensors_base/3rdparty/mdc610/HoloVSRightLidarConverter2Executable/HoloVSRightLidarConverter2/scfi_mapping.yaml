@@ -1,0 +1,12 @@
+identifier:
+  "MAPPING"
+description: "Mapping module"
+HoloVSRightLidarConverter:
+  sendInstanceID:
+    Uint64SI:
+        instanceId: [1209]
+        portName: ["HoloVSRightLidarConverterUint64Publisher_holo_sensors_rsm1_pcd_right"]
+  recvInstanceID:
+    Uint8BufferSI:
+        instanceId: [1015]
+        portName: ["HoloVSRightLidarConverterUint8BufferSubscriber_holo_sensors_rsm1_scan_right"]

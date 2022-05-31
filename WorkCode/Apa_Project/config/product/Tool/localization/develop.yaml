@@ -1,0 +1,133 @@
+base: BaseCamp/Library/develop
+projects:
+  holo_parameters:
+    url: ${git_url}/conf/holo_parameters.git
+    branch: dragonglass-develop
+    commands:
+      configure:
+        command: 'cmake'
+        arguments:
+        - ${SOURCE_ROOT}
+    steps: null
+    package:
+        manifest: ${BUILD_ROOT}/install_manifest.txt
+        files: []
+        directories: []
+  holo_mapping:
+    url: ${git_url}/mlc/holo_mapping.git
+    branch: dragonglass-develop
+    dependencies:
+    - holo_localization_base
+    - holo_3d
+    commands:
+      test:
+        command: make
+        arguments:
+        - test
+        - '||'
+        - 'true'
+      doc:
+        command: make
+        arguments:
+        - doc
+      coverage:
+        command: make
+        arguments:
+        - coverage
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_localization_lidar:
+    url: ${git_url}/mlc/holo_localization_lidar.git
+    branch: dragonglass-develop
+    dependencies:
+    - holo_localization_base
+    - holo_3d
+    commands:
+      test:
+        command: make
+        arguments:
+        - test
+        - '||'
+        - 'true'
+      doc:
+        command: make
+        arguments:
+        - doc
+      coverage:
+        command: make
+        arguments:
+        - coverage
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_localization_lidar_cmw_app:
+    url: ${git_url}/mlc/holo_localization_lidar_cmw_app.git
+    branch: dragonglass-develop
+    dependencies:
+    - holo_localization_lidar
+    - holo_sensors_base
+    - holo_base_msg
+    - holo_cmw
+    commands:
+      test:
+        command: make
+        arguments:
+        - test
+        - '||'
+        - 'true'
+      doc:
+        command: make
+        arguments:
+        - doc
+      coverage:
+        command: make
+        arguments:
+        - coverage
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_bag:
+    url: ${git_url}/win/holo_bag.git
+    branch: dragonglass-develop
+    dependencies:
+    - holo_base
+    commands: {}
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_bag/cmw_app:
+    url: holo_bag/cmw_app
+    dependencies:
+    - holo_bag
+    - holo_cmw
+    - holo_sensors_base
+    commands: {}
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_x_client:
+    commands:
+      configure:
+        arguments:
+        - -DUSE_OPENDDS_WARPPER=ON
+        - -DUSE_MDC_CM_WARPPER=OFF
+        - ${SOURCE_ROOT}
+    url: ${git_url}/sim/holo_x_client.git
+    dependencies: [holo_cmw, holo_base_msg, holo_sensors_base]
+    branch: dragonglass-develop
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+version: 1

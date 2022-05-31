@@ -1,0 +1,545 @@
+base: null
+commands:
+  configure:
+    command: cmake
+    arguments:
+    - ${SOURCE_ROOT}
+  build:
+    command: make
+    arguments: []
+    parallel_arg: -j
+  install:
+    command: make
+    arguments:
+    - install
+    parallel_arg: -j
+  test:
+    command: ''
+    arguments: []
+  doc:
+    command: ''
+    arguments: []
+  coverage:
+    command: ''
+    arguments: []
+steps:
+- configure
+- build
+- install
+projects:
+  holo_3rdparty:
+    env:
+      PKG_CONFIG_PATH: ${HOLO_ROOT}/lib/pkgconfig:${HOLO_ROOT}/3rdparty/lib/pkgconfig:${PKG_CONFIG_PATH}
+      CFLAGS: -I${HOLO_ROOT}/3rdparty/include ${CFLAGS}
+      CXXFLAGS: -I${HOLO_ROOT}/3rdparty/include ${CXXFLAGS}
+      LDFLAGS: -L${HOLO_ROOT}/3rdparty/lib -Wl,-rpath-link,${HOLO_ROOT}/3rdparty/lib
+        ${LDFLAGS}
+      PATH: ${HOLO_ROOT}/../host/bin:${PATH}
+    url: ${git_url}/bccs/holo_3rdparty.git
+    branch: release/elite_v0.0.6
+    commands:
+      configure:
+        arguments:
+        - -DHOLO_3RDPARTY_FORCE_BUILD=ON
+        - ${SOURCE_ROOT}
+      build:
+        arguments:
+        - dragonglass
+        - qpOASES
+        - nanopb
+      install:
+        command: ''
+        arguments: []
+    steps: null
+    package:
+      manifest: null
+      files: []
+      directories:
+      - ${HOLO_ROOT}/3rdparty
+      - ${HOLO_ROOT}/../host
+  holo_base_c:
+    url: ${git_url}/bccs/holo_base_c.git
+    branch: project/giva_mdc_v6
+    dependencies:
+    - holo_3rdparty
+    commands: {}
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_sensors_c:
+    url: ${git_url}/vs/holo_sensors_c.git
+    branch: release/elite_v0.0.6
+    dependencies:
+    - holo_base_c
+    commands: {}
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_control_base:
+    url: ${git_url}/pc/holo_control_base.git
+    branch: release/elite_v0.0.6
+    dependencies:
+    - holo_base_c
+    commands: {}
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_base:
+    url: ${git_url}/bccs/holo_base.git
+    branch: poc/giva_mdc_v6
+    dependencies:
+    - holo_base_c
+    commands: {}
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_cmw:
+    url: ${git_url}/bccs/holo_cmw.git
+    branch: project/giva_mdc_v6
+    dependencies:
+    - holo_base
+    commands: {}
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_map_base:
+    url: ${git_url}/map/holo_map_base.git
+    branch: project/giva_mdc_v6
+    dependencies:
+    - holo_base
+    commands: {}
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_map_common:
+    url: ${git_url}/map/holo_map_common.git
+    branch: poc/ehs9_xavier_v6
+    dependencies:
+    - holo_base
+    - holo_map_base
+    commands: {}
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_map_middleware:
+    url: ${git_url}/map/holo_map_middleware.git
+    branch: project/giva_mdc_v6
+    dependencies:
+    - holo_base
+    commands: {}
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_map_format:
+    url: ${git_url}/map/holo_map_format.git
+    branch: project/giva_mdc_v6
+    dependencies:
+    - holo_base
+    - holo_map_base
+    commands: {}
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_map_core:
+    url: ${git_url}/map/holo_map_core.git
+    branch: project/ehs9_xavier_v6
+    dependencies:
+    - holo_base
+    - holo_map_base
+    - holo_map_format
+    - holo_map_common
+    commands: {}
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_map:
+    dependencies:
+    - holo_map_base
+    - holo_map_format
+    - holo_map_common
+    - holo_map_core
+    commands:
+      configure:
+        command: ''
+        arguments:
+        - ${SOURCE_ROOT}
+      build:
+        command: ''
+        arguments: []
+      install:
+        command: ''
+        arguments: []
+    steps: null
+  holo_map_cmw_app:
+    url: ${git_url}/map/holo_map_cmw_app.git
+    branch: project/giva_mdc_v6
+    dependencies:
+    - holo_base
+    - holo_cmw
+    - holo_map_base
+    - holo_map_format
+    - holo_map_common
+    - holo_map_core
+    commands: {}
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_sensors:
+    url: ${git_url}/vs/holo_sensors.git
+    branch: hzy/hongqi/gateway
+    dependencies:
+    - holo_3rdparty
+    - holo_base
+    - holo_sensors_c
+    commands:
+      configure:
+        arguments:
+        - -DHOLO_BUILD_WITH_CUDA=ON
+        - -DHOLO_BUILD_SENSORS_ARK=OFF
+        - ${SOURCE_ROOT}
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_planning_base:
+    url: ${git_url}/pc/holo_planning_base.git
+    branch: project/ehs9_xavier_v6
+    dependencies:
+    - holo_base
+    commands: {}
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_control:
+    url: ${git_url}/pc/holo_control.git
+    branch: project/ehs9_xavier_v6
+    dependencies:
+    - holo_control_base
+    commands: {}
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_control/cmw_app:
+    url: holo_control/cmw_app
+    dependencies:
+    - holo_control
+    - holo_cmw
+    commands: {}
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_control_cmw_app:
+    dependencies:
+    - holo_control/cmw_app
+    commands:
+      configure:
+        command: ''
+        arguments:
+        - ${SOURCE_ROOT}
+      build:
+        command: ''
+        arguments: []
+      install:
+        command: ''
+        arguments: []
+    steps: null
+  holo_planning_pilot:
+    url: ${git_url}/pc/holo_planning_pilot.git
+    branch: project/ehs9_xavier_v6
+    dependencies:
+    - holo_base
+    - holo_planning_base
+    commands: {}
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_planning_pilot/cmw_app:
+    url: holo_planning_pilot/cmw_app
+    dependencies:
+    - holo_planning_pilot
+    - holo_cmw
+    commands: {}
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_planning:
+    dependencies:
+    - holo_planning_base
+    - holo_planning_pilot
+    commands:
+      configure:
+        command: ''
+        arguments:
+        - ${SOURCE_ROOT}
+      build:
+        command: ''
+        arguments: []
+      install:
+        command: ''
+        arguments: []
+    steps: null
+  holo_planning_cmw_app:
+    dependencies:
+    - holo_planning_pilot/cmw_app
+    commands:
+      configure:
+        command: ''
+        arguments:
+        - ${SOURCE_ROOT}
+      build:
+        command: ''
+        arguments: []
+      install:
+        command: ''
+        arguments: []
+    steps: null
+  holo_sensors/cmw_app:
+    url: holo_sensors/cmw_app
+    dependencies:
+    - holo_sensors
+    - holo_cmw
+    commands:
+      configure:
+        arguments:
+        - -DHOLO_BUILD_WITH_CUDA=ON
+        - -DHOLO_BUILD_SENSORS_ARK=OFF
+        - ${SOURCE_ROOT}
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_sensors_cmw_app:
+    dependencies:
+    - holo_sensors/cmw_app
+    commands:
+      configure:
+        command: ''
+        arguments:
+        - ${SOURCE_ROOT}
+      build:
+        command: ''
+        arguments: []
+      install:
+        command: ''
+        arguments: []
+    steps: null
+  holo_perception_base:
+    url: ${git_url}/per/holo_perception_base.git
+    branch: project/giva_mdc_v6
+    dependencies:
+    - holo_3rdparty
+    - holo_base
+    commands: {}
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_perception_pilot:
+    url: ${git_url}/per/holo_perception_pilot.git
+    branch: bugfix/lsz/ehs9_xavier_v6_filter_position_y
+    dependencies:
+    - holo_3rdparty
+    - holo_base
+    - holo_perception_base
+    commands: {}
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_perception_pilot/cmw_app:
+    url: holo_perception_pilot/cmw_app
+    dependencies:
+    - holo_base
+    - holo_perception_base
+    - holo_perception_pilot
+    - holo_cmw
+    commands: {}
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_perception:
+    dependencies:
+    - holo_perception_base
+    - holo_perception_pilot
+    commands:
+      configure:
+        command: ''
+        arguments:
+        - ${SOURCE_ROOT}
+      build:
+        command: ''
+        arguments: []
+      install:
+        command: ''
+        arguments: []
+    steps: null
+  holo_perception_cmw_app:
+    dependencies:
+    - holo_perception_pilot/cmw_app
+    commands:
+      configure:
+        command: ''
+        arguments:
+        - ${SOURCE_ROOT}
+      build:
+        command: ''
+        arguments: []
+      install:
+        command: ''
+        arguments: []
+    steps: null
+  holo_bag:
+    url: ${git_url}/win/holo_bag.git
+    branch: release/elite_v0.0.6
+    dependencies:
+    - holo_base
+    - holo_cmw
+    commands: {}
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_bag/cmw_app:
+    url: holo_bag/cmw_app
+    dependencies:
+    - holo_bag
+    commands: {}
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_msg:
+    url: ${git_url}/win/holo_msg.git
+    branch: release/elite_v0.0.6
+    dependencies:
+    - holo_base
+    - holo_cmw
+    commands: {}
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_msg/cmw_app:
+    url: holo_mgs/cmw_app
+    dependencies:
+    - holo_msg
+    commands: {}
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  functions_app:
+    dependencies:
+    - holo_bag/cmw_app
+    - holo_msg/cmw_app
+    commands:
+      configure:
+        command: ''
+        arguments:
+        - ${SOURCE_ROOT}
+      build:
+        command: ''
+        arguments: []
+      install:
+        command: ''
+        arguments: []
+    steps: null
+  holo_dragonglass_libs:
+    dependencies:
+    - holo_sensors
+    - holo_planning
+    - holo_control
+    - holo_map
+    - holo_perception
+    - holo_cmw
+    commands:
+      configure:
+        command: ''
+        arguments:
+        - ${SOURCE_ROOT}
+      build:
+        command: ''
+        arguments: []
+      install:
+        command: ''
+        arguments: []
+    steps: null
+  holo_dragonglass_apps:
+    dependencies:
+    - holo_sensors_cmw_app
+    - holo_planning_cmw_app
+    - holo_control_cmw_app
+    - holo_map_cmw_app
+    - holo_perception_cmw_app
+    - functions_app
+    commands:
+      configure:
+        command: ''
+        arguments:
+        - ${SOURCE_ROOT}
+      build:
+        command: ''
+        arguments: []
+      install:
+        command: ''
+        arguments: []
+    steps: null
+  holo_dragonglass:
+    dependencies:
+    - holo_dragonglass_libs
+    - holo_dragonglass_apps
+    commands:
+      configure:
+        command: ''
+        arguments:
+        - ${SOURCE_ROOT}
+      build:
+        command: ''
+        arguments: []
+      install:
+        command: ''
+        arguments: []
+    steps: null
+version: 1

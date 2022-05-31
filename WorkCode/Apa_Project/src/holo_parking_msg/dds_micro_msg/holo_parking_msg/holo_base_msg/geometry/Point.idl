@@ -1,0 +1,45 @@
+#ifndef HOLO_BASE_MSG_GEOMETRY_POINT_IDL_
+#define HOLO_BASE_MSG_GEOMETRY_POINT_IDL_
+
+#include <holo_base_msg/core/Types.idl>
+
+module holo_base_msg { module geometry {
+
+struct Point3f
+{
+    holo_base_msg::core::float32_t      x;
+    holo_base_msg::core::float32_t      y;
+    holo_base_msg::core::float32_t      z;
+};
+
+typedef sequence<::holo_base_msg::geometry::Point3f> Point3fSequence;
+
+struct Point3d
+{
+    holo_base_msg::core::float64_t      x;
+    holo_base_msg::core::float64_t      y;
+    holo_base_msg::core::float64_t      z;
+};
+
+typedef sequence<::holo_base_msg::geometry::Point3d> Point3dSequence;
+
+struct Point2f
+{
+    holo_base_msg::core::float32_t      x;
+    holo_base_msg::core::float32_t      y;
+};
+
+typedef sequence<::holo_base_msg::geometry::Point2f> Point2fSequence;
+
+struct Point2d
+{
+    holo_base_msg::core::float64_t      x;
+    holo_base_msg::core::float64_t      y;
+};
+
+typedef sequence<::holo_base_msg::geometry::Point2d> Point2dSequence;
+
+}; };
+
+#endif
+

@@ -1,0 +1,485 @@
+base: Pilot/tag/2021.02
+projects:
+  holo_3rdparty:
+    branch: master
+    commands:
+      build:
+        arguments:
+        - gtest-1.8.1
+        - glog
+        - eigen3
+        - gperf
+        - opencv
+        - gtsam
+        - qpOASES_e
+        - qpOASES
+        - yaml-cpp
+        - protobuf
+        - sqlite3
+        - ffmpeg
+        - x264
+        - jpeg
+        - nanopb
+        - openssl
+        - mosquitto
+        - opendds
+        - log4cplus
+    steps: null
+    package:
+      manifest: null
+      files: []
+      directories:
+      - ${HOLO_ROOT}/3rdparty
+      - ${HOLO_ROOT}/../host
+  holo_base:
+    branch: dragonglass-develop
+    commands: {}
+    steps: null
+  holo_cmw:
+    branch: dragonglass-develop
+    commands:
+      configure:
+        arguments:
+        - -DHOLO_CMW_BUILD_OPENDDS_CMW=ON -DHOLO_CMW_BUILD_ROS_WRAPPER=OFF -DHOLO_CMW_BUILD_UMB_WRAPPER=OFF
+        - ${SOURCE_ROOT}
+    steps: null
+  holo_base_msg:
+    branch: dragonglass-develop
+    commands: {}
+    steps: null
+  holo_sensors_cmw_app:
+    commands:
+      configure:
+        arguments:
+        - -DHOLO_BUILD_OPENDDS_APP=ON
+        - -DHOLO_BUILD_UMB_APP=OFF
+        - -DHOLO_BUILD_ON_ACU=OFF
+        - ${SOURCE_ROOT}
+    steps: null
+  wh01_sensors:
+    url: ${git_url}/wh01/wh01_sensors.git
+    branch: dragonglass-develop
+    dependencies:
+    - holo_base
+    - holo_sensors_base
+    - holo_base_msg
+    - wh01_c
+    - wh01_msg
+    - wh01_hmi
+    commands:
+      test:
+        command: make
+        arguments:
+        - test
+        - '||'
+        - 'true'
+      doc:
+        command: make
+        arguments:
+        - doc
+      coverage:
+        command: make
+        arguments:
+        - coverage
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_perception_pilot:
+    branch: feature/dg-core
+    dependencies:
+    - holo_3rdparty
+    - holo_base
+    - holo_perception_base
+    commands: {}
+    steps: null
+  holo_perception_pilot/cmw_app:
+    url: holo_perception_pilot/cmw_app
+    dependencies:
+    - holo_base
+    - holo_base_msg
+    - holo_perception_base
+    - holo_perception_pilot
+    - holo_cmw
+    - holo_sensors_base
+    commands: {}
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_localization_semantic:
+    branch: feature/dg-core
+    commands: {}
+    steps: null
+  holo_localization_fusion:
+    branch: feature/dg-core
+    commands: {}
+    steps: null
+  holo_localization_fusion_cmw_app:
+    branch: feature/dg-core
+    commands: {}
+    steps: null
+  holo_map_format:
+    branch: feature/wanghaiyang/data-format-upgrading
+    commands: {}
+    steps: null
+  holo_map_local_service_client:
+    branch: dragonglass-develop
+    commands: {}
+    steps: null
+  holo_map_core:
+    branch: feature/dg-core
+    commands:
+      configure:
+        arguments:
+        - -DHOLO_MAP_ENABLE_MAP_VERSION_5_0=ON
+        - ${SOURCE_ROOT}
+    steps: null
+  holo_map_cmw_app:
+    branch: feature/dg-core
+    commands: {}
+    steps: null
+  holo_prediction/cmw_app:
+    commands:
+      install:
+        command: ''
+        arguments: []
+    steps: null
+  wh01_c:
+    url: ${git_url}/wh01/wh01_c.git
+    branch: dragonglass-develop
+    dependencies:
+    - holo_base_c
+    commands:
+      test:
+        command: make
+        arguments:
+        - test
+        - '||'
+        - 'true'
+      doc:
+        command: make
+        arguments:
+        - doc
+      coverage:
+        command: make
+        arguments:
+        - coverage
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  wh01_msg:
+    url: ${git_url}/wh01/wh01_msg.git
+    branch: dragonglass-develop
+    dependencies:
+    - holo_base
+    - holo_base_msg
+    commands:
+      test:
+        command: make
+        arguments:
+        - test
+        - '||'
+        - 'true'
+      doc:
+        command: make
+        arguments:
+        - doc
+      coverage:
+        command: make
+        arguments:
+        - coverage
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_scenario_modeling:
+    url: ${git_url}/pc/holo_scenario_modeling.git
+    branch: master
+    dependencies:
+    - holo_base
+    - holo_planning_base
+    commands: {}
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_planning_base:
+    branch: feature/dg-core
+    commands: {}
+    steps: null
+  holo_planning_pilot:
+    url: ${git_url}/pc/holo_planning_pilot.git
+    branch: feature/dg-core
+    dependencies:
+    - holo_base
+    - holo_planning_base
+    - wh01_msg
+    - holo_scenario_modeling
+    commands:
+      test:
+        command: make
+        arguments:
+        - test
+        - '||'
+        - 'true'
+      doc:
+        command: make
+        arguments:
+        - doc
+      coverage:
+        command: make
+        arguments:
+        - coverage
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_planning_pilot/cmw_app:
+    url: holo_planning_pilot/cmw_app
+    dependencies:
+    - holo_planning_pilot
+    - holo_cmw
+    - holo_base_msg
+    commands: {}
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_control:
+    url: ${git_url}/pc/holo_control.git
+    branch: dragonglass-develop
+    dependencies:
+    - holo_base
+    - holo_control_base
+    commands: {}
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_control/cmw_app:
+    url: holo_control/cmw_app
+    dependencies:
+    - holo_control
+    - holo_base_msg
+    - holo_cmw
+    - wh01_msg
+    - wh01_c
+    commands: {}
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  odm:
+    url: ${git_url}/fun/odm.git
+    branch: dragonglass-develop
+    dependencies:
+    - holo_base
+    - holo_cmw
+    commands:
+      test:
+        command: make
+        arguments:
+        - test
+        - '||'
+        - 'true'
+      doc:
+        command: make
+        arguments:
+        - doc
+      coverage:
+        command: make
+        arguments:
+        - coverage
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  odm/cmw_app:
+    url: odm/cmw_app
+    dependencies:
+    - odm
+    - holo_cmw
+    - holo_base_msg
+    commands: {}
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_bag:
+    url: ${git_url}/win/holo_bag.git
+    branch: dragonglass-develop
+    dependencies:
+    - holo_base
+    commands: {}
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_bag/cmw_app:
+    url: holo_bag/cmw_app
+    dependencies:
+    - holo_bag
+    - holo_cmw
+    - holo_sensors_base
+    commands: {}
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_winterfell:
+    url: ${git_url}/win/holo_winterfell.git
+    branch: dragonglass-develop
+    dependencies:
+    - holo_base
+    - holo_bag
+    commands:
+      test:
+        command: make
+        arguments:
+        - test
+        - '||'
+        - 'true'
+      doc:
+        command: make
+        arguments:
+        - doc
+      coverage:
+        command: make
+        arguments:
+        - coverage
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_winterfell/cmw_app:
+    url: holo_winterfell/cmw_app
+    dependencies:
+    - holo_winterfell
+    - holo_cmw
+    commands: {}
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_x_client:
+    url: ${git_url}/~gaochengbin/holo_x_client.git
+    branch: zgg/holo_cmw_V2_opendds
+    dependencies:
+    - holo_base
+    - holo_cmw
+    - holo_base_msg
+    commands: {}
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  wh01_hmi:
+    url: ${git_url}/wh01/wh01_hmi.git
+    branch: feature/pg/hsa
+    dependencies:
+    - holo_base
+    - wh01_c
+    - wh01_msg
+    commands:
+      test:
+        command: make
+        arguments:
+        - test
+        - '||'
+        - 'true'
+      doc:
+        command: make
+        arguments:
+        - doc
+      coverage:
+        command: make
+        arguments:
+        - coverage
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_params:
+    url: ${git_url}/vs/holo_params.git
+    branch: feature/dg-core
+    commands: {}
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  BaseCampWH01:
+    dependencies:
+    - holo_3rdparty
+    - holo_base_c
+    - holo_base
+    - holo_cmw
+    - holo_base_msg
+    - holo_sensors_c
+    - holo_sensors_base
+    - holo_localization_base
+    - holo_localization_fusion
+    - holo_localization_semantic
+    - holo_localization_vision
+    - holo_map_base
+    - holo_map_common
+    - holo_map_format
+    - holo_map_adapter
+    - holo_map_local_service_server
+    - holo_map_local_service_client
+    - holo_perception_base
+    - holo_planning_base
+    - holo_control_base
+    - holo_sensors_cmw_app
+    commands:
+      configure:
+        command: ''
+        arguments:
+        - ${SOURCE_ROOT}
+      build:
+        command: ''
+        arguments: []
+      install:
+        command: ''
+        arguments: []
+    steps: null
+  DgCore:
+    dependencies:
+    - BaseCampWH01
+    - PilotApps
+    - holo_planning_pilot/cmw_app
+    - holo_control/cmw_app
+    - holo_sensors_cmw_app
+    - wh01_hmi
+    commands:
+      configure:
+        command: ''
+        arguments:
+        - ${SOURCE_ROOT}
+      build:
+        command: ''
+        arguments: []
+      install:
+        command: ''
+        arguments: []
+    steps: null
+version: 1

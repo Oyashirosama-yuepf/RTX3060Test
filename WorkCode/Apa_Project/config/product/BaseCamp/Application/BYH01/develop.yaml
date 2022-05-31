@@ -1,0 +1,305 @@
+base: BaseCamp/Library/develop
+projects:
+  holo_3rdparty:
+    commands:
+      configure:
+        arguments:
+        - -DHOLO_3RDPARTY_FORCE_BUILD=ON
+        - -DOPENCV_WITH_GTK=ON
+        - -DOPENCV_SKIP_CACHE=ON
+        - -DGTSAM_VERSION=4.0.2
+        - ${SOURCE_ROOT}
+      build:
+        arguments:
+        - sqlite3
+        - yaml-cpp
+        - eigen3
+        - glog
+        - nanopb
+        - flann
+        - rply
+        - opencv
+        - ffmpeg
+        - apriltag
+        - qpOASES
+        - qpOASES_e
+        - protobuf
+        - gtsam
+        - gtest-1.8.1
+        - opendds
+        - log4cplus
+        - lz4
+        - libyuv
+        - osqp
+    steps: null
+    package:
+      manifest: null
+      files: []
+      directories:
+      - ${HOLO_ROOT}/3rdparty
+      - ${HOLO_ROOT}/../host
+  holo_cmw:
+    commands:
+      configure:
+        arguments_tda4_qnx-7.0.0:
+        - -DHOLO_CMW_BUILD_PPS_WRAPPER=ON
+        - ${SOURCE_ROOT}
+        arguments_tda4_ubuntu-18.04:
+        - -DHOLO_CMW_BUILD_OPENDDS_WRAPPER=ON
+        - ${SOURCE_ROOT}
+        arguments_x86_64_ubuntu-18.04:
+        - -DHOLO_CMW_BUILD_OPENDDS_WRAPPER=ON
+        - ${SOURCE_ROOT}
+        arguments_x86_64_ubuntu-18.04-base:
+        - -DHOLO_CMW_BUILD_OPENDDS_WRAPPER=ON
+        - ${SOURCE_ROOT}
+    steps: null
+  holo_sensors_base:
+    url: ${git_url}/vs/holo_sensors_base.git
+    commands:
+      test:
+        command: make
+        arguments:
+        - test
+      doc:
+        command: make
+        arguments:
+        - doc
+      coverage:
+        command: make
+        arguments:
+        - coverage
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_sensors_cmw_app:
+    url: ${git_url}/vs/holo_sensors_cmw_app.git
+    branch: byh01-develop
+    dependencies:
+    - CS
+    - VS
+    commands:
+      test:
+        command: make
+        arguments:
+        - test
+      doc:
+        command: make
+        arguments:
+        - doc
+      coverage:
+        command: make
+        arguments:
+        - coverage
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_map_local_service_server:
+    url: ${git_url}/map/holo_map_local_service_server.git
+    branch: dragonglass-develop
+    dependencies:
+    - CS
+    - MAP
+    commands:
+      test:
+        command: make
+        arguments:
+        - test
+      doc:
+        command: make
+        arguments:
+        - doc
+      coverage:
+        command: make
+        arguments:
+        - coverage
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_map_local_service_client/tools:
+    url: holo_map_local_service_client/tools
+    branch: dragonglass-develop
+    dependencies:
+    - CS
+    - MAP
+    commands:
+      test:
+        command: make
+        arguments:
+        - test
+      doc:
+        command: make
+        arguments:
+        - doc
+      coverage:
+        command: make
+        arguments:
+        - coverage
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_calibration:
+    url: ${git_url}/mlc/holo_calibration.git
+    branch: dragonglass-develop
+    dependencies:
+    - BaseCamp
+    - holo_localization_base
+    commands: {}
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_calibration_cmw_app:
+    url: ${git_url}/mlc/holo_calibration_cmw_app.git
+    branch: dragonglass-develop
+    dependencies:
+    - holo_cmw
+    - holo_calibration
+    commands:
+      configure:
+        arguments:
+        - ${SOURCE_ROOT}
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_dnn_tda4:
+    url:  ${git_url}/bcper/holo_dnn_tda4.git
+    branch:  dragonglass-develop
+    dependencies:
+    - holo_dnn_base
+    commands: {}
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []      
+  holo_dnn_base/apps:
+    url: holo_dnn_base/apps
+    dependencies:
+    - PER
+    dependencies_MDC610-1.0.017-T.B011:
+    - PER
+    - holo_dnn_mdc
+    dependencies_tda4_qnx-7.0.0:
+    - PER
+    - holo_dnn_tda4
+    dependencies_tda4_ubuntu-18.04:
+    - PER
+    - holo_dnn_tda4
+    commands:
+      test:
+        command: make
+        arguments:
+        - test
+        - '||'
+        - 'true'
+      doc:
+        command: make
+        arguments:
+        - doc
+      coverage:
+        command: make
+        arguments:
+        - coverage
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []  
+      
+  BaseCampMapApplication:
+    dependencies:
+    - holo_map_local_service_server
+    - holo_map_local_service_client/tools
+    commands:
+      configure:
+        command: ''
+        arguments:
+        - ${SOURCE_ROOT}
+      build:
+        command: ''
+        arguments: []
+      install:
+        command: ''
+        arguments: []
+    steps: null  
+  BaseCampMlcApplication:
+    dependencies:
+    - holo_3d
+    - holo_localization_c
+    - holo_localization_base
+    - holo_calibration
+    commands:
+      configure:
+        command: ''
+        arguments:
+        - ${SOURCE_ROOT}
+      build:
+        command: ''
+        arguments: []
+      install:
+        command: ''
+        arguments: []
+    steps: null
+  BaseCampVsApplication:
+    dependencies:
+    - holo_sensors_cmw_app
+    commands:
+      configure:
+        command: ''
+        arguments:
+        - ${SOURCE_ROOT}
+      build:
+        command: ''
+        arguments: []
+      install:
+        command: ''
+        arguments: []
+    steps: null
+  BaseCampPerApplication:
+    dependencies:
+    - PER
+    - holo_dnn_base/apps
+    commands:
+      configure:
+        command: ''
+        arguments:
+        - ${SOURCE_ROOT}
+      build:
+        command: ''
+        arguments: []
+      install:
+        command: ''
+        arguments: []
+    steps: null
+    
+  BaseCampApplication:
+    dependencies:
+    - BaseCampMapApplication
+    - BaseCampMlcApplication
+    - BaseCampVsApplication
+    - BaseCampPerApplication
+    commands:
+      configure:
+        command: ''
+        arguments:
+        - ${SOURCE_ROOT}
+      build:
+        command: ''
+        arguments: []
+      install:
+        command: ''
+        arguments: []
+    steps: null
+version: 1

@@ -1,0 +1,516 @@
+base: BaseCamp/Application/GH01/release/2021.12
+commands: {}
+steps:
+- configure
+- build
+- install
+
+projects:
+  holo_3rdparty:
+    commands:
+      configure:
+        arguments:
+        - -DHOLO_3RDPARTY_FORCE_BUILD=ON
+        - -DOPENCV_WITH_GTK=ON
+        - -DOPENCV_SKIP_CACHE=ON
+        - -DGTSAM_VERSION=4.0.2
+        - ${SOURCE_ROOT}
+      build:
+        arguments:
+        - sqlite3
+        - boost
+        - eigen3
+        - glog
+        - jpeg
+        - nanopb
+        - flann
+        - rply
+        - opencv
+        - ffmpeg
+        - apriltag
+        - qpOASES
+        - qpOASES_e
+        - protobuf
+        - gtsam
+        - gtest-1.8.1
+        - opendds
+        - log4cplus
+        - lz4
+        - libyuv
+        - ceres
+        - osqp        
+    steps: null
+    package:
+      manifest: null
+      files: []
+      directories:
+      - ${HOLO_ROOT}/3rdparty
+      - ${HOLO_ROOT}/../host
+  holo_cmw:
+    commands:
+      configure:
+        arguments_tda4_qnx-7.0.0:
+        - -DHOLO_CMW_BUILD_DDS_MICRO_WRAPPER=ON
+        - -DHOLO_CMW_BUILD_OPENDDS_WRAPPER=OFF
+        - ${SOURCE_ROOT}
+        arguments_tda4_ubuntu-18.04:
+        - ${SOURCE_ROOT}
+        arguments_x86_64_ubuntu-18.04:
+        - -DHOLO_CMW_BUILD_DDS_MICRO_WRAPPER=ON
+        - -DHOLO_CMW_BUILD_OPENDDS_WRAPPER=OFF
+        - ${SOURCE_ROOT}
+        arguments_x86_64_ubuntu-18.04-base:
+        - -DHOLO_CMW_BUILD_DDS_MICRO_WRAPPER=ON
+        - -DHOLO_CMW_BUILD_OPENDDS_WRAPPER=OFF
+        - ${SOURCE_ROOT}
+        arguments_MDC610-1.0.017-T.B011:
+        - -DHOLO_CMW_BUILD_OPENDDS_WRAPPER=ON
+        - ${SOURCE_ROOT}      
+        arguments_MDC610-1.1.001-T.B011:
+        - -DHOLO_CMW_BUILD_OPENDDS_WRAPPER=ON
+        - ${SOURCE_ROOT}  
+    steps: null
+  holo_base:
+    branch: feature/yzt/chery_test
+  holo_sensors_base:
+    branch: feature/nash/mdc11
+  holo_sensors_cmw_app:
+    branch: feature/nash/mdc11
+  holo_map_base:
+    branch: feature/parking/base-09
+  holo_map_format:
+    branch: feature/parking/base-09
+  holo_map_common:
+    branch: feature/parking/base-09
+  holo_map_adapter:
+    branch: feature/parking/base-09
+  holo_map_local_service_client:
+    branch: feature/parking/base-09
+  holo_map_navigator:
+    url: ${git_url}/map/holo_map_navigator.git
+    branch: feature/parking/base-09
+    dependencies:
+    - CS
+    - holo_map_base
+    - holo_map_format
+    - holo_map_common
+    - holo_map_local_service_client
+    commands:
+      test:
+        command: make
+        arguments:
+        - test
+      doc:
+        command: make
+        arguments:
+        - doc
+      coverage:
+        command: make
+        arguments:
+        - coverage
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  MAP:
+    dependencies:
+    - holo_map_base
+    - holo_map_common
+    - holo_map_format
+    - holo_map_adapter
+    - holo_map_local_service_client
+    - holo_map_navigator
+  holo_map_navigator_cmw_app:
+    url: ${git_url}/map/holo_map_navigator_cmw_app.git
+    branch: feature/parking/base-09
+    dependencies:
+    - CS
+    - MAP
+    commands:
+      test:
+        command: make
+        arguments:
+        - test
+      doc:
+        command: make
+        arguments:
+        - doc
+      coverage:
+        command: make
+        arguments:
+        - coverage
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_map_local_service_server:
+    branch: feature/parking/base-09
+  holo_map_local_service_client/tools:
+    branch: feature/parking/base-09
+  holo_io:
+    url: ${git_url}/base/holo_io.git
+    branch: dragonglass-develop
+    dependencies:
+    - BaseCamp
+    commands: {}
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_parking_base:
+    url: ${git_url}/parking/holo_parking_base.git
+    branch: release/GH01/R3/HPP
+    dependencies:
+    - BaseCamp
+    commands: {}
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_parking_msg:
+    url: ${git_url}/parking/holo_parking_msg.git
+    branch: feature/yzt/chery_test
+    dependencies:
+    - BaseCamp
+    - holo_parking_base
+    commands: {}
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_perception_parking:
+    url: ${git_url}/parking/holo_perception_parking.git
+    branch: feature/yzt/chery_test
+    dependencies:
+    - BaseCamp
+    - holo_parking_base
+    commands: {}
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_localization_parking:
+    url: ${git_url}/parking/holo_localization_parking.git
+    branch: release/GH01/R3/HPP
+    dependencies:
+    - BaseCamp
+    - holo_3d
+    - holo_io
+    - holo_parking_base
+    commands: {}
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_localization_deep:
+    url: ${git_url}/mlc/holo_localization_deep.git
+    branch: feature/yzt/chery_test
+    dependencies:
+    - BaseCamp
+    - holo_3d
+    - holo_parking_base
+    commands: {}
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_planning_parking:
+    url: ${git_url}/parking/holo_planning_parking.git
+    branch: feature/ybx/lx_u_demo
+    dependencies:
+    - BaseCamp
+    - holo_io
+    - holo_parking_base
+    commands: {}
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_control_base:
+    branch: feature/ybx/lx_u_demo
+  holo_control_cmw_app:
+    branch: feature/ybx/new_lx_u_demo
+    dependencies:
+    - BaseCamp
+    - holo_control_base
+  holo_parking_cmw_app:
+    url: ${git_url}/parking/holo_parking_cmw_app.git
+    branch: feature/ybx/lx_u_demo
+    dependencies:
+    - BaseCamp
+    - holo_parking_msg
+    - holo_localization_deep
+    - holo_localization_parking
+    - holo_perception_parking
+    - holo_planning_parking
+    - holo_localization_c
+    commands:
+      configure:
+        arguments:
+        - -DHOLO_BUILD_PARKING_APP=ON
+        - ${SOURCE_ROOT}
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_x_client:
+      url: ssh://git@bitbucket.holomatic.ai:7999/~gaochengbin/holo_x_client.git
+      dependencies: [holo_cmw, holo_base_msg, holo_sensors_base, holo_parking_msg]
+      branch: zgg/holo_cmw2_dds_micro
+  holo_params:
+    url: ${git_url}/vs/holo_params.git
+    branch: feature/ybx/lx_u_demo
+    dependencies: []
+    commands:
+      build:
+        command: ''
+        arguments: []
+    steps: null
+  wh01_c:
+    url: ${git_url}/wh01/wh01_c.git
+    branch: feature/yzt/chery_demo
+    dependencies:
+    - holo_base_c
+    commands:
+      test:
+        command: make
+        arguments:
+        - test
+        - '||'
+        - 'true'
+      doc:
+        command: make
+        arguments:
+        - doc
+      coverage:
+        command: make
+        arguments:
+        - coverage
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  wh01_msg:
+    url: ${git_url}/wh01/wh01_msg.git
+    branch: feature/yzt/chery_demo
+    dependencies:
+    - holo_base
+    - holo_base_msg
+    - holo_sensors_base
+    commands:
+      test:
+        command: make
+        arguments:
+        - test
+        - '||'
+        - 'true'
+      doc:
+        command: make
+        arguments:
+        - doc
+      coverage:
+        command: make
+        arguments:
+        - coverage
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  wh01_hmi:
+    url: ${git_url}/wh01/wh01_hmi.git
+    branch: feature/yzt/chery_demo
+    dependencies:
+    - holo_base
+    - wh01_c
+    - wh01_msg
+    commands:
+      test:
+        command: make
+        arguments:
+        - test
+        - '||'
+        - 'true'
+      doc:
+        command: make
+        arguments:
+        - doc
+      coverage:
+        command: make
+        arguments:
+        - coverage
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  wh01_sensors:
+    url: ${git_url}/wh01/wh01_sensors.git
+    branch: feature/yzt/update_command_message
+    dependencies:
+    - holo_base
+    - holo_sensors_base
+    - holo_base_msg
+    - wh01_c
+    - wh01_msg
+    - wh01_hmi
+    commands:
+      test:
+        command: make
+        arguments:
+        - test
+        - '||'
+        - 'true'
+      doc:
+        command: make
+        arguments:
+        - doc
+      coverage:
+        command: make
+        arguments:
+        - coverage
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_pctoolkits:
+    url: ${git_url}/pc/holo_pctoolkits.git
+    branch: dragonglass-develop
+    dependencies:
+    - CS
+    - PC
+    commands:
+      test:
+        command: make
+        arguments:
+        - test
+      doc:
+        command: make
+        arguments:
+        - doc
+      coverage:
+        command: make
+        arguments:
+        - coverage
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_pctoolkits/cmw_app:
+    url: holo_pctoolkits/cmw_app
+    dependencies:
+    - CS
+    - PC
+    - holo_pctoolkits
+    commands: {}
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_bag:
+    url: ${git_url}/win/holo_bag.git
+    branch: dragonglass-develop
+    dependencies:
+    - holo_base
+    commands: {}
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_bag/cmw_app:
+    url: holo_bag/cmw_app
+    dependencies:
+    - holo_bag
+    - holo_cmw
+    - holo_sensors_base
+    - holo_parking_msg
+    commands: {}
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  ParkingBaseCamp:
+    dependencies:
+    - holo_3rdparty
+    - holo_base_c
+    - holo_base
+    - holo_cmw
+    - holo_base_msg
+    - holo_sensors_c
+    - holo_sensors_base
+    - holo_localization_base
+    - holo_perception_base
+    - holo_planning_base
+    - holo_control_base
+    - holo_sensors_cmw_app
+    commands:
+      configure:
+        command: ''
+        arguments:
+        - ${SOURCE_ROOT}
+      build:
+        command: ''
+        arguments: []
+      install:
+        command: ''
+        arguments: []
+    steps: null
+  ParkingApps:
+    dependencies:
+    - holo_parking_cmw_app
+    - holo_control_cmw_app
+    - wh01_sensors
+    dependencies_x86_64_ubuntu-18.04:
+    - holo_parking_cmw_app
+    - holo_map_local_service_server
+    - holo_map_navigator_cmw_app
+    - holo_x_client
+    dependencies_tda4_qnx-7.0.0:
+    - holo_parking_cmw_app
+    - holo_map_local_service_server
+    - holo_map_navigator_cmw_app
+    commands:
+      configure:
+        command: ''
+        arguments:
+        - ${SOURCE_ROOT}
+      build:
+        command: ''
+        arguments: []
+      install:
+        command: ''
+        arguments: []
+    steps: null
+  ParkingHpp:
+    dependencies:
+    - ParkingBaseCamp
+    - ParkingApps
+    commands:
+      configure:
+        command: ''
+        arguments:
+        - ${SOURCE_ROOT}
+      build:
+        command: ''
+        arguments: []
+      install:
+        command: ''
+        arguments: []
+    steps: null          
+version: 1

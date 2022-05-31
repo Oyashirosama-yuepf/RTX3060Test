@@ -1,0 +1,1302 @@
+base: null
+commands:
+  configure:
+    command: cmake
+    arguments:
+    - ${SOURCE_ROOT}
+    retcode: [0]
+  build:
+    command: make
+    arguments: []
+    parallel_arg: -j
+    retcode: [0]
+  install:
+    command: make
+    arguments:
+    - install
+    parallel_arg: -j
+    retcode: [0]
+  test:
+    command: ''
+    arguments: []
+  doc:
+    command: ''
+    arguments: []
+  coverage:
+    command: ''
+    arguments: []
+steps:
+- configure
+- build
+- install
+projects:
+  holo_cmake_scripts:
+    url: ${git_url}/bccs/holo_cmake_scripts.git
+    branch: feature/demo/HW
+    commands:
+      build:
+        command: ''
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_3rdparty:
+    env:
+      PKG_CONFIG_PATH: ${HOLO_ROOT}/lib/pkgconfig:${HOLO_ROOT}/3rdparty/lib/pkgconfig:${PKG_CONFIG_PATH}
+      CFLAGS: -I${HOLO_ROOT}/3rdparty/include ${CFLAGS}
+      CXXFLAGS: -I${HOLO_ROOT}/3rdparty/include ${CXXFLAGS}
+      LDFLAGS: -L${HOLO_ROOT}/3rdparty/lib -Wl,-rpath-link,${HOLO_ROOT}/3rdparty/lib
+        ${LDFLAGS}
+      PATH: ${HOLO_ROOT}/../host/bin:${PATH}
+    url: ${git_url}/bccs/holo_3rdparty.git
+    branch: feature/demo/HW
+    dependencies:
+    - holo_cmake_scripts
+    commands:
+      configure:
+        arguments:
+        - -DHOLO_3RDPARTY_FORCE_BUILD=ON
+        - -DGTSAM_VERSION=4.0.2
+        - ${SOURCE_ROOT}
+        arguments_aarch64_linux-c52:
+        - -DHOLO_3RDPARTY_FORCE_BUILD=ON
+        - -DOPENCV_WITH_GTK=ON
+        - -DOPENCV_SKIP_CACHE=ON
+        - -DOPENDDS_VERSION=3.13.2
+        - ${SOURCE_ROOT}
+      build:
+        arguments:
+        - gtest-1.8.1
+        - glog
+        - eigen3
+        - lz4
+        - gperf
+        - opencv
+        - gtsam
+        - qpOASES_e
+        - qpOASES
+        - protobuf
+        - sqlite3
+        - ffmpeg
+        - x264
+        - jpeg
+        - nanopb
+        - mosquitto
+        - opendds
+        - log4cplus
+        - yaml-cpp
+      install:
+        command: ''
+        arguments: []
+    steps: null
+    package:
+      manifest: null
+      files: []
+      directories:
+      - ${HOLO_ROOT}/3rdparty
+      - ${HOLO_ROOT}/../host
+  holo_utils:
+    url: ${git_url}/bccs/holo_utils.git
+    branch: feature/demo/HW
+    dependencies:
+    - holo_3rdparty
+    - holo_cmake_scripts
+    commands:
+      test:
+        command: make
+        arguments:
+        - test
+      doc:
+        command: make
+        arguments:
+        - doc
+      coverage:
+        command: make
+        arguments:
+        - coverage
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_base_c:
+    url: ${git_url}/bccs/holo_base_c.git
+    branch: feature/demo/HW
+    dependencies:
+    - holo_3rdparty
+    - holo_cmake_scripts
+    commands:
+      test:
+        command: make
+        arguments:
+        - test
+      doc:
+        command: make
+        arguments:
+        - doc
+      coverage:
+        command: make
+        arguments:
+        - coverage
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_base:
+    url: ${git_url}/bccs/holo_base.git
+    branch: feature/demo/HW
+    dependencies:
+    - holo_3rdparty
+    - holo_base_c
+    - holo_utils
+    commands:
+      test:
+        command: make
+        arguments:
+        - test
+      doc:
+        command: make
+        arguments:
+        - doc
+      coverage:
+        command: make
+        arguments:
+        - coverage
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_cmw:
+    url: ${git_url}/bccs/holo_cmw.git
+    branch: feature/demo/HW
+    dependencies:
+    - holo_base
+    - holo_utils
+    commands: {}
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_base_msg:
+    url: ${git_url}/cmw/holo_base_msg.git
+    branch: feature/demo/HW
+    dependencies:
+    - holo_base
+    - holo_cmw
+    commands:
+      test:
+        command: make
+        arguments:
+        - test
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_localization_c:
+    url: ${git_url}/mlc/holo_localization_c.git
+    branch: feature/demo/HW
+    dependencies:
+    - CS
+    commands:
+      test:
+        command: make
+        arguments:
+        - test
+      doc:
+        command: make
+        arguments:
+        - doc
+      coverage:
+        command: make
+        arguments:
+        - coverage
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_localization_base:
+    url: ${git_url}/mlc/holo_localization_base.git
+    branch: feature/demo/HW
+    dependencies:
+    - CS
+    commands:
+      test:
+        command: make
+        arguments:
+        - test
+      doc:
+        command: make
+        arguments:
+        - doc
+      coverage:
+        command: make
+        arguments:
+        - coverage
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_localization_semantic:
+    url: ${git_url}/mlc/holo_localization_semantic.git
+    branch: feature/demo/HW
+    dependencies:
+    - holo_localization_base
+    commands:
+      test:
+        command: make
+        arguments:
+        - test
+      doc:
+        command: make
+        arguments:
+        - doc
+      coverage:
+        command: make
+        arguments:
+        - coverage
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_localization_fusion:
+    url: ${git_url}/mlc/holo_localization_fusion.git
+    branch: feature/demo/HW
+    dependencies:
+    - holo_localization_base
+    - holo_localization_semantic
+    commands:
+      test:
+        command: make
+        arguments:
+        - test
+      doc:
+        command: make
+        arguments:
+        - doc
+      coverage:
+        command: make
+        arguments:
+        - coverage
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_localization_fusion_cmw_app:
+    url: ${git_url}/mlc/holo_localization_fusion_cmw_app.git
+    branch: feature/demo/HW
+    dependencies:
+    - holo_cmw
+    - holo_base_msg
+    - holo_localization_fusion
+    - holo_map_local_service_client
+    commands: {}
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_map_adapter:
+    url: ${git_url}/map/holo_map_adapter.git
+    branch: feature/demo/HW
+    dependencies:
+    - CS
+    - holo_map_base
+    - holo_map_format
+    - holo_map_common
+    commands:
+      test:
+        command: make
+        arguments:
+        - test
+      doc:
+        command: make
+        arguments:
+        - doc
+      coverage:
+        command: make
+        arguments:
+        - coverage
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_map_base:
+    url: ${git_url}/map/holo_map_base.git
+    branch: feature/demo/HW
+    dependencies:
+    - CS
+    commands:
+      test:
+        command: make
+        arguments:
+        - test
+      doc:
+        command: make
+        arguments:
+        - doc
+      coverage:
+        command: make
+        arguments:
+        - coverage
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_map_common:
+    url: ${git_url}/map/holo_map_common.git
+    branch: feature/demo/HW
+    dependencies:
+    - CS
+    - holo_map_base
+    - holo_map_format
+    commands:
+      test:
+        command: make
+        arguments:
+        - test
+      doc:
+        command: make
+        arguments:
+        - doc
+      coverage:
+        command: make
+        arguments:
+        - coverage
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_map_core:
+    url: ${git_url}/map/holo_map_core.git
+    branch: feature/demo/HW
+    dependencies:
+    - holo_base
+    - holo_map_base
+    - holo_map_format
+    - holo_map_common
+    - holo_map_local_service_client
+    commands:
+      test:
+        command: make
+        arguments:
+        - test
+        - '||'
+        - 'true'
+      doc:
+        command: make
+        arguments:
+        - doc
+      coverage:
+        command: make
+        arguments:
+        - coverage
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_map_fusion:
+    url: ${git_url}/~zhangkang/holo_map_fusion.git
+    branch: feature/zk/only_camera
+    dependencies:
+    - holo_base
+    - holo_map_base
+    - holo_map_format
+    - holo_map_common
+    - holo_map_local_service_client
+    commands:
+      test:
+        command: make
+        arguments:
+        - test
+        - '||'
+        - 'true'
+      doc:
+        command: make
+        arguments:
+        - doc
+      coverage:
+        command: make
+        arguments:
+        - coverage
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_map_format:
+    url: ${git_url}/map/holo_map_format.git
+    branch: feature/demo/HW
+    dependencies:
+    - CS
+    - holo_map_base
+    commands:
+      test:
+        command: make
+        arguments:
+        - test
+      doc:
+        command: make
+        arguments:
+        - doc
+      coverage:
+        command: make
+        arguments:
+        - coverage
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_map_local_service_client:
+    url: ${git_url}/map/holo_map_local_service_client.git
+    branch: feature/demo/HW
+    dependencies:
+    - CS
+    - holo_map_base
+    - holo_map_format
+    - holo_map_common
+    commands:
+      test:
+        command: make
+        arguments:
+        - test
+      doc:
+        command: make
+        arguments:
+        - doc
+      coverage:
+        command: make
+        arguments:
+        - coverage
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_map_local_service_server:
+    url: ${git_url}/map/holo_map_local_service_server.git
+    branch: feature/demo/HW
+    dependencies:
+    - CS
+    - MAP
+    commands:
+      test:
+        command: make
+        arguments:
+        - test
+      doc:
+        command: make
+        arguments:
+        - doc
+      coverage:
+        command: make
+        arguments:
+        - coverage
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_map_cmw_app:
+    url: ${git_url}/map/holo_map_cmw_app.git
+    branch: feature/demo/HW
+    dependencies:
+    - holo_base
+    - holo_cmw
+    - holo_base_msg
+    - holo_map_base
+    - holo_map_format
+    - holo_map_common
+    - holo_map_core
+    - holo_map_fusion
+    commands:
+      doc:
+        command: make
+        arguments:
+        - doc
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_scenario_modeling:
+    url: ${git_url}/~dingjing/holo_scenario_modeling.git
+    branch: feature/demo/HW
+    dependencies:
+    - holo_base
+    - holo_planning_base
+    commands: {}
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_planning_base:
+    url: ${git_url}/pc/holo_planning_base.git
+    branch: feature/demo/HW
+    dependencies:
+    - CS
+    commands:
+      test:
+        command: make
+        arguments:
+        - test
+      doc:
+        command: make
+        arguments:
+        - doc
+      coverage:
+        command: make
+        arguments:
+        - coverage
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_planning_pilot:
+    url: ${git_url}/pc/holo_planning_pilot.git
+    branch: feature/demo/HW
+    dependencies:
+    - holo_base
+    - holo_planning_base
+    - wh01_msg
+    - holo_scenario_modeling
+    commands:
+      test:
+        command: make
+        arguments:
+        - test
+        - '||'
+        - 'true'
+      doc:
+        command: make
+        arguments:
+        - doc
+      coverage:
+        command: make
+        arguments:
+        - coverage
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_planning_pilot/cmw_app:
+    url: holo_planning_pilot/cmw_app
+    dependencies:
+    - holo_planning_pilot
+    - holo_cmw
+    - holo_base_msg
+    commands: {}
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_control_base:
+    url: ${git_url}/pc/holo_control_base.git
+    branch: feature/demo/HW
+    dependencies:
+    - CS
+    commands:
+      test:
+        command: make
+        arguments:
+        - test
+      doc:
+        command: make
+        arguments:
+        - doc
+      coverage:
+        command: make
+        arguments:
+        - coverage
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_control:
+    url: ${git_url}/pc/holo_control.git
+    branch: feature/demo/HW
+    dependencies:
+    - holo_base
+    - holo_control_base
+    commands: {}
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_control/cmw_app:
+    url: holo_control/cmw_app
+    dependencies:
+    - holo_control
+    - holo_base_msg
+    - holo_cmw
+    - wh01_msg
+    - wh01_c
+    commands: {}
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_sensors_c:
+    url: ${git_url}/vs/holo_sensors_c.git
+    branch: feature/demo/HW
+    dependencies:
+    - CS
+    commands:
+      test:
+        command: make
+        arguments:
+        - test
+      doc:
+        command: make
+        arguments:
+        - doc
+      coverage:
+        command: make
+        arguments:
+        - coverage
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_sensors_base:
+    url: ${git_url}/vs/holo_sensors_base.git
+    branch: feature/demo/HW
+    dependencies:
+    - CS
+    - holo_sensors_c
+    commands:
+      configure:
+        arguments_tda4_qnx-7.0.0:
+        - -DHOLO_BUILD_ON_TDA4=ON
+        - -DHOLO_BUILD_ON_QNX=ON
+        - ${SOURCE_ROOT}
+        arguments_tda4_ubuntu-18.04:
+        - -DHOLO_BUILD_ON_TDA4=ON
+        - ${SOURCE_ROOT}
+        arguments_MDC610-1.0.012-B0120000.B011:
+        - -DHOLO_BUILD_ON_MDC610=ON
+        - ${SOURCE_ROOT}
+      test:
+        command: make
+        arguments:
+        - test
+      doc:
+        command: make
+        arguments:
+        - doc
+      coverage:
+        command: make
+        arguments:
+        - coverage
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_sensors_cmw_app:
+    url: ${git_url}/vs/holo_sensors_cmw_app.git
+    branch: feature/demo/HW
+    dependencies:
+    - CS
+    - VS
+    commands:
+      test:
+        command: make
+        arguments:
+        - test
+      doc:
+        command: make
+        arguments:
+        - doc
+      coverage:
+        command: make
+        arguments:
+        - coverage
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  wh01_c:
+    url: ${git_url}/wh01/wh01_c.git
+    branch: feature/demo/HW
+    dependencies:
+    - holo_base_c
+    commands:
+      test:
+        command: make
+        arguments:
+        - test
+        - '||'
+        - 'true'
+      doc:
+        command: make
+        arguments:
+        - doc
+      coverage:
+        command: make
+        arguments:
+        - coverage
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  wh01_msg:
+    url: ${git_url}/wh01/wh01_msg.git
+    branch: feature/demo/HW
+    dependencies:
+    - holo_base
+    - holo_base_msg
+    - holo_sensors_base
+    commands:
+      test:
+        command: make
+        arguments:
+        - test
+        - '||'
+        - 'true'
+      doc:
+        command: make
+        arguments:
+        - doc
+      coverage:
+        command: make
+        arguments:
+        - coverage
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  wh01_hmi:
+    url: ${git_url}/wh01/wh01_hmi.git
+    branch: feature/demo/HW
+    dependencies:
+    - holo_base
+    - wh01_c
+    - wh01_msg
+    commands:
+      test:
+        command: make
+        arguments:
+        - test
+        - '||'
+        - 'true'
+      doc:
+        command: make
+        arguments:
+        - doc
+      coverage:
+        command: make
+        arguments:
+        - coverage
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  wh01_sensors:
+    url: ${git_url}/wh01/wh01_sensors.git
+    branch: feature/demo/HW
+    dependencies:
+    - holo_base
+    - holo_sensors_base
+    - holo_base_msg
+    - wh01_c
+    - wh01_msg
+    - wh01_hmi
+    commands:
+      test:
+        command: make
+        arguments:
+        - test
+        - '||'
+        - 'true'
+      doc:
+        command: make
+        arguments:
+        - doc
+      coverage:
+        command: make
+        arguments:
+        - coverage
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_bag:
+    url: ${git_url}/win/holo_bag.git
+    branch: feature/demo/HW
+    dependencies:
+    - holo_base
+    commands: {}
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_bag/cmw_app:
+    url: holo_bag/cmw_app
+    dependencies:
+    - holo_bag
+    - holo_cmw
+    - holo_sensors_base
+    commands: {}
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_x_client:
+    url: ${git_url}/sim/holo_x_client.git
+    branch: feature/demo/HW
+    dependencies:
+    - holo_base
+    - holo_cmw
+    - holo_base_msg
+    - holo_sensors_base
+    commands: {}
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_dnn_base:
+    url: ${git_url}/bcper/holo_dnn_base.git
+    branch: feature/demo/HW
+    dependencies:
+    - holo_perception_base
+    commands:
+      test:
+        command: make
+        arguments:
+        - test
+      doc:
+        command: make
+        arguments:
+        - doc
+      coverage:
+        command: make
+        arguments:
+        - coverage
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_dnn_base/apps:
+    dependencies:
+    - holo_base
+    - holo_perception_base
+    - holo_dnn_base
+    commands:
+      test:
+        command: make
+        arguments:
+        - test
+        - '||'
+        - 'true'
+      doc:
+        command: make
+        arguments:
+        - doc
+      coverage:
+        command: make
+        arguments:
+        - coverage
+    steps: null
+  holo_perception_base:
+    url: ${git_url}/per/holo_perception_base.git
+    branch: feature/demo/HW
+    dependencies:
+    - CS
+    commands:
+      test:
+        command: make
+        arguments:
+        - test
+      doc:
+        command: make
+        arguments:
+        - doc
+      coverage:
+        command: make
+        arguments:
+        - coverage
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_perception_3d:
+    url: ${git_url}/bcper/holo_perception_3d.git
+    branch: feature/demo/HW
+    dependencies:
+    - holo_perception_base
+    commands:
+      test:
+        command: make
+        arguments:
+        - test
+      doc:
+        command: make
+        arguments:
+        - doc
+      coverage:
+        command: make
+        arguments:
+        - coverage
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_dnn_mdc:
+    url: ${git_url}/per/holo_dnn_mdc.git
+    branch: dragonglass-develop
+    dependencies:
+    - holo_base
+    - holo_dnn_base
+    - holo_perception_base
+    commands:
+      test:
+        command: make
+        arguments:
+        - test
+        - '||'
+        - 'true'
+      doc:
+        command: make
+        arguments:
+        - doc
+      coverage:
+        command: make
+        arguments:
+        - coverage
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_dnn_base/apps:
+    dependencies:
+    - holo_base
+    - holo_perception_base
+    - holo_dnn_base
+    commands:
+      test:
+        command: make
+        arguments:
+        - test
+        - '||'
+        - 'true'
+      doc:
+        command: make
+        arguments:
+        - doc
+      coverage:
+        command: make
+        arguments:
+        - coverage
+    steps: null
+  holo_perception_pilot:
+    url: ${git_url}/per/holo_perception_pilot.git
+    branch: feature/demo/HW
+    dependencies:
+    - holo_3rdparty
+    - holo_base
+    - holo_perception_base
+    - holo_dnn_base/apps
+    commands:
+      test:
+        command: make
+        arguments:
+        - test
+        - '||'
+        - 'true'
+      doc:
+        command: make
+        arguments:
+        - doc
+      coverage:
+        command: make
+        arguments:
+        - coverage
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_perception_pilot/cmw_app:
+    url: holo_perception_pilot/cmw_app
+    dependencies:
+    - holo_base
+    - holo_base_msg
+    - holo_perception_base
+    - holo_perception_pilot
+    - holo_cmw
+    commands: {}
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  odm:
+    url: ${git_url}/fun/odm.git
+    branch: feature/demo/HW
+    dependencies:
+    - holo_base
+    - holo_cmw
+    - wh01_msg
+    commands:
+      test:
+        command: make
+        arguments:
+        - test
+        - '||'
+        - 'true'
+      doc:
+        command: make
+        arguments:
+        - doc
+      coverage:
+        command: make
+        arguments:
+        - coverage
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  odm/cmw_app:
+    url: odm/cmw_app
+    dependencies:
+    - odm
+    - holo_cmw
+    - holo_base_msg
+    commands: {}
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  wh01_hmi:
+    url: ${git_url}/wh01/wh01_hmi.git
+    branch: feature/demo/HW
+    dependencies:
+    - holo_base
+    - wh01_c
+    - wh01_msg
+    commands:
+      test:
+        command: make
+        arguments:
+        - test
+        - '||'
+        - 'true'
+      doc:
+        command: make
+        arguments:
+        - doc
+      coverage:
+        command: make
+        arguments:
+        - coverage
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  wh01_sensors:
+    url: ${git_url}/wh01/wh01_sensors.git
+    branch: feature/demo/HW
+    dependencies:
+    - holo_base
+    - holo_sensors_base
+    - holo_base_msg
+    - wh01_c
+    - wh01_msg
+    - wh01_hmi
+    commands:
+      test:
+        command: make
+        arguments:
+        - test
+        - '||'
+        - 'true'
+      doc:
+        command: make
+        arguments:
+        - doc
+      coverage:
+        command: make
+        arguments:
+        - coverage
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+
+  CS:
+    dependencies:
+    - holo_cmake_scripts
+    - holo_3rdparty
+    - holo_base_c
+    - holo_utils
+    - holo_base
+    - holo_cmw
+    - holo_base_msg
+    commands:
+      configure:
+        command: ''
+        arguments:
+        - ${SOURCE_ROOT}
+      build:
+        command: ''
+        arguments: []
+      install:
+        command: ''
+        arguments: []
+    steps: null
+  VS:
+    dependencies:
+    - holo_sensors_c
+    - holo_sensors_base
+    commands:
+      configure:
+        command: ''
+        arguments:
+        - ${SOURCE_ROOT}
+      build:
+        command: ''
+        arguments: []
+      install:
+        command: ''
+        arguments: []
+    steps: null
+  MAP:
+    dependencies:
+    - holo_map_base
+    - holo_map_common
+    - holo_map_format
+    - holo_map_adapter
+    commands:
+      configure:
+        command: ''
+        arguments:
+        - ${SOURCE_ROOT}
+      build:
+        command: ''
+        arguments: []
+      install:
+        command: ''
+        arguments: []
+    steps: null
+  MLC:
+    dependencies:
+    - holo_localization_c
+    - holo_localization_base
+    - holo_localization_fusion
+    - holo_localization_semantic
+    commands:
+      configure:
+        command: ''
+        arguments:
+        - ${SOURCE_ROOT}
+      build:
+        command: ''
+        arguments: []
+      install:
+        command: ''
+        arguments: []
+    steps: null
+  PER:
+    dependencies:
+    - holo_perception_base
+    - holo_dnn_base
+    - holo_perception_3d
+    commands:
+      configure:
+        command: ''
+        arguments:
+        - ${SOURCE_ROOT}
+      build:
+        command: ''
+        arguments: []
+      install:
+        command: ''
+        arguments: []
+    steps: null
+  PC:
+    dependencies:
+    - holo_planning_base
+    - holo_control_base
+    - holo_planning_pilot
+    - holo_control
+    commands:
+      configure:
+        command: ''
+        arguments:
+        - ${SOURCE_ROOT}
+      build:
+        command: ''
+        arguments: []
+      install:
+        command: ''
+        arguments: []
+    steps: null
+  HWDEMO:
+    dependencies:
+    #- VS
+    #- wh01_sensors
+    - MLC
+    - MAP
+    - PER
+    - PC
+    - holo_sensors_cmw_app
+    - holo_localization_fusion_cmw_app
+    - holo_map_cmw_app
+    - holo_map_local_service_client
+    - holo_map_local_service_server
+    #- holo_perception_pilot/cmw_app
+    - holo_planning_pilot/cmw_app
+    - holo_control/cmw_app
+    #- holo_bag/cmw_app
+    #- holo_x_client
+    commands:
+      configure:
+        command: ''
+        arguments:
+        - ${SOURCE_ROOT}
+      build:
+        command: ''
+        arguments: []
+      install:
+        command: ''
+        arguments: []
+    steps: null
+version: 1

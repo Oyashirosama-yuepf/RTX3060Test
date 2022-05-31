@@ -1,0 +1,13 @@
+model: "magotan" # vehicle model name
+wheel_base: 2.871 # the distance between the center of vehicle front wheels and rear axis [m]
+front_track_gauge: 1.584 # front wheel track gauge of vehicle [m]
+rear_track_gauge: 1.568 # rear wheel track gauge of vehicle [m]
+steering_ratio: 13.6 # [%]
+mass: 1550 # [kg]
+mass_front_left_tire: 420 # [kg]
+mass_front_right_tire: 420 # [kg]
+mass_rear_left_tire: 420 # [kg]
+mass_rear_right_tire: 420 # [kg]
+front_wheel_stiffness: 155494.663 # [N/rad]
+rear_wheel_stiffness: 155494.663 # [N/rad]
+max_wheel_angle: 36 # [degree]

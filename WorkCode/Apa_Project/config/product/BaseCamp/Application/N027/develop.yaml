@@ -1,0 +1,61 @@
+base:
+- BaseCamp/Library/CS/release/2021.08
+- BaseCamp/Library/VS/release/2021.08
+projects:
+  holo_sensors_cmw_app:
+    url: ${git_url}/vs/holo_sensors_cmw_app.git
+    branch: release/v0.2
+    dependencies:
+    - CS
+    - VS
+    commands:
+      test:
+        command: make
+        arguments:
+        - test
+      doc:
+        command: make
+        arguments:
+        - doc
+      coverage:
+        command: make
+        arguments:
+        - coverage
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+
+  BaseCampVsApplication:
+    dependencies:
+    - holo_sensors_cmw_app
+    commands:
+      configure:
+        command: ''
+        arguments:
+        - ${SOURCE_ROOT}
+      build:
+        command: ''
+        arguments: []
+      install:
+        command: ''
+        arguments: []
+    steps: null
+
+  BaseCampApplication:
+    dependencies:
+    - BaseCampVsApplication
+    commands:
+      configure:
+        command: ''
+        arguments:
+        - ${SOURCE_ROOT}
+      build:
+        command: ''
+        arguments: []
+      install:
+        command: ''
+        arguments: []
+    steps: null
+version: 1

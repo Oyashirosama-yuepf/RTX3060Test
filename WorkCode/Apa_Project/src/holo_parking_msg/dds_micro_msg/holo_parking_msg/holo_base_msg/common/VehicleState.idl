@@ -1,0 +1,49 @@
+#ifndef HOLO_BASE_MSG_COMMON_VEHICLE_STATE_IDL_
+#define HOLO_BASE_MSG_COMMON_VEHICLE_STATE_IDL_
+
+#include <holo_base_msg/common/Common.idl>
+#include <holo_base_msg/core/Types.idl>
+
+module holo_base_msg { module common {
+
+#pragma DCPS_DATA_TYPE "holo_base_msg::common::ChassisState"
+struct ChassisState
+{
+    Timestamp    stamp;
+
+    holo_base_msg::core::float32_t vehicle_speed;
+    holo_base_msg::core::float32_t front_left_wheel_speed;
+    holo_base_msg::core::float32_t front_right_wheel_speed;
+    holo_base_msg::core::float32_t rear_left_wheel_speed;
+    holo_base_msg::core::float32_t rear_right_wheel_speed;
+    holo_base_msg::core::float32_t lon_acceleration;
+    holo_base_msg::core::float32_t lat_acceleration;
+    holo_base_msg::core::float32_t yaw_rate;
+    holo_base_msg::core::float32_t front_wheel_angle;
+    holo_base_msg::core::float32_t longitudinal_control_value;
+
+    holo_base_msg::core::uint8_t  energy_source_level;
+
+    holo_base_msg::core::uint8_t gear_pos;
+    holo_base_msg::core::uint8_t gear_level;
+
+    holo_base_msg::core::uint32_t state_flags;
+    holo_base_msg::core::uint32_t invalid_flags;
+};
+
+#pragma DCPS_DATA_TYPE "holo_base_msg::common::VehicleBodyState"
+struct VehicleBodyState
+{
+    Timestamp    stamp;
+
+    holo_base_msg::core::float32_t front_left_tire_pressure;
+    holo_base_msg::core::float32_t front_right_tire_pressure;
+    holo_base_msg::core::float32_t rear_left_tire_pressure;
+    holo_base_msg::core::float32_t rear_right_tire_pressure;
+    holo_base_msg::core::uint32_t state_flags;
+    holo_base_msg::core::uint32_t invalid_flags;
+};
+
+}; };
+
+#endif

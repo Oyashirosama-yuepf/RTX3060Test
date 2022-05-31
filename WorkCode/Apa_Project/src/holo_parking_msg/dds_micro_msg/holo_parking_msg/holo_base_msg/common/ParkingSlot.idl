@@ -1,0 +1,103 @@
+#ifndef HOLO_BASE_MSG_COMMON_PARKING_SLOT_IDL_
+#define HOLO_BASE_MSG_COMMON_PARKING_SLOT_IDL_
+
+#include <holo_base_msg/common/Common.idl>
+#include <holo_base_msg/core/Types.idl>
+#include <holo_base_msg/geometry/Point.idl>
+
+module holo_base_msg { module common {
+
+/**
+ * @brief define type of parking slot
+ * enum class Type : uint32_t
+ * {
+ *     PERPENDICULAR = 0,
+ *     PARALLEL      = 1,
+ *     ANGLE         = 2,
+ * };
+ * 
+ * @brief define the position of parking slot    
+ * enum class Position : uint32_t
+ * {
+ *     LEFT  = 0,
+ *     RIGHT = 1,
+ *     FRONT = 2,
+ *     BACK  = 3,
+ * };
+ * 
+ * @brief define the status
+ * enum class Status : uint32_t
+ * {
+ *     UNKNOWN  = 0,
+ *     FREE     = 1,
+ *     OCCUPIED = 2,
+ * };
+ */
+
+#pragma DCPS_DATA_TYPE "holo_base_msg::common::ParkingSlotf"
+
+struct ParkingSlotf
+{
+    holo_base_msg::core::uint64_t            id;
+    holo_base_msg::core::bool_t              is_valid;
+    holo_base_msg::core::uint32_t            type;
+    holo_base_msg::core::uint32_t            position;
+    holo_base_msg::core::uint32_t            status;
+    holo_base_msg::core::float32_t           width;
+    holo_base_msg::core::float32_t           height;
+    holo_base_msg::core::float32_t           angle;
+    holo_base_msg::core::float32_t           confidence;
+    holo_base_msg::core::bool_t              is_rear_vertex_available;
+    holo_base_msg::geometry::Point3fSequence vertices;
+    holo_base_msg::core::bool_t              is_center_vertex_available;
+    holo_base_msg::geometry::Point3f         center_vertex;
+    holo_base_msg::core::bool_t              is_stopper_available;
+    holo_base_msg::geometry::Point3fSequence stopper_vertices;
+};
+
+typedef sequence<ParkingSlotf> ParkingSlotfSequence;
+
+#pragma DCPS_DATA_TYPE "holo_base_msg::common::ParkingSlotd"
+
+struct ParkingSlotd
+{
+    holo_base_msg::core::uint64_t            id;
+    holo_base_msg::core::bool_t              is_valid;
+    holo_base_msg::core::uint32_t            type;
+    holo_base_msg::core::uint32_t            position;
+    holo_base_msg::core::uint32_t            status;
+    holo_base_msg::core::float64_t           width;
+    holo_base_msg::core::float64_t           height;
+    holo_base_msg::core::float64_t           angle;
+    holo_base_msg::core::float64_t           confidence;
+    holo_base_msg::core::bool_t              is_rear_vertex_available;
+    holo_base_msg::geometry::Point3dSequence vertices;
+    holo_base_msg::core::bool_t              is_center_vertex_available;
+    holo_base_msg::geometry::Point3d         center_vertex;
+    holo_base_msg::core::bool_t              is_stopper_available;
+    holo_base_msg::geometry::Point3dSequence stopper_vertices;
+};
+
+typedef sequence<ParkingSlotd> ParkingSlotdSequence;
+
+#pragma DCPS_DATA_TYPE "holo_base_msg::common::ParkingSlotFramef"
+
+struct ParkingSlotFramef
+{
+    Timestamp                               stamp;
+    Coordinate                              coord;
+    ParkingSlotfSequence                    point_list;
+};
+
+#pragma DCPS_DATA_TYPE "holo_base_msg::common::ParkingSlotFramed"
+
+struct ParkingSlotFramed
+{
+    Timestamp                               stamp;
+    Coordinate                              coord;
+    ParkingSlotdSequence                    point_list;
+};
+
+}; };
+
+#endif

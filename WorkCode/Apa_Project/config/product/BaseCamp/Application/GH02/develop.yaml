@@ -1,0 +1,364 @@
+base: BaseCamp/Library/develop
+projects:
+  holo_base:
+    branch: dragonglass-develop
+
+  holo_cmw:
+    branch: dragonglass-develop
+    commands:
+      configure:
+        arguments:
+        - -DHOLO_CMW_BUILD_MDC_CM_WRAPPER=ON
+        - ${SOURCE_ROOT}
+
+  holo_base_msg:
+    branch: feature/GH02/0930
+
+  holo_map_adapter/cmw_app:
+    url: holo_map_adapter/cmw_app
+    branch: dragonglass-develop
+    dependencies:
+    - CS
+    - MAP
+    commands:
+      configure:
+        arguments:
+          - ${SOURCE_ROOT}
+      test:
+        command: make
+        arguments:
+        - test
+      doc:
+        command: make
+        arguments:
+        - doc
+      coverage:
+        command: make
+        arguments:
+        - coverage
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_map_local_service_server:
+    url: ${git_url}/map/holo_map_local_service_server.git
+    branch: dragonglass-develop
+    dependencies:
+    - CS
+    - MAP
+    commands:
+      test:
+        command: make
+        arguments:
+        - test
+      doc:
+        command: make
+        arguments:
+        - doc
+      coverage:
+        command: make
+        arguments:
+        - coverage
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_map_local_service_client/tools:
+    url: holo_map_local_service_client/tools
+    branch: dragonglass-develop
+    dependencies:
+    - CS
+    - MAP
+    commands:
+      test:
+        command: make
+        arguments:
+        - test
+      doc:
+        command: make
+        arguments:
+        - doc
+      coverage:
+        command: make
+        arguments:
+        - coverage
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_map_navigator_cmw_app:
+    url: ${git_url}/map/holo_map_navigator_cmw_app.git
+    branch: dragonglass-develop
+    dependencies:
+    - CS
+    - MAP
+    commands:
+      test:
+        command: make
+        arguments:
+        - test
+      doc:
+        command: make
+        arguments:
+        - doc
+      coverage:
+        command: make
+        arguments:
+        - coverage
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  BaseCampMapApplication:
+    dependencies:
+    - holo_map_adapter/cmw_app
+    - holo_map_local_service_server
+    - holo_map_local_service_client/tools
+    commands:
+      configure:
+        command: ''
+        arguments:
+        - ${SOURCE_ROOT}
+      build:
+        command: ''
+        arguments: []
+      install:
+        command: ''
+        arguments: []
+    steps: null
+  holo_localization_fusion_cmw_app:
+    url: ${git_url}/mlc/holo_localization_fusion_cmw_app.git
+    branch: dragonglass-develop
+    dependencies:
+    - CS
+    - MLC
+    - MAP
+    commands:
+      test:
+        command: make
+        arguments:
+        - test
+      doc:
+        command: make
+        arguments:
+        - doc
+      coverage:
+        command: make
+        arguments:
+        - coverage
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_localization_vision_cmw_app:
+    url: ${git_url}/mlc/holo_localization_vision_cmw_app.git
+    branch: dragonglass-develop
+    dependencies:
+    - CS
+    - MLC
+    - VS
+    commands:
+      test:
+        command: make
+        arguments:
+        - test
+      doc:
+        command: make
+        arguments:
+        - doc
+      coverage:
+        command: make
+        arguments:
+        - coverage
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  BaseCampMlcApplication:
+    dependencies:
+    - holo_localization_fusion_cmw_app
+    commands:
+      configure:
+        command: ''
+        arguments:
+        - ${SOURCE_ROOT}
+      build:
+        command: ''
+        arguments: []
+      install:
+        command: ''
+        arguments: []
+    steps: null
+  holo_sensors_cmw_app:
+    url: ${git_url}/vs/holo_sensors_cmw_app.git
+    branch: dragonglass-develop
+    dependencies:
+    - CS
+    - VS
+    commands:
+      test:
+        command: make
+        arguments:
+        - test
+      doc:
+        command: make
+        arguments:
+        - doc
+      coverage:
+        command: make
+        arguments:
+        - coverage
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  BaseCampVsApplication:
+    dependencies:
+    - holo_sensors_cmw_app
+    commands:
+      configure:
+        command: ''
+        arguments:
+        - ${SOURCE_ROOT}
+      build:
+        command: ''
+        arguments: []
+      install:
+        command: ''
+        arguments: []
+    steps: null
+  holo_dnn_base/apps:
+    url: holo_dnn_base/apps
+    dependencies:
+    - PER
+    dependencies_MDC610-*:
+    - PER
+    - holo_dnn_mdc
+    commands:
+      test:
+        command: make
+        arguments:
+        - test
+        - '||'
+        - 'true'
+      doc:
+        command: make
+        arguments:
+        - doc
+      coverage:
+        command: make
+        arguments:
+        - coverage
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_perception_pilot:
+    url: ${git_url}/per/holo_perception_pilot.git
+    branch: dragonglass-develop
+    dependencies:
+    - PER
+    - holo_3d
+    - holo_dnn_base/apps
+    commands:
+      test:
+        command: make
+        arguments:
+        - test
+        - '||'
+        - 'true'
+      doc:
+        command: make
+        arguments:
+        - doc
+      coverage:
+        command: make
+        arguments:
+        - coverage
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_perception_pilot/cmw_app:
+    url: holo_perception_pilot/cmw_app
+    dependencies:
+    - PER
+    - VS
+    - holo_perception_pilot
+    commands: {}
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  BaseCampPerApplication:
+    dependencies:
+    - holo_perception_pilot/cmw_app
+    commands:
+      configure:
+        command: ''
+        arguments:
+        - ${SOURCE_ROOT}
+      build:
+        command: ''
+        arguments: []
+      install:
+        command: ''
+        arguments: []
+    steps: null
+  holo_control_cmw_app:
+    url: ${git_url}/bcpc/holo_control_cmw_app.git
+    branch: dragonglass-develop
+    dependencies:
+    - CS
+    - PC
+    commands: {}
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  BaseCampPcApplication:
+    dependencies:
+    - holo_control_cmw_app
+    commands:
+      configure:
+        command: ''
+        arguments:
+        - ${SOURCE_ROOT}
+      build:
+        command: ''
+        arguments: []
+      install:
+        command: ''
+        arguments: []
+    steps: null
+  BaseCampApplication:
+    dependencies:
+    - BaseCampMapApplication
+    - BaseCampMlcApplication
+    - BaseCampVsApplication
+    - BaseCampPerApplication
+    - BaseCampPcApplication
+    commands:
+      configure:
+        command: ''
+        arguments:
+        - ${SOURCE_ROOT}
+      build:
+        command: ''
+        arguments: []
+      install:
+        command: ''
+        arguments: []
+    steps: null
+version: 1

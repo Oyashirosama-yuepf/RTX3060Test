@@ -1,0 +1,24 @@
+# define map database manager parameters
+mdm_params:
+    # all file will located under directory ${HOLO_CONFIG_ROOT}
+    map_data_dir: "holo_localization_parking/vslam/"
+    map_names: ["route_1"]
+    mode: "offline_optimization" #{online_data_association, offline_optimization}
+    keyframe_selection_params:
+        minimum_distance_interval: 5.0 # meter
+        minimum_angle_interval: 10.0 # degree
+        minimum_observed_landmark_num: 25
+# define global optimizer parameters
+go_params:
+    # factor noise
+    sigmas:
+        loop_closing_between_pose_sigma: [0.0349, 0.0349, 0.0349, 0.1, 0.1, 0.1] # 2deg, 10cm
+        prior_pose_sigma: [0.0349, 0.0349, 0.00349, 1e-3, 1e-3, 1e-3] # [roll(2deg), pitch(2deg), yaw, x, y, z]
+        prior_velocity_sigma: [1e-9, 1e-9, 1e-9] # [vx, vy, vz]
+        prior_bias_sigma: [0.1, 0.1, 0.2, 4e-4, 4e-4, 1e-4] # [acc, gyro]
+    pim_params:
+        gravity: 9.81
+        gyro_noise_sigma: [1e-2, 1e-2, 3e-3]
+        acc_noise_sigma: [0.2, 0.5, 0.3]
+    projection_error_after_gba: 3.0 # inliers projection error at image center after global BA
+    mode: "single_map_optimization" # {single_map_optimization, multi_map_merging}

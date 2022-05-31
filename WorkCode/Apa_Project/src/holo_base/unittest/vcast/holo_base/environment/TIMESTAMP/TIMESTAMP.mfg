@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<manage-config-options version="7">
+  <config>
+    <key>WHITEBOX</key>
+    <value>YES</value>
+    <key>COVERAGE_TYPE</key>
+    <value>STATEMENT+MCDC</value>
+  </config>
+  <search-directory type="LIBRARY_INCLUDE_DIR">$(HOLO_ROOT)/include/holo_utils/</search-directory>
+  <search-directory type="TESTABLE_SOURCE_DIR">$(SOURCE_ROOT)/include/</search-directory>
+  <search-directory type="TESTABLE_SOURCE_DIR">$(SOURCE_ROOT)/unittest/src/common/</search-directory>
+</manage-config-options>

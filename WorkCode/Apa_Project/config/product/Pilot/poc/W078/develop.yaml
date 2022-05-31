@@ -1,0 +1,86 @@
+base: Pilot/poc/hw_demo
+projects:
+  holo_base_c:
+    branch: poc/W078
+  holo_sensors_base:
+    branch: poc/W078
+    dependencies:
+    - CS
+    - holo_sensors_c
+    - wh01_msg
+    commands:
+      configure:
+        arguments_tda4_ubuntu-18.04:
+        - -DHOLO_BUILD_ON_TDA4=OFF
+        - ${SOURCE_ROOT}
+  holo_sensors_cmw_app:
+    branch: poc/W078
+  wh01_msg:
+    dependencies:
+    - holo_base
+    - holo_base_msg
+  holo_planning_pilot:
+    branch: poc/W078
+  holo_x_client:
+    url: ${git_url}/sim/holo_x_client.git
+    branch: feature/demo/HW
+    dependencies:
+    - holo_base
+    - holo_cmw
+    - holo_base_msg
+    - holo_sensors_base
+    commands: {}
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_agent:
+    url: ${git_url}/arch/holo_agent.git
+    branch: poc/W078
+    dependencies:
+    - holo_base
+    - holo_base_c
+    - holo_cmw
+    - holo_sensors_base
+    - holo_sensors_c
+    - holo_control_base
+    commands:
+      test:
+        command: make
+        arguments:
+        - test
+      doc:
+        command: make
+        arguments:
+        - doc
+      coverage:
+        command: make
+        arguments:
+        - coverage
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+
+  POC_W078:
+    dependencies:
+    - HWDEMO
+    - holo_perception_pilot/cmw_app
+    - wh01_hmi
+    - holo_x_client
+    - holo_agent
+    commands:
+      configure:
+        command: ''
+        arguments:
+        - ${SOURCE_ROOT}
+      build:
+        command: ''
+        arguments: []
+      install:
+        command: ''
+        arguments: []
+    steps: null
+

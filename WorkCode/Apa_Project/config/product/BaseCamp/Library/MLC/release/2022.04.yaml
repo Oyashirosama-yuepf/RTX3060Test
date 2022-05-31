@@ -1,0 +1,210 @@
+base: BaseCamp/Library/CS/release/2022.04
+projects:
+  holo_localization_c:
+    url: ${git_url}/bcmlc/holo_localization_c.git
+    branch: release/v0.1
+    dependencies:
+    - CS
+    commands:
+      test:
+        command: make
+        arguments:
+        - test
+      doc:
+        command: make
+        arguments:
+        - doc
+      coverage:
+        command: make
+        arguments:
+        - coverage
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_localization_base:
+    url: ${git_url}/bcmlc/holo_localization_base.git
+    branch: release/v0.7
+    dependencies:
+    - CS
+    commands:
+      test:
+        command: make
+        arguments:
+        - test
+      doc:
+        command: make
+        arguments:
+        - doc
+      coverage:
+        command: make
+        arguments:
+        - coverage
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_localization_fusion:
+    url: ${git_url}/bcmlc/holo_localization_fusion.git
+    branch: release/v0.8
+    dependencies:
+    - holo_localization_base
+    - holo_localization_semantic
+    commands:
+      test:
+        command: make
+        arguments:
+        - test
+      doc:
+        command: make
+        arguments:
+        - doc
+      coverage:
+        command: make
+        arguments:
+        - coverage
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_localization_semantic:
+    url: ${git_url}/bcmlc/holo_localization_semantic.git
+    branch: release/v0.7
+    dependencies:
+    - holo_localization_base
+    commands:
+      test:
+        command: make
+        arguments:
+        - test
+      doc:
+        command: make
+        arguments:
+        - doc
+      coverage:
+        command: make
+        arguments:
+        - coverage
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_localization_vision:
+    url: ${git_url}/bcmlc/holo_localization_vision.git
+    branch: release/v0.3
+    dependencies:
+    - holo_localization_base
+    commands:
+      test:
+        command: make
+        arguments:
+        - test
+      doc:
+        command: make
+        arguments:
+        - doc
+      coverage:
+        command: make
+        arguments:
+        - coverage
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_3d:
+    url: ${git_url}/bcmlc/holo_3d.git
+    branch: release/v0.4
+    dependencies:
+    - CS
+    commands:
+      test:
+        command: make
+        arguments:
+        - test
+        - '||'
+        - 'true'
+      doc:
+        command: make
+        arguments:
+        - doc
+      coverage:
+        command: make
+        arguments:
+        - coverage
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_calibration:
+    url: ${git_url}/bcmlc/holo_calibration.git
+    branch: release/v0.7
+    dependencies:
+    - holo_localization_base
+    - holo_3d
+    commands:
+      configure:
+        arguments:
+        - -DHOLO_BUILD_APP=ON
+        - ${SOURCE_ROOT}
+      test:
+        command: make
+        arguments:
+        - test
+        - '||'
+        - 'true'
+      doc:
+        command: make
+        arguments:
+        - doc
+      coverage:
+        command: make
+        arguments:
+        - coverage
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+
+  MLC:
+    dependencies:
+    - holo_localization_c
+    - holo_localization_base
+    - holo_localization_fusion
+    - holo_localization_semantic
+    - holo_3d
+    commands:
+      configure:
+        command: ''
+        arguments:
+        - ${SOURCE_ROOT}
+      build:
+        command: ''
+        arguments: []
+      install:
+        command: ''
+        arguments: []
+    steps: null
+  MLCWithCalibration:
+    dependencies:
+    - MLC
+    - holo_calibration
+    commands:
+      configure:
+        command: ''
+        arguments:
+        - ${SOURCE_ROOT}
+      build:
+        command: ''
+        arguments: []
+      install:
+        command: ''
+        arguments: []
+    steps: null
+version: 1

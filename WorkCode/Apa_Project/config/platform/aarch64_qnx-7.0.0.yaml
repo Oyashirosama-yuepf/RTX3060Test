@@ -1,0 +1,39 @@
+var:
+  PATH: ${SYSROOT}/../resources/toolchain/multiarch/qnx700/host/linux/x86_64/usr/bin:${HOLO_ROOT}/../host/bin::/usr/local/bin:/bin:/sbin:/usr/bin:/usr/sbin
+  CFLAGS: -D_QNX_SOURCE
+  CXXFLAGS: -D_QNX_SOURCE
+  TOOLCHAIN_PREFIX: ntoaarch64-
+  TARGET_ROOT: ${CROSSTOOL_ROOT}/qnx-7.0.0-arm64
+  PKG_CONFIG_PATH: ${SYSROOT}/usr/lib/pkgconfig:${SYSROOT}/usr/share/pkgconfig
+env:
+  PATH: ${PATH}
+  LANG: $ENV{LANG}
+  TERM: $ENV{TERM}
+  PWD: $ENV{PWD}
+  SHELL: $ENV{SHELL}
+  USER: $ENV{USER}
+  HOME: $ENV{HOME}
+  PKG_CONFIG_PATH: ${SYSROOT}/usr/lib/pkgconfig:${SYSROOT}/usr/share/pkgconfig
+  PKG_CONFIG_LIBDIR: ${SYSROOT}/usr/lib/pkgconfig:${SYSROOT}/usr/share/pkgconfig
+  PKG_CONFIG_SYSROOT_DIR: ${SYSROOT}
+  QNX_HOST: ${SYSROOT}/../resources/toolchain/multiarch/qnx700/host/linux/x86_64
+  QNX_TARGET: ${SYSROOT}/../resources/toolchain/multiarch/qnx700/target/qnx7
+  MAKEFLAGS: -I${SYSROOT}/../resources/toolchain/multiarch/qnx700/target/qnx7/usr/include
+  CC: qcc -Vgcc_ntoaarch64le
+  CXX: q++ -Vgcc_ntoaarch64le_cxx
+  RANLIB: ${TOOLCHAIN_PREFIX}ranlib
+  AR: ${TOOLCHAIN_PREFIX}ar
+  LD: ${TOOLCHAIN_PREFIX}ld
+  NM: ${TOOLCHAIN_PREFIX}nm
+  OBJDUMP: ${TOOLCHAIN_PREFIX}objdump
+  STRIP: ${TOOLCHAIN_PREFIX}strip
+  CFLAGS: ${CFLAGS}
+  CXXFLAGS: ${CXXFLAGS}
+  HOLO_3RDPARTY_CACHE_ROOT: /opt/DataStore/libs/aarch64/qnx-7.0.0
+  HOLO_ROOT: ${HOLO_ROOT}
+toolchain_prefix: ntoaarch64-
+target_root: ${CROSSTOOL_ROOT}/qnx-7.0.0-arm64
+crosstool:
+- qnx-7.0.0-arm64.tar.bz2
+- resources/toolchain/multiarch/qnx700.tar.bz2
+version: 1

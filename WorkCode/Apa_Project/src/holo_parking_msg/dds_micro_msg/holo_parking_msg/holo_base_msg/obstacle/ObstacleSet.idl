@@ -1,0 +1,177 @@
+#ifndef HOLO_BASE_MSG_OBSTACLE_OBSTACLE_SET_IDL_
+#define HOLO_BASE_MSG_OBSTACLE_OBSTACLE_SET_IDL_
+
+#include <holo_base_msg/core/Types.idl>
+#include <holo_base_msg/common/Common.idl>
+#include <holo_base_msg/geometry/Box.idl>
+#include <holo_base_msg/geometry/Point.idl>
+#include <holo_base_msg/numerics/Vector.idl>
+#include <holo_base_msg/vision/ImageObjects.idl>
+
+module holo_base_msg{ module obstacle {
+
+/*
+ * UNKNOWN = 0,         //!< UNKNOWN
+ * HOST_CUT_IN_LEFT,    //!< Obstacle cut into host lane from left
+ * HOST_CUT_IN_RIGHT,   //!< Obstacle cut into host lane from right
+ * HOST_CUT_OUT_LEFT,   //!< Obstacle cut out of host lane from left
+ * HOST_CUT_OUT_RIGHT,  //!< Obstacle cut out of host lane from right
+ * NEXT_CUT_IN_LEFT,    //!< Obstacle cut into left lane from 2nd left lane.
+ * NEXT_CUT_IN_RIGHT,   //!< Obstacle cut into right lane from 2nd right lane.
+ * NEXT_CUT_OUT_LEFT,   //!< Obstacle cut out of 2nd left lane from left
+ * NEXT_CUT_OUT_RIGHT,  //!< Obstacle cut out of 2nd right lane from right
+ */
+typedef holo_base_msg::core::uint8_t CutInCutOut;
+
+/*
+ * UNKNOWN    = 0,
+ * MOVING     = 1,
+ * STATIONARY = 2,
+ */
+typedef holo_base_msg::core::uint8_t MotionStatus;
+
+typedef holo_base_msg::core::uint32_t PerceptionAbility;
+
+#pragma DCPS_DATA_TYPE  "holo_base_msg::obstacle::ObstacleGeneral"
+struct ObstacleGeneral
+{
+    holo_base_msg::common::Timestamp                        stamp;
+    holo_base_msg::common::Coordinate                       coord;
+    holo_base_msg::core::uint32_t                           obstacle_id;
+    holo_base_msg::common::SensorId                         sensor_id;
+    holo_base_msg::common::Classification                   classification;
+    holo_base_msg::core::float32_t                          obstacle_exist_score;
+
+    holo_base_msg::geometry::Point3f                        position;
+    holo_base_msg::numerics::Vector3f                       relative_velocity;
+    holo_base_msg::numerics::Vector3f                       absolute_velocity;
+    holo_base_msg::numerics::Vector3f                       acceleration;
+
+    holo_base_msg::obstacle::MotionStatus                   motion_status;
+    holo_base_msg::geometry::Box3f                          bounding_box3;
+    holo_base_msg::obstacle::CutInCutOut                    cut_in_cut_out;
+    holo_base_msg::geometry::Point3fSequence                contour_points;
+};
+
+typedef sequence<holo_base_msg::obstacle::ObstacleGeneral> ObstacleGeneralSequence;
+
+#pragma DCPS_DATA_TYPE  "holo_base_msg::obstacle::ObstacleGeneralList"
+struct ObstacleGeneralList
+{
+    holo_base_msg::common::Timestamp                        stamp;
+    holo_base_msg::common::Coordinate                       coord;
+    holo_base_msg::common::SensorId                         sensor_id;
+    holo_base_msg::obstacle::PerceptionAbility              perception_ability;
+    holo_base_msg::obstacle::ObstacleGeneralSequence        obstacles;
+};
+
+#pragma DCPS_DATA_TYPE  "holo_base_msg::obstacle::ObstacleRadar"
+struct ObstacleRadar
+{
+    holo_base_msg::common::Timestamp        stamp;
+    holo_base_msg::common::Coordinate       coord;
+    holo_base_msg::core::uint32_t           obstacle_id;
+    holo_base_msg::common::SensorId         sensor_id;
+    holo_base_msg::common::Classification   classification;
+    holo_base_msg::core::float32_t          obstacle_exist_score;
+
+    holo_base_msg::geometry::Point3f        position;
+    holo_base_msg::geometry::Point3f        position_sigma;
+
+    holo_base_msg::numerics::Vector3f       relative_velocity;
+    holo_base_msg::numerics::Vector3f       relative_velocity_sigma;
+
+    holo_base_msg::numerics::Vector3f       acceleration;
+    holo_base_msg::numerics::Vector3f       acceleration_sigma;
+
+    holo_base_msg::obstacle::MotionStatus   motion_status;
+    holo_base_msg::numerics::Vector3f       shape;
+
+    holo_base_msg::core::float32_t          obstacle_rcs;
+};
+
+typedef sequence<holo_base_msg::obstacle::ObstacleRadar> ObstacleRadarSequence;
+
+#pragma DCPS_DATA_TYPE  "holo_base_msg::obstacle::ObstacleRadarList"
+struct ObstacleRadarList
+{
+    holo_base_msg::common::Timestamp                        stamp;
+    holo_base_msg::common::Coordinate                       coord;
+    holo_base_msg::common::SensorId                         sensor_id;
+    holo_base_msg::obstacle::PerceptionAbility              perception_ability;
+    holo_base_msg::obstacle::ObstacleRadarSequence          obstacles;
+};
+
+#pragma DCPS_DATA_TYPE  "holo_base_msg::obstacle::ObstacleUss"
+struct ObstacleUss
+{
+    holo_base_msg::common::Timestamp        stamp;
+    holo_base_msg::common::Coordinate       coord;
+    holo_base_msg::core::uint32_t           obstacle_id;
+    holo_base_msg::common::SensorId         sensor_id;
+    holo_base_msg::common::Classification   classification;
+    holo_base_msg::core::float32_t          obstacle_exist_score;
+
+    holo_base_msg::geometry::Point3f        position;
+    holo_base_msg::geometry::Point3f        position_sigma;
+
+    holo_base_msg::core::float32_t          fov;
+};
+
+typedef sequence<holo_base_msg::obstacle::ObstacleUss> ObstacleUssSequence;
+
+#pragma DCPS_DATA_TYPE  "holo_base_msg::obstacle::ObstacleUssList"
+struct ObstacleUssList
+{
+    holo_base_msg::common::Timestamp                        stamp;
+    holo_base_msg::common::Coordinate                       coord;
+    holo_base_msg::common::SensorId                         sensor_id;
+    holo_base_msg::obstacle::PerceptionAbility              perception_ability;
+    holo_base_msg::obstacle::ObstacleUssSequence            obstacles;
+};
+
+#pragma DCPS_DATA_TYPE  "holo_base_msg::obstacle::ObstacleVision"
+struct ObstacleVision
+{
+    holo_base_msg::common::Timestamp           stamp;
+    holo_base_msg::common::Coordinate          coord;
+    holo_base_msg::core::uint32_t              obstacle_id;
+
+    holo_base_msg::common::SensorId            sensor_id;
+    holo_base_msg::common::Classification      classification;
+    holo_base_msg::core::float32_t             obstacle_exist_score;
+
+    holo_base_msg::geometry::Point3f           position;
+    holo_base_msg::geometry::Point3f           position_sigma;
+
+    holo_base_msg::numerics::Vector3f          relative_velocity;
+    holo_base_msg::numerics::Vector3f          relative_velocity_sigma;
+
+    holo_base_msg::numerics::Vector3f          acceleration;
+    holo_base_msg::numerics::Vector3f          acceleration_sigma;
+
+    holo_base_msg::obstacle::MotionStatus      motion_status;
+
+    holo_base_msg::geometry::Box2f             bounding_box2;
+    holo_base_msg::geometry::Box3f             bounding_box3;
+
+    holo_base_msg::obstacle::CutInCutOut       cut_in_cut_out;
+
+    holo_base_msg::vision::KeyPoint2fSequence key_points;
+};
+
+typedef sequence<holo_base_msg::obstacle::ObstacleVision> ObstacleVisionSequence;
+
+#pragma DCPS_DATA_TYPE  "holo_base_msg::obstacle::ObstacleVisionList"
+struct ObstacleVisionList
+{
+    holo_base_msg::common::Timestamp                        stamp;
+    holo_base_msg::common::Coordinate                       coord;
+    holo_base_msg::common::SensorId                         sensor_id;
+    holo_base_msg::obstacle::PerceptionAbility              perception_ability;
+    holo_base_msg::obstacle::ObstacleVisionSequence         obstacles;
+};
+
+}; };
+
+#endif /* OPENDDS_MSG_OBSTACLE_OBSTACLE_GENERAL_IDL_ */

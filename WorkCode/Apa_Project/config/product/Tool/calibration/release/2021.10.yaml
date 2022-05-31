@@ -1,0 +1,189 @@
+base: BaseCamp/Library/release/2021.10
+projects:
+  holo_3rdparty:
+    commands:
+      configure:
+        arguments:
+        - -DHOLO_3RDPARTY_FORCE_BUILD=ON
+        - -DOPENCV_WITH_GTK=ON
+        - -DOPENCV_SKIP_CACHE=ON
+        - -DGTSAM_VERSION=4.0.2
+        - ${SOURCE_ROOT}
+      build:
+        arguments:
+        - dragonglass
+        - yaml-cpp
+        - rply
+        - libsocket
+        - vector_blf
+        - serial
+        - x264
+        - vptree
+    steps: null
+    package:
+      manifest: null
+      files: []
+      directories:
+      - ${HOLO_ROOT}/3rdparty
+      - ${HOLO_ROOT}/../host
+  holo_sensors_base:
+    url: ${git_url}/vs/holo_sensors_base.git
+    branch: release/v0.4
+    dependencies:
+    - holo_3rdparty
+    - holo_base
+    - holo_sensors_c
+    commands:
+      configure:
+        arguments:
+        - -DHOLO_BUILD_WITH_CUDA=OFF
+        - ${SOURCE_ROOT}
+      test:
+        command: make
+        arguments:
+        - test
+        - '||'
+        - 'true'
+      doc:
+        command: make
+        arguments:
+        - doc
+      coverage:
+        command: make
+        arguments:
+        - coverage
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_sensors_cmw_app:
+    url: ${git_url}/vs/holo_sensors_cmw_app.git
+    branch: release/v0.4
+    dependencies:
+    - holo_sensors_base
+    - holo_cmw
+    - holo_base_msg
+    commands:
+      configure:
+        arguments:
+        - -DHOLO_BUILD_ROS_APP=ON
+        - -DHOLO_BUILD_WITH_CUDA=OFF
+        - ${SOURCE_ROOT}
+      test:
+        command: make
+        arguments:
+        - test
+        - '||'
+        - 'true'
+      doc:
+        command: make
+        arguments:
+        - doc
+      coverage:
+        command: make
+        arguments:
+        - coverage
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_io:
+    url: ${git_url}/base/holo_io.git
+    branch: calib_release_v0.1
+    dependencies:
+    - holo_base
+    - holo_cmw
+    commands: {}
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_3d:
+    url: ${git_url}/mlc/holo_3d.git
+    branch: release/v0.2
+    dependencies:
+    - holo_base
+    commands:
+      test:
+        command: make
+        arguments:
+        - test
+        - '||'
+        - 'true'
+      doc:
+        command: make
+        arguments:
+        - doc
+      coverage:
+        command: make
+        arguments:
+        - coverage
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_calibration:
+    url: ${git_url}/mlc/holo_calibration.git
+    branch: release/v0.2
+    dependencies:
+    - holo_base
+    - holo_3d
+    - holo_localization_base
+    - holo_io
+    commands:
+      configure:
+        arguments:
+        - -DHOLO_BUILD_APP=ON
+        - ${SOURCE_ROOT}
+      test:
+        command: make
+        arguments:
+        - test
+        - '||'
+        - 'true'
+      doc:
+        command: make
+        arguments:
+        - doc
+      coverage:
+        command: make
+        arguments:
+        - coverage
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_calibration_cmw_app:
+    url: ${git_url}/mlc/holo_calibration_cmw_app.git
+    branch: release/v0.2
+    dependencies:
+    - holo_calibration
+    - holo_sensors_base
+    - holo_base_msg
+    - holo_cmw
+    commands:
+      test:
+        command: make
+        arguments:
+        - test
+        - '||'
+        - 'true'
+      doc:
+        command: make
+        arguments:
+        - doc
+      coverage:
+        command: make
+        arguments:
+        - coverage
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+version: 1

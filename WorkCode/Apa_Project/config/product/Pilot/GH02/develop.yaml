@@ -1,0 +1,576 @@
+base:
+- BaseCamp/Application/GH02/develop
+projects:
+  # BaseCampLib
+  holo_sensors_base:
+    branch: dragonglass-develop
+  # BaseCampApp
+  holo_map_adapter/cmw_app:
+    dependencies:
+    - CS
+    - MAP
+    - gh02_msg
+  holo_map_local_service_server:
+    dependencies:
+    - CS
+    - MAP
+    - gh02_msg
+    commands:
+      configure:
+        arguments:
+          - -DHOLO_BUILD_WITH_GH02_MSG=ON
+          - ${SOURCE_ROOT}
+  holo_map_local_service_client/tools:
+    dependencies:
+    - CS
+    - MAP
+    - gh02_msg
+    commands:
+      configure:
+        arguments:
+          - -DHOLO_BUILD_WITH_GH02_MSG=ON
+          - ${SOURCE_ROOT}
+  holo_localization_fusion_cmw_app:
+    dependencies:
+    - CS
+    - MLC
+    - MAP
+    - gh02_msg
+  holo_sensors_cmw_app:
+    dependencies:
+        - CS
+        - VS
+        - gh02_msg
+  holo_perception_pilot:
+    dependencies:
+    - CS
+    - PER
+    - holo_3d
+    - gh02_msg
+    - holo_dnn_base/apps
+    - holo_map_local_service_client
+    commands:
+      configure:
+        arguments:
+        - -DHOLO_BUILD_MDC_CM_APP=ON
+        - -DHOLO_BUILD_MAP_SDK=ON
+        - ${SOURCE_ROOT}
+  holo_perception_pilot/cmw_app:
+    commands:
+      configure:
+        arguments:
+        - -DHOLO_BUILD_MDC_CM_APP=ON
+        - -DHOLO_BUILD_MAP_SDK=ON
+        - ${SOURCE_ROOT}
+  holo_control_cmw_app:
+    branch: dragonglass-develop
+    dependencies:
+    - CS
+    - PC
+    - gh02_msg
+  holo_map_navigator_cmw_app:
+    branch: dragonglass-develop
+    dependencies:
+    - CS
+    - MAP
+    - gh02_msg
+  # CustomProject
+  gh02_msg:
+    url: ssh://git@bitbucket.holomatic.ai:7999/gh02/gh02_msg.git
+    branch: dragonglass-develop
+    dependencies:
+    - holo_base
+    - holo_cmw
+    commands:
+      test:
+        command: make
+        arguments:
+        - test
+        - '||'
+        - 'true'
+      configure:
+        arguments:
+        - -DHOLO_BUILD_CM_TRAITS=ON
+        - ${SOURCE_ROOT}
+      doc:
+        command: make
+        arguments:
+        - doc
+      coverage:
+        command: make
+        arguments:
+        - coverage
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  gh02_bridge:
+    url: ssh://git@bitbucket.holomatic.ai:7999/gh02/gh02_bridge.git
+    branch: feature/mdc_cm
+    dependencies:
+    - holo_base
+    - gh02_msg
+    - holo_cmw
+    commands:
+      test:
+        command: make
+        arguments:
+        - test
+        - '||'
+        - 'true'
+      doc:
+        command: make
+        arguments:
+        - doc
+      coverage:
+        command: make
+        arguments:
+        - coverage
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  gh02_c:
+    url: ${git_url}/gh/gh02_c.git
+    branch: dragonglass-develop
+    dependencies:
+    - holo_base_c
+    commands:
+      test:
+        command: make
+        arguments:
+        - test
+        - '||'
+        - 'true'
+      doc:
+        command: make
+        arguments:
+        - doc
+      coverage:
+        command: make
+        arguments:
+        - coverage
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  gh02_sensors:
+    url: ssh://git@bitbucket.holomatic.ai:7999/gh02/gh02_sensors.git
+    branch: dragonglass-develop
+    dependencies:
+    - holo_base
+    - holo_sensors_base
+    - holo_cmw
+    - gh02_c
+    - gh02_msg
+    commands:
+      test:
+        command: make
+        arguments:
+        - test
+        - '||'
+        - 'true'
+      doc:
+        command: make
+        arguments:
+        - doc
+      coverage:
+        command: make
+        arguments:
+        - coverage
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  gh02_automaton:
+    url: ${git_url}/gh/gh02_automaton.git
+    branch: dragonglass-develop
+    dependencies:
+    - holo_base
+    - holo_base_msg
+    - holo_cmw
+    - gh02_c
+    - gh02_msg
+    commands:
+      configure:
+        arguments:
+        - -DHOLO_BUILD_GAC_AUTOMATON=OFF
+        - ${SOURCE_ROOT}
+      test:
+        command: make
+        arguments:
+        - test
+        - "||"
+        - "true"
+      doc:
+        command: make
+        arguments:
+        - doc
+      coverage:
+        command: make
+        arguments:
+        - coverage
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  gh02_cid:
+    url: ssh://git@bitbucket.holomatic.ai:7999/gh02/gh02_cid.git
+    branch: dragonglass-develop
+    dependencies:
+    - holo_base
+    - holo_base_msg
+    - holo_sensors_base
+    - holo_cmw
+    - gh02_c
+    - gh02_msg
+    commands:
+      test:
+        command: make
+        arguments:
+        - test
+        - '||'
+        - 'true'
+      doc:
+        command: make
+        arguments:
+        - doc
+      coverage:
+        command: make
+        arguments:
+        - coverage
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  gh02_diagnosis:
+    url: ssh://git@bitbucket.holomatic.ai:7999/gh02/gh02_diagnosis.git
+    branch: dragonglass-develop
+    dependencies:
+    - holo_base
+    - holo_base_msg
+    - holo_cmw
+    - gh02_c
+    - gh02_msg
+    commands:
+      test:
+        command: make
+        arguments:
+        - test
+        - '||'
+        - 'true'
+      doc:
+        command: make
+        arguments:
+        - doc
+      coverage:
+        command: make
+        arguments:
+        - coverage
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_vehicles:
+    url: ${git_url}/bcvs/holo_vehicles.git
+    branch: dragonglass-develop
+    dependencies:
+    - holo_base
+    - holo_base_msg
+    - holo_sensors_base
+    - holo_cmw
+    - gh02_c
+    - gh02_msg
+    commands:
+      test:
+        command: make
+        arguments:
+        - test
+        - '||'
+        - 'true'
+      doc:
+        command: make
+        arguments:
+        - doc
+      coverage:
+        command: make
+        arguments:
+        - coverage
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []      
+  holo_prediction:
+    url: ${git_url}/pc/holo_prediction.git
+    branch: dragonglass-develop
+    dependencies:
+    - holo_base
+    - gh02_msg
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_prediction/cmw_app:
+    url: holo_prediction/cmw_app
+    dependencies:
+    - holo_base
+    - holo_base_msg
+    - holo_cmw
+    - gh02_msg
+    - holo_prediction
+    commands: {}
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_planning_pilot:
+    url: ${git_url}/pc/holo_planning_pilot.git
+    branch: dragonglass-develop
+    dependencies:
+    - holo_base
+    - holo_planning_base
+    - gh02_msg
+    commands:
+      test:
+        command: make
+        arguments:
+        - test
+        - '||'
+        - 'true'
+      doc:
+        command: make
+        arguments:
+        - doc
+      coverage:
+        command: make
+        arguments:
+        - coverage
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_planning_pilot/cmw_app:
+    url: holo_planning_pilot/cmw_app
+    dependencies:
+    - holo_planning_pilot
+    - holo_cmw
+    - holo_base_msg
+    commands: {}
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  ######### remove when wh01 merge to holo_base
+  holo_x_client:
+    commands:
+      configure:
+        arguments:
+        - -DUSE_OPENDDS_WARPPER=OFF
+        - -DUSE_MDC_CM_WARPPER=ON
+        - ${SOURCE_ROOT}
+    url: ${git_url}/sim/holo_x_client.git
+    branch: dragonglass-develop
+    dependencies:
+    - holo_utils
+    - holo_base_c
+    - holo_base
+    - holo_cmw
+    - holo_base_msg
+    - holo_sensors_base
+    - gh02_msg
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_map_fusion:
+    url: ${git_url}/gh/holo_map_fusion.git
+    branch: dragonglass-develop
+    dependencies:
+    - holo_base
+    - gh02_msg
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_map_cmw_app:
+    url: ${git_url}/map/holo_map_cmw_app.git
+    branch: feature/zk/gh02_develop
+    dependencies:
+    - BaseCamp
+    - holo_map_fusion
+    - gh02_msg
+    commands:
+      doc:
+        command: make
+        arguments:
+        - doc
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  ######## debug tool, remove later
+  holo_pctoolkits:
+    url: ${git_url}/pc/holo_pctoolkits.git
+    branch: dragonglass-develop
+    dependencies:
+    - CS
+    - PC
+    commands:
+      test:
+        command: make
+        arguments:
+        - test
+      doc:
+        command: make
+        arguments:
+        - doc
+      coverage:
+        command: make
+        arguments:
+        - coverage
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_pctoolkits/cmw_app:
+    url: holo_pctoolkits/cmw_app
+    dependencies:
+    - CS
+    - PC
+    - holo_pctoolkits
+    - gh02_msg
+    commands: {}
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_bag:
+    url: ${git_url}/win/holo_bag.git
+    branch: 202ac4fff97
+    dependencies:
+    - holo_base
+    - holo_sensors_base
+    commands: {}
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_bag/cmw_app:
+    url: holo_bag/cmw_app
+    dependencies:
+    - holo_bag
+    - holo_cmw
+    - holo_sensors_base
+    - holo_sensors_cmw_app
+    commands: {}
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_winterfell:
+    url: ${git_url}/win/holo_winterfell.git
+    branch: gh02-develop
+    dependencies:
+    - holo_base
+    - holo_bag
+    - holo_sensors_base
+    commands:
+      test:
+        command: make
+        arguments:
+        - test
+        - '||'
+        - 'true'
+      doc:
+        command: make
+        arguments:
+        - doc
+      coverage:
+        command: make
+        arguments:
+        - coverage
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_winterfell/cmw_app:
+    url: holo_winterfell/cmw_app
+    dependencies:
+    - holo_winterfell
+    - holo_cmw
+    - gh02_msg
+    - gh02_sensors
+    commands: {}
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  GH02:
+    dependencies:
+    - holo_map_adapter/cmw_app
+    - holo_map_local_service_server
+    - holo_map_local_service_client/tools
+    - holo_localization_fusion_cmw_app
+    - holo_sensors_cmw_app
+    - holo_perception_pilot/cmw_app
+    - holo_prediction/cmw_app
+    - holo_planning_pilot/cmw_app
+    - holo_control_cmw_app
+    - holo_pctoolkits/cmw_app # temporary include
+    - holo_map_navigator_cmw_app # temporary include
+    - gh02_sensors
+    - gh02_automaton
+    - gh02_cid
+    - gh02_bridge
+    - holo_map_cmw_app
+    - holo_x_client
+    - holo_vehicles
+    - holo_winterfell/cmw_app
+    commands:
+      configure:
+        command: ''
+        arguments:
+        - ${SOURCE_ROOT}
+      build:
+        command: ''
+        arguments: []
+      install:
+        command: ''
+        arguments: []
+    steps: null
+  holo_params:
+    url: ${git_url}/vs/holo_params.git
+    branch: dragonglass-develop
+    commands:
+      configure:
+        command: 'cmake'
+        arguments:
+        - -DVID=aionlx-up-1
+        - ${SOURCE_ROOT}
+        retcode: [0]
+    steps:
+        - configure
+        - build
+        - install
+    package:
+        manifest: ${BUILD_ROOT}/install_manifest.txt
+        files: []
+        directories: []

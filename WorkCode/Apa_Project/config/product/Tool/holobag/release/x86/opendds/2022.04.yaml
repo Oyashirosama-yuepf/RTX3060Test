@@ -1,0 +1,73 @@
+base: BaseCamp/Library/release/2022.04
+projects:
+  holo_bag:
+    url: ${git_url}/win/holo_bag.git
+    branch: release/v0.3
+    dependencies:
+    - holo_base
+    commands: {}
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_bag/cmw_app:
+    url: holo_bag/cmw_app
+    dependencies:
+    - holo_bag
+    - holo_cmw
+    - holo_sensors_base
+    commands: {}
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_bag_py:
+    env:
+      PYTHONPATH: ${SYSROOT}/usr/lib/python3.6/dist-packages
+    url: ${git_url}/win/holo_bag_py.git
+    branch: dragonglass-develop
+    dependencies:
+    - holo_base
+    - holo_sensors_base
+    - holo_3d
+    - pybind11
+    - holo_metadata_py
+    commands:
+      test:
+        command: make
+        arguments:
+        - test
+        - '||'
+        - 'true'
+      doc:
+        command: make
+        arguments:
+        - doc
+      coverage:
+        command: make
+        arguments:
+        - coverage
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  HOLOBAG:
+    dependencies:
+      - holo_bag/cmw_app
+      - holo_bag_py
+    commands:
+      configure:
+        command: ''
+        arguments:
+        - ${SOURCE_ROOT}
+      build:
+        command: ''
+        arguments: []
+      install:
+        command: ''
+        arguments: []
+    steps: null
+version: 1

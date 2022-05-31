@@ -1,0 +1,24 @@
+#ifndef HOLO_PARKING_MSG_VISION_POINT_FEATUREF_IDL_
+#define HOLO_PARKING_MSG_VISION_POINT_FEATUREF_IDL_
+
+#include <holo_parking_msg/core/Types.idl>
+
+module holo_parking_msg
+{
+    module vision
+    {
+        typedef holo_parking_msg::core::float32_t float32_t;
+        typedef sequence<float32_t>               DescriptorType;
+
+#pragma DCPS_DATA_TYPE "holo_parking_msg::vision::PointFeaturef"
+        struct PointFeaturef
+        {
+            float32_t      x;
+            float32_t      y;
+            DescriptorType descriptor;
+            float32_t      confidence;
+        };
+    };
+};
+
+#endif

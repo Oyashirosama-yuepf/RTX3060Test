@@ -1,0 +1,118 @@
+base: HoloParking/HPA/GH01/develop
+projects:
+  holo_parking_msg:
+    dependencies:
+    - holo_base
+    - holo_parking_base
+  holo_parking_base:
+    dependencies:
+    - holo_base
+  holo_bag:
+    url: ${git_url}/win/holo_bag.git
+    branch: gh01-develop
+    dependencies:
+    - holo_base
+    commands: {}
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_bag/cmw_app:
+    url: holo_bag/cmw_app
+    dependencies:
+    - holo_bag
+    - holo_cmw
+    - holo_sensors_base
+    - holo_parking_msg
+    commands: {}
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_bag/holo_bag_gui:
+    url: holo_bag/holo_bag_gui
+    dependencies:
+    - holo_bag
+    - holo_cmw
+    - holo_sensors_base
+    commands: {}
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_bag_py:
+    url: ${git_url}/win/holo_bag_py.git
+    branch: dragonglass-develop
+    dependencies:
+    - holo_base
+    - holo_sensors_base
+    commands:
+      test:
+        command: make
+        arguments:
+        - test
+        - '||'
+        - 'true'
+      doc:
+        command: make
+        arguments:
+        - doc
+      coverage:
+        command: make
+        arguments:
+        - coverage
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_winterfell:
+    url: ${git_url}/win/holo_winterfell.git
+    branch: dragonglass-develop
+    dependencies:
+    - holo_base
+    - holo_bag
+    commands:
+      test:
+        command: make
+        arguments:
+        - test
+        - '||'
+        - 'true'
+      doc:
+        command: make
+        arguments:
+        - doc
+      coverage:
+        command: make
+        arguments:
+        - coverage
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_winterfell/cmw_app:
+    url: holo_winterfell/cmw_app
+    dependencies:
+    - holo_winterfell
+    - holo_cmw
+    commands: {}
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_params:
+    url: ${git_url}/vs/holo_params.git
+    branch: dragonglass-master
+    commands: {}
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+version: 1

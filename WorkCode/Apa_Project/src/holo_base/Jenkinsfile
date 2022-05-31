@@ -1,0 +1,41 @@
+String cron_string = "* * * * *"
+
+pipeline {
+  agent {
+    node {
+      label 'master'
+    }
+  }
+  stages {
+    stage('Checkout') {
+      steps {
+        echo 'Pulling...' + env.BRANCH_NAME
+        checkout scm
+      }
+    }
+    stage('prepare build dir') {
+      steps {
+        sh 'rm -rf build'
+        sh 'mkdir -p build'
+      }
+    }
+    stage('cmake') {
+      steps {
+        sh 'cd build&& cmake ../'
+      }
+    }
+    stage('make') {
+      steps {
+        sh 'cd build && make -j 4'
+      }
+    }
+    stage('make test') {
+      steps {
+        sh 'cd build && make test'
+      }
+    }
+  }
+  triggers{
+    pollSCM(cron_string)
+  }
+}

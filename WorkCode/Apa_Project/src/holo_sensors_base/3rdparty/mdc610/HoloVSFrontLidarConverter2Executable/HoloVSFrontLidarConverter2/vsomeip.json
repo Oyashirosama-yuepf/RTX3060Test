@@ -1,0 +1,28 @@
+{
+  "logging": {
+    "level": "info",
+    "console": "false",
+    "syslog": {
+      "enable": "true"
+    }
+  },
+  "routing": "someipd",
+  "network": "Host0DpEthernetCommConnector",
+  "unicast": "192.168.10.6",
+  "netmask": "255.255.255.0",
+  "applications": [
+    {
+      "name": "/SwComponent/HoloVSFrontLidarConverter/HoloVSFrontLidarConverter",
+      "id": "35432",
+      "threads": "2"
+    }
+  ],
+  "services": [],
+  "clients": [],
+  "service-discovery": {
+    "enable": "true",
+    "multicast": "239.192.255.123",
+    "port": "30491",
+    "protocol": "udp"
+  }
+}

@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="31">
+  <config>
+    <saved-logs>5</saved-logs>
+    <build-directory-naming-strategy>COMPRESSED</build-directory-naming-strategy>
+  </config>
+  <project-id>1629804634</project-id>
+  <factor-config-options>0</factor-config-options>
+  <environment name="CHASSIS_STATE" type="UNIT">
+    <language>2</language>
+    <is-monitored>0</is-monitored>
+    <config>
+      <original-environment-directory>holo_base_c/build/1961707394</original-environment-directory>
+    </config>
+  </environment>
+  <environment name="CONTROL_COMMAND" type="UNIT">
+    <language>2</language>
+    <is-monitored>0</is-monitored>
+    <config>
+      <original-environment-directory>holo_base_c/build/3614714089</original-environment-directory>
+    </config>
+  </environment>
+  <environment name="COORDINATE" type="UNIT">
+    <language>2</language>
+    <is-monitored>0</is-monitored>
+    <config>
+      <original-environment-directory>holo_base_c/build/2941676398</original-environment-directory>
+    </config>
+  </environment>
+  <environment name="DEQUEUE" type="UNIT">
+    <language>2</language>
+    <is-monitored>0</is-monitored>
+    <config>
+      <original-environment-directory>holo_base_c/build/1324053906</original-environment-directory>
+    </config>
+  </environment>
+  <environment name="EXTRINSIC_FLOAT32" type="UNIT">
+    <language>2</language>
+    <is-monitored>0</is-monitored>
+    <config>
+      <original-environment-directory>holo_base_c/build/829023983</original-environment-directory>
+    </config>
+  </environment>
+  <environment name="GNSS_POSITION" type="UNIT">
+    <language>2</language>
+    <is-monitored>0</is-monitored>
+    <config>
+      <original-environment-directory>holo_base_c/build/3844658850</original-environment-directory>
+    </config>
+  </environment>
+  <environment name="GNSS_PVT" type="UNIT">
+    <language>2</language>
+    <is-monitored>0</is-monitored>
+    <config>
+      <original-environment-directory>holo_base_c/build/3066777677</original-environment-directory>
+    </config>
+  </environment>
+  <environment name="IMU_BIAS_FLOAT32" type="UNIT">
+    <language>2</language>
+    <is-monitored>0</is-monitored>
+    <config>
+      <original-environment-directory>holo_base_c/build/3625604248</original-environment-directory>
+    </config>
+  </environment>
+  <environment name="IMU_FLOAT32" type="UNIT">
+    <language>2</language>
+    <is-monitored>0</is-monitored>
+    <config>
+      <original-environment-directory>holo_base_c/build/2006353636</original-environment-directory>
+    </config>
+  </environment>
+  <environment name="LIGHT_SIGNAL_REQUEST" type="UNIT">
+    <language>2</language>
+    <is-monitored>0</is-monitored>
+    <config>
+      <original-environment-directory>holo_base_c/build/207751229</original-environment-directory>
+    </config>
+  </environment>
+  <environment name="ODOMETRY_FLOAT32" type="UNIT">
+    <language>2</language>
+    <is-monitored>0</is-monitored>
+    <config>
+      <original-environment-directory>holo_base_c/build/3580497731</original-environment-directory>
+    </config>
+  </environment>
+  <environment name="PATH_FLOAT32" type="UNIT">
+    <language>2</language>
+    <is-monitored>0</is-monitored>
+    <config>
+      <original-environment-directory>holo_base_c/build/3429498126</original-environment-directory>
+    </config>
+  </environment>
+  <environment name="QUEUE" type="UNIT">
+    <language>2</language>
+    <is-monitored>0</is-monitored>
+    <config>
+      <original-environment-directory>holo_base_c/build/2768481208</original-environment-directory>
+    </config>
+  </environment>
+  <environment name="SOMEIP" type="UNIT">
+    <language>2</language>
+    <is-monitored>0</is-monitored>
+    <config>
+      <original-environment-directory>holo_base_c/build/1858694359</original-environment-directory>
+    </config>
+  </environment>
+  <environment name="TIMESTAMP" type="UNIT">
+    <language>2</language>
+    <is-monitored>0</is-monitored>
+    <config>
+      <original-environment-directory>holo_base_c/build/78601991</original-environment-directory>
+    </config>
+  </environment>
+  <group name="common">
+    <environment name="CHASSIS_STATE"/>
+    <environment name="CONTROL_COMMAND"/>
+    <environment name="COORDINATE"/>
+    <environment name="DEQUEUE"/>
+    <environment name="EXTRINSIC_FLOAT32"/>
+    <environment name="GNSS_POSITION"/>
+    <environment name="GNSS_PVT"/>
+    <environment name="IMU_BIAS_FLOAT32"/>
+    <environment name="IMU_FLOAT32"/>
+    <environment name="LIGHT_SIGNAL_REQUEST"/>
+    <environment name="ODOMETRY_FLOAT32"/>
+    <environment name="PATH_FLOAT32"/>
+    <environment name="QUEUE"/>
+    <environment name="SOMEIP"/>
+    <environment name="TIMESTAMP"/>
+  </group>
+  <compiler>
+    <compiler>
+      <name>GNU_Native_Automatic_C++14</name>
+      <config>
+        <config>
+          <key>C_COMPILER_TAG</key>
+          <value>GNU_CPP14_X</value>
+        </config>
+      </config>
+    </compiler>
+    <testsuite name="UnitTest">
+      <group name="common"/>
+    </testsuite>
+  </compiler>
+</project>

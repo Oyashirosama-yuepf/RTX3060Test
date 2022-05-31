@@ -1,0 +1,28 @@
+#ifndef HOLO_PARKING_MSG_HMI_COMMAND_IDL_
+#define HOLO_PARKING_MSG_HMI_COMMAND_IDL_
+
+#include <holo_parking_msg/common/Common.idl>
+
+module holo_parking_msg
+{
+    module parking_manager
+    {
+#pragma DCPS_DATA_TYPE "holo_parking_msg::parking_manager::hmi_command"
+        struct HmiCommand
+        {
+            holo_parking_msg::core::uint8_t command_;
+            holo_parking_msg::core::uint8_t path_id_;
+            holo_parking_msg::core::uint8_t parkinglot_type_;
+            holo_parking_msg::core::uint8_t path_type_;
+            holo_parking_msg::core::uint8_t heartbeat_;
+            holo_parking_msg::core::uint8_t park_type_;
+
+            holo_parking_msg::core::uint8_t apa_command_;
+            holo_parking_msg::core::uint8_t route_id_;
+            holo_parking_msg::core::uint8_t delete_id_;
+            holo_parking_msg::core::bool_t mapping_offline_;
+        };
+    };
+};
+
+#endif   /// HOLO_PARKING_MSG_HMI_COMMAND_IDL_

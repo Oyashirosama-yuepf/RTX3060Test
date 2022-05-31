@@ -1,0 +1,90 @@
+base: BaseCamp/Library/release/2022.03
+projects:
+  holo_3rdparty:
+    commands:
+      configure:
+        arguments:
+        - -DHOLO_3RDPARTY_FORCE_BUILD=ON
+        - -DOPENCV_WITH_GTK=ON
+        - -DOPENCV_SKIP_CACHE=ON
+        - -DGTSAM_VERSION=4.0.2
+        - ${SOURCE_ROOT}
+      build:
+        arguments:
+        - dragonglass
+        - yaml-cpp
+        - rply
+        - libsocket
+        - vector_blf
+        - serial
+        - x264
+        - vptree
+    steps: null
+    package:
+      manifest: null
+      files: []
+      directories:
+      - ${HOLO_ROOT}/3rdparty
+      - ${HOLO_ROOT}/../host
+  holo_calibration:
+    url: ${git_url}/bcmlc/holo_calibration.git
+    branch: release/v0.6
+    dependencies:
+    - holo_base
+    - holo_3d
+    - holo_localization_base
+    - Pangolin
+    commands:
+      configure:
+        arguments:
+        - -DHOLO_BUILD_APP=ON
+        - -DBUILD_WITH_PANGOLIN=ON
+        - ${SOURCE_ROOT}
+      test:
+        command: make
+        arguments:
+        - test
+        - '||'
+        - 'true'
+      doc:
+        command: make
+        arguments:
+        - doc
+      coverage:
+        command: make
+        arguments:
+        - coverage
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_calibration_cmw_app:
+    url: ${git_url}/bcmlc/holo_calibration_cmw_app.git
+    branch: release/v0.5
+    dependencies:
+    - holo_calibration
+    - holo_sensors_base
+    - holo_base_msg
+    - holo_cmw
+    commands:
+      test:
+        command: make
+        arguments:
+        - test
+        - '||'
+        - 'true'
+      doc:
+        command: make
+        arguments:
+        - doc
+      coverage:
+        command: make
+        arguments:
+        - coverage
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+version: 1

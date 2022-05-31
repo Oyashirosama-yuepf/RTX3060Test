@@ -1,0 +1,12 @@
+<RT_DDS>
+    <DomainId>any</DomainId>
+    <General>
+        <AllowMulticast>true</AllowMulticast>
+    </General>
+    <Tracing>
+        <Verbosity>INFO</Verbosity>
+        <DebugOutputFile>rt_dds_debug.log</DebugOutputFile>
+        <LogOutputFile>rt_dds.log</LogOutputFile>
+        <AppendToFile>true</AppendToFile>
+    </Tracing>
+</RT_DDS>

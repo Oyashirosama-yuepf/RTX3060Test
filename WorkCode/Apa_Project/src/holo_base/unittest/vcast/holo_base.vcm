@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="31">
+  <config>
+    <saved-logs>5</saved-logs>
+    <build-directory-naming-strategy>COMPRESSED</build-directory-naming-strategy>
+  </config>
+  <project-id>1640066051</project-id>
+  <factor-config-options>0</factor-config-options>
+  <environment name="ALARM" type="UNIT">
+    <language>2</language>
+    <is-monitored>0</is-monitored>
+    <config>
+      <original-environment-directory>holo_base/build/2925629958</original-environment-directory>
+    </config>
+  </environment>
+  <environment name="APA_CONTROL_COMMAND" type="UNIT">
+    <language>2</language>
+    <is-monitored>0</is-monitored>
+    <config>
+      <original-environment-directory>holo_base/build/600610702</original-environment-directory>
+    </config>
+  </environment>
+  <environment name="APP_STATUS" type="UNIT">
+    <language>2</language>
+    <is-monitored>0</is-monitored>
+    <config>
+      <original-environment-directory>holo_base/build/896852089</original-environment-directory>
+    </config>
+  </environment>
+  <environment name="CAMERA_FISHEYE" type="UNIT">
+    <language>2</language>
+    <is-monitored>0</is-monitored>
+    <config>
+      <original-environment-directory>holo_base/build/1957642033</original-environment-directory>
+    </config>
+  </environment>
+  <environment name="CHASSIS_STATE" type="UNIT">
+    <language>2</language>
+    <is-monitored>0</is-monitored>
+    <config>
+      <original-environment-directory>holo_base/build/1961707394</original-environment-directory>
+    </config>
+  </environment>
+  <environment name="CLASSIFICATION" type="UNIT">
+    <language>2</language>
+    <is-monitored>0</is-monitored>
+    <config>
+      <original-environment-directory>holo_base/build/2454197521</original-environment-directory>
+    </config>
+  </environment>
+  <environment name="CONTROL_COMMAND" type="UNIT">
+    <language>2</language>
+    <is-monitored>0</is-monitored>
+    <config>
+      <original-environment-directory>holo_base/build/3614714089</original-environment-directory>
+    </config>
+  </environment>
+  <environment name="COORDINATE" type="UNIT">
+    <language>2</language>
+    <is-monitored>0</is-monitored>
+    <config>
+      <original-environment-directory>holo_base/build/2941676398</original-environment-directory>
+    </config>
+  </environment>
+  <environment name="DDT" type="UNIT">
+    <language>2</language>
+    <is-monitored>0</is-monitored>
+    <config>
+      <original-environment-directory>holo_base/build/4009249103</original-environment-directory>
+    </config>
+  </environment>
+  <environment name="GNSS_PVT" type="UNIT">
+    <language>2</language>
+    <is-monitored>0</is-monitored>
+    <config>
+      <original-environment-directory>holo_base/build/3066777677</original-environment-directory>
+    </config>
+  </environment>
+  <environment name="GNSS_RAW_MEASUREMENT" type="UNIT">
+    <language>2</language>
+    <is-monitored>0</is-monitored>
+    <config>
+      <original-environment-directory>holo_base/build/2218693775</original-environment-directory>
+    </config>
+  </environment>
+  <environment name="GRID_MAP" type="UNIT">
+    <language>2</language>
+    <is-monitored>0</is-monitored>
+    <config>
+      <original-environment-directory>holo_base/build/1881717812</original-environment-directory>
+    </config>
+  </environment>
+  <environment name="IMU" type="UNIT">
+    <language>2</language>
+    <is-monitored>0</is-monitored>
+    <config>
+      <original-environment-directory>holo_base/build/1088770499</original-environment-directory>
+    </config>
+  </environment>
+  <environment name="IMU_BIAS" type="UNIT">
+    <language>2</language>
+    <is-monitored>0</is-monitored>
+    <config>
+      <original-environment-directory>holo_base/build/2875412598</original-environment-directory>
+    </config>
+  </environment>
+  <environment name="INTRINSIC" type="UNIT">
+    <language>2</language>
+    <is-monitored>0</is-monitored>
+    <config>
+      <original-environment-directory>holo_base/build/1442108186</original-environment-directory>
+    </config>
+  </environment>
+  <environment name="LIGHT_SIGNAL_REQUEST" type="UNIT">
+    <language>2</language>
+    <is-monitored>0</is-monitored>
+    <config>
+      <original-environment-directory>holo_base/build/207751229</original-environment-directory>
+    </config>
+  </environment>
+  <environment name="ODM" type="UNIT">
+    <language>2</language>
+    <is-monitored>0</is-monitored>
+    <config>
+      <original-environment-directory>holo_base/build/2261126766</original-environment-directory>
+    </config>
+  </environment>
+  <environment name="PARKING_SLOT" type="UNIT">
+    <language>2</language>
+    <is-monitored>0</is-monitored>
+    <config>
+      <original-environment-directory>holo_base/build/3029876557</original-environment-directory>
+    </config>
+  </environment>
+  <environment name="PERCEPTION_ABILITY" type="UNIT">
+    <language>2</language>
+    <is-monitored>0</is-monitored>
+    <config>
+      <original-environment-directory>holo_base/build/1361417085</original-environment-directory>
+    </config>
+  </environment>
+  <environment name="ROAD_CATEGORY" type="UNIT">
+    <language>2</language>
+    <is-monitored>0</is-monitored>
+    <config>
+      <original-environment-directory>holo_base/build/2754450859</original-environment-directory>
+    </config>
+  </environment>
+  <environment name="SEGMENTATION_2D" type="UNIT">
+    <language>2</language>
+    <is-monitored>0</is-monitored>
+    <config>
+      <original-environment-directory>holo_base/build/3359952109</original-environment-directory>
+    </config>
+  </environment>
+  <environment name="SENSOR_ID" type="UNIT">
+    <language>2</language>
+    <is-monitored>0</is-monitored>
+    <config>
+      <original-environment-directory>holo_base/build/997418694</original-environment-directory>
+    </config>
+  </environment>
+  <environment name="TIMESTAMP" type="UNIT">
+    <language>2</language>
+    <is-monitored>0</is-monitored>
+    <config>
+      <original-environment-directory>holo_base/build/78601991</original-environment-directory>
+    </config>
+  </environment>
+  <environment name="TRAFFIC_LIGHT" type="UNIT">
+    <language>2</language>
+    <is-monitored>0</is-monitored>
+    <config>
+      <original-environment-directory>holo_base/build/3543252429</original-environment-directory>
+    </config>
+  </environment>
+  <environment name="VEHICLE_BODY_STATE" type="UNIT">
+    <language>2</language>
+    <is-monitored>0</is-monitored>
+    <config>
+      <original-environment-directory>holo_base/build/2692849942</original-environment-directory>
+    </config>
+  </environment>
+  <environment name="VEHICLE_LOCATION" type="UNIT">
+    <language>2</language>
+    <is-monitored>0</is-monitored>
+    <config>
+      <original-environment-directory>holo_base/build/1058251780</original-environment-directory>
+    </config>
+  </environment>
+  <environment name="WEATHER" type="UNIT">
+    <language>2</language>
+    <is-monitored>0</is-monitored>
+    <config>
+      <original-environment-directory>holo_base/build/21497827</original-environment-directory>
+    </config>
+  </environment>
+  <group name="common">
+    <environment name="ALARM"/>
+    <environment name="APA_CONTROL_COMMAND"/>
+    <environment name="APP_STATUS"/>
+    <environment name="CHASSIS_STATE"/>
+    <environment name="CLASSIFICATION"/>
+    <environment name="CONTROL_COMMAND"/>
+    <environment name="COORDINATE"/>
+    <environment name="DDT"/>
+    <environment name="GNSS_PVT"/>
+    <environment name="GNSS_RAW_MEASUREMENT"/>
+    <environment name="GRID_MAP"/>
+    <environment name="IMU"/>
+    <environment name="IMU_BIAS"/>
+    <environment name="LIGHT_SIGNAL_REQUEST"/>
+    <environment name="ODM"/>
+    <environment name="ROAD_CATEGORY"/>
+    <environment name="SEGMENTATION_2D"/>
+    <environment name="SENSOR_ID"/>
+    <environment name="TIMESTAMP"/>
+    <environment name="TRAFFIC_LIGHT"/>
+    <environment name="VEHICLE_BODY_STATE"/>
+    <environment name="VEHICLE_LOCATION"/>
+    <environment name="WEATHER"/>
+  </group>
+  <compiler>
+    <compiler>
+      <name>GNU_Native_Automatic_C++14</name>
+      <config>
+        <config>
+          <key>C_COMPILER_TAG</key>
+          <value>GNU_CPP14_X</value>
+        </config>
+      </config>
+    </compiler>
+    <testsuite name="UnitTest">
+      <group name="common"/>
+    </testsuite>
+  </compiler>
+</project>

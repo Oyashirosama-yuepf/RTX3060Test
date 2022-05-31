@@ -1,0 +1,77 @@
+base: BaseCamp/Library/CS/develop
+projects:
+  holo_sensors_c:
+    url: ${git_url}/vs/holo_sensors_c.git
+    branch: dragonglass-develop
+    dependencies:
+    - CS
+    commands:
+      test:
+        command: make
+        arguments:
+        - test
+      doc:
+        command: make
+        arguments:
+        - doc
+      coverage:
+        command: make
+        arguments:
+        - coverage
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_sensors_base:
+    url: ${git_url}/vs/holo_sensors_base.git
+    branch: dragonglass-develop
+    dependencies:
+    - CS
+    - holo_sensors_c
+    commands:
+      configure:
+        arguments_tda4_qnx-7.0.0:
+        - -DHOLO_BUILD_ON_TDA4=ON
+        - -DHOLO_BUILD_ON_QNX=ON
+        - ${SOURCE_ROOT}
+        arguments_tda4_ubuntu-18.04:
+        - -DHOLO_BUILD_ON_TDA4=ON
+        - ${SOURCE_ROOT}
+        arguments_MDC610-1.0.012-B0120000.B011:
+        - -DHOLO_BUILD_ON_MDC610=ON
+        - ${SOURCE_ROOT}
+      test:
+        command: make
+        arguments:
+        - test
+      doc:
+        command: make
+        arguments:
+        - doc
+      coverage:
+        command: make
+        arguments:
+        - coverage
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  VS:
+    dependencies:
+    - holo_sensors_c
+    - holo_sensors_base
+    commands:
+      configure:
+        command: ''
+        arguments:
+        - ${SOURCE_ROOT}
+      build:
+        command: ''
+        arguments: []
+      install:
+        command: ''
+        arguments: []
+    steps: null
+version: 1

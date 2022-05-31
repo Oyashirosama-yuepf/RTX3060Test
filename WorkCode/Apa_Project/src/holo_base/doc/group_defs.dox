@@ -1,0 +1,34 @@
+/**
+\defgroup common
+\brief holo_base common components.
+\details holo_base common components defines common basic class/struct.
+
+\defgroup core
+\brief holo_base core components.
+\details holo_base core components include basic type defines and exceptions.
+
+\defgroup numerics
+\brief holo_base numerics components.
+\details detailed description about numerics
+
+\defgroup geometry
+\brief holo_base geometry components.
+\details detailed description about geometry
+
+\defgroup obstacle
+\brief holo_base obstacle components.
+\details holo_base obstacle defines obstacle and related classes.
+
+\defgroup visulization
+\brief holo_visulization components
+\details detailed description about visulization
+
+\defgroup map
+\brief holo_base map components.
+\details holo_base map defines map and related classes.
+
+\defgroup os
+\brief holo_base os components.
+\details holo_base os defines os and related classes.
+
+*/

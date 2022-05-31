@@ -1,0 +1,91 @@
+base: BaseCamp/Library/CS/release/2021.07
+projects:
+  holo_planning_base:
+    url: ${git_url}/pc/holo_planning_base.git
+    branch: release/v0.1
+    dependencies:
+    - CS
+    commands:
+      test:
+        command: make
+        arguments:
+        - test
+      doc:
+        command: make
+        arguments:
+        - doc
+      coverage:
+        command: make
+        arguments:
+        - coverage
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_control_base:
+    url: ${git_url}/pc/holo_control_base.git
+    branch: release/v0.1
+    dependencies:
+    - CS
+    commands:
+      test:
+        command: make
+        arguments:
+        - test
+      doc:
+        command: make
+        arguments:
+        - doc
+      coverage:
+        command: make
+        arguments:
+        - coverage
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_pctoolkits:
+    url: ${git_url}/pc/holo_pctoolkits.git
+    branch: release/v0.1
+    dependencies:
+    - CS
+    - holo_planning_base
+    - holo_control_base
+    commands:
+      test:
+        command: make
+        arguments:
+        - test
+      doc:
+        command: make
+        arguments:
+        - doc
+      coverage:
+        command: make
+        arguments:
+        - coverage
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  PC:
+    dependencies:
+    - holo_planning_base
+    - holo_control_base
+    - holo_pctoolkits
+    commands:
+      configure:
+        command: ''
+        arguments:
+        - ${SOURCE_ROOT}
+      build:
+        command: ''
+        arguments: []
+      install:
+        command: ''
+        arguments: []
+    steps: null
+version: 1

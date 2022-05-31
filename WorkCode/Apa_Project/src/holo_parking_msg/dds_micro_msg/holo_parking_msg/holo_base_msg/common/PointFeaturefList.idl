@@ -1,0 +1,23 @@
+#ifndef HOLO_BASE_MSG_COMMON_POINT_FEATUREF_LIST_IDL_
+#define HOLO_BASE_MSG_COMMON_POINT_FEATUREF_LIST_IDL_
+
+#include <holo_base_msg/common/Common.idl>
+#include <holo_base_msg/common/PointFeaturef.idl>
+
+module holo_base_msg
+{
+    module common
+    {
+        typedef sequence<PointFeaturef> PointFeaturefVector;
+
+#pragma DCPS_DATA_TYPE "holo_base_msg::common::PointFeaturefList"
+        struct PointFeaturefList
+        {
+            Timestamp           stamp;
+            SensorId            sensor_id;
+            PointFeaturefVector point_feature_list;
+        };
+    };
+};
+
+#endif

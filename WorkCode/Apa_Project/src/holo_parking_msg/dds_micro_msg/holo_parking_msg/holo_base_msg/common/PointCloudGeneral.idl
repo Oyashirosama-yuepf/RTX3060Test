@@ -1,0 +1,45 @@
+#ifndef HOLO_BASE_MSG_COMMON_POINTCLOUDGENERAL_IDL_
+#define HOLO_BASE_MSG_COMMON_POINTCLOUDGENERAL_IDL_
+
+#include <holo_base_msg/common/Common.idl>
+#include <holo_base_msg/core/Types.idl>
+#include <holo_base_msg/geometry/Pose.idl>
+
+module holo_base_msg
+{
+    module common
+    {
+        typedef holo_base_msg::core::float32_t  float32_t;
+        typedef holo_base_msg::core::bool_t     bool_t;
+        typedef holo_base_msg::core::uint8_t    uint8_t;
+        typedef holo_base_msg::core::uint64_t   uint64_t;
+        typedef holo_base_msg::geometry::Pose3f Pose;
+
+#pragma DCPS_DATA_TYPE "holo_base_msg::common::PointXYZRGB"
+        struct PointXYZRGB
+        {
+            float32_t x;
+            float32_t y;
+            float32_t z;
+            float32_t confidence;
+            uint8_t   r;
+            uint8_t   g;
+            uint8_t   b;
+        };
+
+        typedef sequence<PointXYZRGB> PointXYZRGBSeqTypeDef;
+
+#pragma DCPS_DATA_TYPE "holo_base_msg::common::PointCloudGeneral"
+        struct PointCloudGeneral
+        {
+            Timestamp             timestamp;
+            uint64_t              width;
+            uint64_t              height;
+            boolean               is_dense;
+            Pose                  pose;
+            PointXYZRGBSeqTypeDef point_list;
+        };
+    };
+};
+
+#endif

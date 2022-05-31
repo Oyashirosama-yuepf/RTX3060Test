@@ -1,0 +1,581 @@
+{
+  "applicationName": "/HuaweiMDC/PlatformApplication/CameraReceiveApplication/CameraReceiveSwComponent/CameraReceiveSwComponent/CameraReceiveProcess",
+  "services": [
+    {
+      "service": "/HuaweiMDC/PlatformServiceInterface/CameraServiceInterfacePkg/CameraDecodedMbufServiceInterface",
+      "serviceId": 2434,
+      "protocolIdUsed": false,
+      "events": [
+        {
+          "event": "cameraDecodedMbufEvent",
+          "id": 3920,
+          "isDpRawData": true,
+          "dataType": "/HuaweiMDC/PlatformServiceInterface/CameraMsgDataType/CameraDecodedMbufStruct",
+          "topicName": "CameraDecodedDdsEvent"
+        }
+      ],
+      "fields": [],
+      "methods": [],
+      "instances": [
+        {
+          "shortName": "/HuaweiMDC/PlatformApplication/CameraReceiveApplication/CameraReceiveService/CameraServiceRequirder/camera_receive_decoded_mbuf_21",
+          "instance": "21",
+          "domainId": 1,
+          "network": "192.168.10.6",
+          "isClient": true,
+          "fastSerialize": true,
+          "qosProfile": "/var/domainqos.xml",
+          "events": [
+            {
+              "id": 3920,
+              "qosProfile": "/var/eventsqos.xml",
+              "dataIds": []
+            }
+          ],
+          "fields": [],
+          "methods": []
+        },
+        {
+          "shortName": "/HuaweiMDC/PlatformApplication/CameraReceiveApplication/CameraReceiveService/CameraServiceRequirder/camera_receive_decoded_mbuf_22",
+          "instance": "22",
+          "domainId": 1,
+          "network": "192.168.10.6",
+          "isClient": true,
+          "fastSerialize": true,
+          "qosProfile": "/var/domainqos.xml",
+          "events": [
+            {
+              "id": 3920,
+              "qosProfile": "/var/eventsqos.xml",
+              "dataIds": []
+            }
+          ],
+          "fields": [],
+          "methods": []
+        },
+        {
+          "shortName": "/HuaweiMDC/PlatformApplication/CameraReceiveApplication/CameraReceiveService/CameraServiceRequirder/camera_receive_decoded_mbuf_23",
+          "instance": "23",
+          "domainId": 1,
+          "network": "192.168.10.6",
+          "isClient": true,
+          "fastSerialize": true,
+          "qosProfile": "/var/domainqos.xml",
+          "events": [
+            {
+              "id": 3920,
+              "qosProfile": "/var/eventsqos.xml",
+              "dataIds": []
+            }
+          ],
+          "fields": [],
+          "methods": []
+        },
+        {
+          "shortName": "/HuaweiMDC/PlatformApplication/CameraReceiveApplication/CameraReceiveService/CameraServiceRequirder/camera_receive_decoded_mbuf_24",
+          "instance": "24",
+          "domainId": 1,
+          "network": "192.168.10.6",
+          "isClient": true,
+          "fastSerialize": true,
+          "qosProfile": "/var/domainqos.xml",
+          "events": [
+            {
+              "id": 3920,
+              "qosProfile": "/var/eventsqos.xml",
+              "dataIds": []
+            }
+          ],
+          "fields": [],
+          "methods": []
+        },
+        {
+          "shortName": "/HuaweiMDC/PlatformApplication/CameraReceiveApplication/CameraReceiveService/CameraServiceRequirder/camera_receive_decoded_mbuf_25",
+          "instance": "25",
+          "domainId": 1,
+          "network": "192.168.10.6",
+          "isClient": true,
+          "fastSerialize": true,
+          "qosProfile": "/var/domainqos.xml",
+          "events": [
+            {
+              "id": 3920,
+              "qosProfile": "/var/eventsqos.xml",
+              "dataIds": []
+            }
+          ],
+          "fields": [],
+          "methods": []
+        },
+        {
+          "shortName": "/HuaweiMDC/PlatformApplication/CameraReceiveApplication/CameraReceiveService/CameraServiceRequirder/camera_receive_decoded_mbuf_26",
+          "instance": "26",
+          "domainId": 1,
+          "network": "192.168.10.6",
+          "isClient": true,
+          "fastSerialize": true,
+          "qosProfile": "/var/domainqos.xml",
+          "events": [
+            {
+              "id": 3920,
+              "qosProfile": "/var/eventsqos.xml",
+              "dataIds": []
+            }
+          ],
+          "fields": [],
+          "methods": []
+        },
+        {
+          "shortName": "/HuaweiMDC/PlatformApplication/CameraReceiveApplication/CameraReceiveService/CameraServiceRequirder/camera_receive_decoded_mbuf_27",
+          "instance": "27",
+          "domainId": 1,
+          "network": "192.168.10.6",
+          "isClient": true,
+          "fastSerialize": true,
+          "qosProfile": "/var/domainqos.xml",
+          "events": [
+            {
+              "id": 3920,
+              "qosProfile": "/var/eventsqos.xml",
+              "dataIds": []
+            }
+          ],
+          "fields": [],
+          "methods": []
+        },
+        {
+          "shortName": "/HuaweiMDC/PlatformApplication/CameraReceiveApplication/CameraReceiveService/CameraServiceRequirder/camera_receive_decoded_mbuf_28",
+          "instance": "28",
+          "domainId": 1,
+          "network": "192.168.10.6",
+          "isClient": true,
+          "fastSerialize": true,
+          "qosProfile": "/var/domainqos.xml",
+          "events": [
+            {
+              "id": 3920,
+              "qosProfile": "/var/eventsqos.xml",
+              "dataIds": []
+            }
+          ],
+          "fields": [],
+          "methods": []
+        },
+        {
+          "shortName": "/HuaweiMDC/PlatformApplication/CameraReceiveApplication/CameraReceiveService/CameraServiceRequirder/camera_receive_decoded_mbuf_29",
+          "instance": "29",
+          "domainId": 1,
+          "network": "192.168.10.6",
+          "isClient": true,
+          "fastSerialize": true,
+          "qosProfile": "/var/domainqos.xml",
+          "events": [
+            {
+              "id": 3920,
+              "qosProfile": "/var/eventsqos.xml",
+              "dataIds": []
+            }
+          ],
+          "fields": [],
+          "methods": []
+        },
+        {
+          "shortName": "/HuaweiMDC/PlatformApplication/CameraReceiveApplication/CameraReceiveService/CameraServiceRequirder/camera_receive_decoded_mbuf_30",
+          "instance": "30",
+          "domainId": 1,
+          "network": "192.168.10.6",
+          "isClient": true,
+          "fastSerialize": true,
+          "qosProfile": "/var/domainqos.xml",
+          "events": [
+            {
+              "id": 3920,
+              "qosProfile": "/var/eventsqos.xml",
+              "dataIds": []
+            }
+          ],
+          "fields": [],
+          "methods": []
+        },
+        {
+          "shortName": "/HuaweiMDC/PlatformApplication/CameraReceiveApplication/CameraReceiveService/CameraServiceRequirder/camera_receive_decoded_mbuf_31",
+          "instance": "31",
+          "domainId": 1,
+          "network": "192.168.10.6",
+          "isClient": true,
+          "fastSerialize": true,
+          "qosProfile": "/var/domainqos.xml",
+          "events": [
+            {
+              "id": 3920,
+              "qosProfile": "/var/eventsqos.xml",
+              "dataIds": []
+            }
+          ],
+          "fields": [],
+          "methods": []
+        },
+        {
+          "shortName": "/HuaweiMDC/PlatformApplication/CameraReceiveApplication/CameraReceiveService/CameraServiceRequirder/camera_receive_decoded_mbuf_32",
+          "instance": "32",
+          "domainId": 1,
+          "network": "192.168.10.6",
+          "isClient": true,
+          "fastSerialize": true,
+          "qosProfile": "/var/domainqos.xml",
+          "events": [
+            {
+              "id": 3920,
+              "qosProfile": "/var/eventsqos.xml",
+              "dataIds": []
+            }
+          ],
+          "fields": [],
+          "methods": []
+        },
+        {
+          "shortName": "/HuaweiMDC/PlatformApplication/CameraReceiveApplication/CameraReceiveService/CameraServiceRequirder/camera_receive_decoded_mbuf_33",
+          "instance": "33",
+          "domainId": 1,
+          "network": "192.168.10.6",
+          "isClient": true,
+          "fastSerialize": true,
+          "qosProfile": "/var/domainqos.xml",
+          "events": [
+            {
+              "id": 3920,
+              "qosProfile": "/var/eventsqos.xml",
+              "dataIds": []
+            }
+          ],
+          "fields": [],
+          "methods": []
+        },
+        {
+          "shortName": "/HuaweiMDC/PlatformApplication/CameraReceiveApplication/CameraReceiveService/CameraServiceRequirder/camera_receive_decoded_mbuf_34",
+          "instance": "34",
+          "domainId": 1,
+          "network": "192.168.10.6",
+          "isClient": true,
+          "fastSerialize": true,
+          "qosProfile": "/var/domainqos.xml",
+          "events": [
+            {
+              "id": 3920,
+              "qosProfile": "/var/eventsqos.xml",
+              "dataIds": []
+            }
+          ],
+          "fields": [],
+          "methods": []
+        },
+        {
+          "shortName": "/HuaweiMDC/PlatformApplication/CameraReceiveApplication/CameraReceiveService/CameraServiceRequirder/camera_receive_decoded_mbuf_35",
+          "instance": "35",
+          "domainId": 1,
+          "network": "192.168.10.6",
+          "isClient": true,
+          "fastSerialize": true,
+          "qosProfile": "/var/domainqos.xml",
+          "events": [
+            {
+              "id": 3920,
+              "qosProfile": "/var/eventsqos.xml",
+              "dataIds": []
+            }
+          ],
+          "fields": [],
+          "methods": []
+        }
+      ]
+    },
+    {
+      "service": "/HuaweiMDC/PlatformServiceInterface/CameraServiceInterfacePkg/CameraEncodedMbufServiceInterface",
+      "serviceId": 2438,
+      "protocolIdUsed": false,
+      "events": [
+        {
+          "event": "cameraEncodedMbufEvent",
+          "id": 27111,
+          "isDpRawData": true,
+          "dataType": "/HuaweiMDC/PlatformServiceInterface/CameraMsgDataType/CameraEncodedMbufStruct",
+          "topicName": "CameraEncodedDdsEvent"
+        }
+      ],
+      "fields": [],
+      "methods": [],
+      "instances": [
+        {
+          "shortName": "/HuaweiMDC/PlatformApplication/CameraReceiveApplication/CameraReceiveService/CameraServiceRequirder/camera_receive_encoded_mbuf_71",
+          "instance": "71",
+          "domainId": 1,
+          "network": "192.168.10.6",
+          "isClient": true,
+          "fastSerialize": true,
+          "qosProfile": "/var/domainqos.xml",
+          "events": [
+            {
+              "id": 27111,
+              "qosProfile": "/var/eventsqos.xml",
+              "dataIds": []
+            }
+          ],
+          "fields": [],
+          "methods": []
+        },
+        {
+          "shortName": "/HuaweiMDC/PlatformApplication/CameraReceiveApplication/CameraReceiveService/CameraServiceRequirder/camera_receive_encoded_mbuf_72",
+          "instance": "72",
+          "domainId": 1,
+          "network": "192.168.10.6",
+          "isClient": true,
+          "fastSerialize": true,
+          "qosProfile": "/var/domainqos.xml",
+          "events": [
+            {
+              "id": 27111,
+              "qosProfile": "/var/eventsqos.xml",
+              "dataIds": []
+            }
+          ],
+          "fields": [],
+          "methods": []
+        },
+        {
+          "shortName": "/HuaweiMDC/PlatformApplication/CameraReceiveApplication/CameraReceiveService/CameraServiceRequirder/camera_receive_encoded_mbuf_73",
+          "instance": "73",
+          "domainId": 1,
+          "network": "192.168.10.6",
+          "isClient": true,
+          "fastSerialize": true,
+          "qosProfile": "/var/domainqos.xml",
+          "events": [
+            {
+              "id": 27111,
+              "qosProfile": "/var/eventsqos.xml",
+              "dataIds": []
+            }
+          ],
+          "fields": [],
+          "methods": []
+        },
+        {
+          "shortName": "/HuaweiMDC/PlatformApplication/CameraReceiveApplication/CameraReceiveService/CameraServiceRequirder/camera_receive_encoded_mbuf_74",
+          "instance": "74",
+          "domainId": 1,
+          "network": "192.168.10.6",
+          "isClient": true,
+          "fastSerialize": true,
+          "qosProfile": "/var/domainqos.xml",
+          "events": [
+            {
+              "id": 27111,
+              "qosProfile": "/var/eventsqos.xml",
+              "dataIds": []
+            }
+          ],
+          "fields": [],
+          "methods": []
+        },
+        {
+          "shortName": "/HuaweiMDC/PlatformApplication/CameraReceiveApplication/CameraReceiveService/CameraServiceRequirder/camera_receive_encoded_mbuf_75",
+          "instance": "75",
+          "domainId": 1,
+          "network": "192.168.10.6",
+          "isClient": true,
+          "fastSerialize": true,
+          "qosProfile": "/var/domainqos.xml",
+          "events": [
+            {
+              "id": 27111,
+              "qosProfile": "/var/eventsqos.xml",
+              "dataIds": []
+            }
+          ],
+          "fields": [],
+          "methods": []
+        },
+        {
+          "shortName": "/HuaweiMDC/PlatformApplication/CameraReceiveApplication/CameraReceiveService/CameraServiceRequirder/camera_receive_encoded_mbuf_76",
+          "instance": "76",
+          "domainId": 1,
+          "network": "192.168.10.6",
+          "isClient": true,
+          "fastSerialize": true,
+          "qosProfile": "/var/domainqos.xml",
+          "events": [
+            {
+              "id": 27111,
+              "qosProfile": "/var/eventsqos.xml",
+              "dataIds": []
+            }
+          ],
+          "fields": [],
+          "methods": []
+        },
+        {
+          "shortName": "/HuaweiMDC/PlatformApplication/CameraReceiveApplication/CameraReceiveService/CameraServiceRequirder/camera_receive_encoded_mbuf_77",
+          "instance": "77",
+          "domainId": 1,
+          "network": "192.168.10.6",
+          "isClient": true,
+          "fastSerialize": true,
+          "qosProfile": "/var/domainqos.xml",
+          "events": [
+            {
+              "id": 27111,
+              "qosProfile": "/var/eventsqos.xml",
+              "dataIds": []
+            }
+          ],
+          "fields": [],
+          "methods": []
+        },
+        {
+          "shortName": "/HuaweiMDC/PlatformApplication/CameraReceiveApplication/CameraReceiveService/CameraServiceRequirder/camera_receive_encoded_mbuf_78",
+          "instance": "78",
+          "domainId": 1,
+          "network": "192.168.10.6",
+          "isClient": true,
+          "fastSerialize": true,
+          "qosProfile": "/var/domainqos.xml",
+          "events": [
+            {
+              "id": 27111,
+              "qosProfile": "/var/eventsqos.xml",
+              "dataIds": []
+            }
+          ],
+          "fields": [],
+          "methods": []
+        },
+        {
+          "shortName": "/HuaweiMDC/PlatformApplication/CameraReceiveApplication/CameraReceiveService/CameraServiceRequirder/camera_receive_encoded_mbuf_79",
+          "instance": "79",
+          "domainId": 1,
+          "network": "192.168.10.6",
+          "isClient": true,
+          "fastSerialize": true,
+          "qosProfile": "/var/domainqos.xml",
+          "events": [
+            {
+              "id": 27111,
+              "qosProfile": "/var/eventsqos.xml",
+              "dataIds": []
+            }
+          ],
+          "fields": [],
+          "methods": []
+        },
+        {
+          "shortName": "/HuaweiMDC/PlatformApplication/CameraReceiveApplication/CameraReceiveService/CameraServiceRequirder/camera_receive_encoded_mbuf_80",
+          "instance": "80",
+          "domainId": 1,
+          "network": "192.168.10.6",
+          "isClient": true,
+          "fastSerialize": true,
+          "qosProfile": "/var/domainqos.xml",
+          "events": [
+            {
+              "id": 27111,
+              "qosProfile": "/var/eventsqos.xml",
+              "dataIds": []
+            }
+          ],
+          "fields": [],
+          "methods": []
+        },
+        {
+          "shortName": "/HuaweiMDC/PlatformApplication/CameraReceiveApplication/CameraReceiveService/CameraServiceRequirder/camera_receive_encoded_mbuf_81",
+          "instance": "81",
+          "domainId": 1,
+          "network": "192.168.10.6",
+          "isClient": true,
+          "fastSerialize": true,
+          "qosProfile": "/var/domainqos.xml",
+          "events": [
+            {
+              "id": 27111,
+              "qosProfile": "/var/eventsqos.xml",
+              "dataIds": []
+            }
+          ],
+          "fields": [],
+          "methods": []
+        },
+        {
+          "shortName": "/HuaweiMDC/PlatformApplication/CameraReceiveApplication/CameraReceiveService/CameraServiceRequirder/camera_receive_encoded_mbuf_82",
+          "instance": "82",
+          "domainId": 1,
+          "network": "192.168.10.6",
+          "isClient": true,
+          "fastSerialize": true,
+          "qosProfile": "/var/domainqos.xml",
+          "events": [
+            {
+              "id": 27111,
+              "qosProfile": "/var/eventsqos.xml",
+              "dataIds": []
+            }
+          ],
+          "fields": [],
+          "methods": []
+        },
+        {
+          "shortName": "/HuaweiMDC/PlatformApplication/CameraReceiveApplication/CameraReceiveService/CameraServiceRequirder/camera_receive_encoded_mbuf_83",
+          "instance": "83",
+          "domainId": 1,
+          "network": "192.168.10.6",
+          "isClient": true,
+          "fastSerialize": true,
+          "qosProfile": "/var/domainqos.xml",
+          "events": [
+            {
+              "id": 27111,
+              "qosProfile": "/var/eventsqos.xml",
+              "dataIds": []
+            }
+          ],
+          "fields": [],
+          "methods": []
+        },
+        {
+          "shortName": "/HuaweiMDC/PlatformApplication/CameraReceiveApplication/CameraReceiveService/CameraServiceRequirder/camera_receive_encoded_mbuf_84",
+          "instance": "84",
+          "domainId": 1,
+          "network": "192.168.10.6",
+          "isClient": true,
+          "fastSerialize": true,
+          "qosProfile": "/var/domainqos.xml",
+          "events": [
+            {
+              "id": 27111,
+              "qosProfile": "/var/eventsqos.xml",
+              "dataIds": []
+            }
+          ],
+          "fields": [],
+          "methods": []
+        },
+        {
+          "shortName": "/HuaweiMDC/PlatformApplication/CameraReceiveApplication/CameraReceiveService/CameraServiceRequirder/camera_receive_encoded_mbuf_85",
+          "instance": "85",
+          "domainId": 1,
+          "network": "192.168.10.6",
+          "isClient": true,
+          "fastSerialize": true,
+          "qosProfile": "/var/domainqos.xml",
+          "events": [
+            {
+              "id": 27111,
+              "qosProfile": "/var/eventsqos.xml",
+              "dataIds": []
+            }
+          ],
+          "fields": [],
+          "methods": []
+        }
+      ]
+    }
+  ]
+}

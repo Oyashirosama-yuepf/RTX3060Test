@@ -1,0 +1,60 @@
+base:
+- HoloParking/APA/BYH01/develop
+
+projects:
+  holo_agent:
+    url: ${git_url}/arch/holo_agent.git
+    branch: holoapawm-develop
+    dependencies:
+    - holo_base
+    - holo_base_msg
+    - holo_cmw
+    - holo_sensors_base
+    - holo_sensors_c
+    - holo_control_base
+  holo_sensors_base:
+    branch: feature/fmh/holoapawm
+  holo_base:
+    branch: feature/fmh/holoapawm
+  holo_base_c:
+    branch: feature/fmh/holoapawm
+  holo_sensors_cmw_app:
+    branch: holoapawm-develop
+    
+  holo_bag:
+    url: ${git_url}/win/holo_bag.git
+    branch: dragonglass-develop
+    dependencies:
+    - holo_base
+    commands: {}
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_bag/cmw_app:
+    url: holo_bag/cmw_app
+    dependencies:
+    - holo_bag
+    - holo_cmw
+    - holo_sensors_base
+    - holo_parking_msg
+    commands: {}
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+      
+  ParkingAPA:
+    dependencies:
+    - holo_parking_cmw_app
+    #- holo_agent
+    - holo_params
+    - holo_bag/cmw_app
+    dependencies_x86_64_ubuntu-18.04:
+    - holo_parking_cmw_app
+    - holo_agent
+    - holo_params
+    - holo_bag/cmw_app
+version: 1

@@ -1,0 +1,40 @@
+var:
+  PATH: ${SYSROOT}/../toolchain/bin:${HOLO_ROOT}/../host/bin::/usr/local/bin:/bin:/sbin:/usr/bin:/usr/sbin
+  TOOLCHAIN_PREFIX: ${CROSSTOOL_ROOT}/MDC610-1.1.001-T.B011/toolchain/bin/aarch64-target-linux-gnu-
+  TARGET_ROOT: ${CROSSTOOL_ROOT}/MDC610-1.1.001-T.B011
+  PKG_CONFIG_PATH: ${SYSROOT}/usr/lib/pkgconfig:${SYSROOT}/usr/share/pkgconfig
+  LDFLAGS: -Wl,-rpath-link,${HOLO_ROOT}/3rdparty/lib:${HOLO_ROOT}/lib
+  LD_LIBRARY_PATH: ${HOLO_ROOT}/3rdparty/lib:${HOLO_ROOT}/lib:${SYSROOT}/usr/lib/mdc_vector
+env:
+  PATH: ${PATH}
+  LANG: $ENV{LANG}
+  TERM: $ENV{TERM}
+  PWD: $ENV{PWD}
+  SHELL: $ENV{SHELL}
+  USER: $ENV{USER}
+  HOME: $ENV{HOME}
+  PKG_CONFIG_PATH: ${SYSROOT}/usr/lib/pkgconfig:${SYSROOT}/usr/share/pkgconfig
+  PKG_CONFIG_LIBDIR: ${SYSROOT}/usr/lib/pkgconfig:${SYSROOT}/usr/share/pkgconfig
+  PKG_CONFIG_SYSROOT_DIR: ${SYSROOT}
+  NPU_HOST_LIB: ${SYSROOT}/usr/local/Ascend/acllib/lib64/stub
+  AscendCL_ROOT: ${SYSROOT}/usr/local/Ascend/acllib
+  MDC_DEVELOPMENT_STUDIO_ROOT: ${CROSSTOOL_ROOT}/resources/toolchain/mdc610/MDC_Development_Studio-Ubuntu18-2.0.007-T
+  CC: ${TOOLCHAIN_PREFIX}gcc --sysroot=${SYSROOT}
+  CXX: ${TOOLCHAIN_PREFIX}g++ --sysroot=${SYSROOT}
+  RANLIB: ${TOOLCHAIN_PREFIX}ranlib
+  AR: ${TOOLCHAIN_PREFIX}ar
+  LD: ${TOOLCHAIN_PREFIX}ld
+  NM: ${TOOLCHAIN_PREFIX}nm
+  OBJDUMP: ${TOOLCHAIN_PREFIX}objdump
+  STRIP: ${TOOLCHAIN_PREFIX}strip
+  LDFLAGS: -Wl,-rpath-link,${HOLO_ROOT}/3rdparty/lib:${HOLO_ROOT}/lib:${SYSROOT}/usr/lib/mdc_vector
+  LD_LIBRARY_PATH: ${HOLO_ROOT}/3rdparty/lib:${HOLO_ROOT}/lib:${SYSROOT}/usr/lib/mdc_vector
+  CFLAGS: ${CFLAGS}
+  CXXFLAGS: ${CXXFLAGS}
+  HOLO_ROOT: ${HOLO_ROOT}
+toolchain_prefix: /opt/DataStore/targets/MDC610-1.1.001-T.B011/toolchain/bin/aarch64-target-linux-gnu-
+target_root: ${CROSSTOOL_ROOT}/MDC610-1.1.001-T.B011
+crosstool:
+- MDC610-1.1.001-T.B011.tar.bz2
+- resources/toolchain/mdc610/MDC_Development_Studio-Ubuntu18-2.0.007-T.tar.bz2
+version: 1

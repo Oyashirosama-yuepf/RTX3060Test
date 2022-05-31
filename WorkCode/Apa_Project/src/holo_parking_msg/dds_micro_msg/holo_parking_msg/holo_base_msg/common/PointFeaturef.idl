@@ -1,0 +1,23 @@
+#ifndef HOLO_BASE_MSG_COMMON_POINT_FEATUREF_IDL_
+#define HOLO_BASE_MSG_COMMON_POINT_FEATUREF_IDL_
+
+#include <holo_base_msg/core/Types.idl>
+
+module holo_base_msg
+{
+    module common
+    {
+        typedef sequence<holo_base_msg::core::float32_t> DescriptorType;
+
+#pragma DCPS_DATA_TYPE "holo_base_msg::common::PointFeaturef"
+        struct PointFeaturef
+        {
+            holo_base_msg::core::float32_t x;
+            holo_base_msg::core::float32_t y;
+            DescriptorType                 descriptor;
+            holo_base_msg::core::float32_t confidence;
+        };
+    };
+};
+
+#endif

@@ -1,0 +1,167 @@
+base: BaseCamp/Application/Dev/develop
+projects:
+  holo_control:
+    url: ${git_url}/pc/holo_control.git
+    branch: dragonglass-develop
+    dependencies:
+    - holo_base
+    - holo_control_base
+    commands: {}
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_control/cmw_app:
+    url: holo_control/cmw_app
+    dependencies:
+    - holo_control
+    - holo_base_msg
+    - holo_cmw
+    commands: {}
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_localization_fusion_cmw_app:
+    url: ${git_url}/mlc/holo_localization_fusion_cmw_app.git
+    branch: dragonglass-develop
+    dependencies:
+    - holo_cmw
+    - holo_base_msg
+    - holo_localization_fusion
+    - holo_map_local_service_client
+    commands: {}
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_localization_vision_cmw_app:
+    url: ${git_url}/mlc/holo_localization_vision_cmw_app.git
+    branch: dragonglass-develop
+    dependencies:
+    - holo_cmw
+    - holo_base_msg
+    - holo_localization_vision
+    commands: {}
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_map_core:
+    url: ${git_url}/map/holo_map_core.git
+    branch: dragonglass-develop
+    dependencies:
+    - holo_base
+    - holo_map_base
+    - holo_map_format
+    - holo_map_common
+    - holo_map_local_service_client
+    commands:
+      test:
+        command: make
+        arguments:
+        - test
+        - '||'
+        - 'true'
+      doc:
+        command: make
+        arguments:
+        - doc
+      coverage:
+        command: make
+        arguments:
+        - coverage
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_map_cmw_app:
+    url: ${git_url}/map/holo_map_cmw_app.git
+    branch: dragonglass-develop
+    dependencies:
+    - holo_base
+    - holo_cmw
+    - holo_base_msg
+    - holo_map_base
+    - holo_map_format
+    - holo_map_common
+    - holo_map_core
+    commands:
+      doc:
+        command: make
+        arguments:
+        - doc
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_prediction:
+    url: ${git_url}/pc/holo_prediction.git
+    branch: dragonglass-develop
+    dependencies:
+    - holo_base
+    commands:
+      doc:
+        command: make
+        arguments:
+        - doc
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_prediction/cmw_app:
+    url: holo_prediction/cmw_app
+    dependencies:
+    - holo_prediction
+    - holo_base_msg
+    commands: {}
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  PilotApps:
+    dependencies:
+    - holo_perception_pilot/cmw_app
+    - holo_localization_fusion_cmw_app
+    - holo_localization_vision_cmw_app
+    - holo_map_cmw_app
+    - holo_sensors_cmw_app
+    - holo_prediction/cmw_app
+    - holo_control/cmw_app
+    commands:
+      configure:
+        command: ''
+        arguments:
+        - ${SOURCE_ROOT}
+      build:
+        command: ''
+        arguments: []
+      install:
+        command: ''
+        arguments: []
+    steps: null
+  Pilot:
+    dependencies:
+    - BaseCamp
+    - PilotApps
+    commands:
+      configure:
+        command: ''
+        arguments:
+        - ${SOURCE_ROOT}
+      build:
+        command: ''
+        arguments: []
+      install:
+        command: ''
+        arguments: []
+    steps: null
+version: 1

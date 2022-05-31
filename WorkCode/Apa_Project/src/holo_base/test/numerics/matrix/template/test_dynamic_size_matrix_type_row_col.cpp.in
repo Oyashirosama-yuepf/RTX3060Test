@@ -1,0 +1,111 @@
+/*
+ * Copyright (C) HoloMatic Technology(Beijing) Co., Ltd. - All Rights Reserved
+ * Unauthorized copying of this file, via any medium is strictly prohibited
+ * Proprietary and confidential
+ */
+
+#include <gtest/gtest.h>
+
+#include <holo/core/types.h>
+#include <holo/numerics/matrix.h>
+
+#include "../preprocess.h"
+
+template<typename T>
+struct CastType;
+
+template<>
+struct CastType<holo::float32_t>
+{
+    using type = holo::float64_t;
+};
+
+template<>
+struct CastType<holo::float64_t>
+{
+    using type = holo::float32_t;
+};
+
+using holo::float32_t;
+using holo::float64_t;
+
+/*
+ * The following variables/types need to be will defined
+ * The string enclosed by '@' will be replaced with CMake variable of same name. 
+ * These CMake variables are defined in "test/numerics/matrix/CMakeList.txt"
+ */
+using Scalar = @_matrix_inst_scalar@;
+static const int32_t RowValue = @_matrix_inst_row@;
+static const int32_t ColValue = @_matrix_inst_col@;
+
+static const size_t SizeValue = static_cast<Scalar>(RowValue) * static_cast<Scalar>(ColValue);
+static const size_t ShortSizeValue = static_cast<Scalar>(@_matrix_short_init_size@);
+static const size_t LongSizeValue = static_cast<Scalar>(@_matrix_long_init_size@);
+
+#define SHORT_SIZE_VALUE @_matrix_short_init_size@
+
+// This macro will expand to "0, 1, 2, 3, ... n-1". n is the size of the matrix.
+// This string can be used to initialize a std::initializer_list (eg. {MATRIX_INIT_SEQUENCE})
+// Or passed as function arguments (eg. DoSomething(MATRIX_INIT_SEQUENCE))
+#define MATRIX_INIT_SEQUENCE INIT_SEQ(@_matrix_init_size@)
+// This macro will expand to "0, 1, 2, 3, ... n-1". n is a value smaller than matrix size.
+#define MATRIX_SHORT_INIT_SEQUENCE INIT_SEQ(@_matrix_short_init_size@)
+// This macro will expand to "0, 1, 2, 3, ... n-1". n is a value larger than matrix size.
+#define MATRIX_LONG_INIT_SEQUENCE INIT_SEQ(@_matrix_long_init_size@)
+
+/*
+ * The following types are auto deduced from previous definitions.
+ */
+using MatrixType = holo::numerics::MatrixT<Scalar, -1, -1>; // The matrix type to test
+using TransposeMatrixType = holo::numerics::MatrixT<Scalar, -1, -1>; // The transposed matrix type
+using DynamicMatrixType = holo::numerics::MatrixT<Scalar, -1, -1>; // Coresponding dynamic matrix type
+using RowMatrixType = holo::numerics::MatrixT<Scalar, 1, -1>; // Coresponding raw matrix type
+using ColMatrixType = holo::numerics::MatrixT<Scalar, -1, 1>; // Coresponding column matrix type
+using SquareMatrixType = holo::numerics::MatrixT<Scalar, RowValue, RowValue>; // Coresponding square matrix type
+// The coresponding cast type. If Scalar is float32, CastScalar will be float64 and vice versa.
+using CastScalar = typename CastType<Scalar>::type;
+// The coresponding cast matrix type. If Scalar is float32, CastScalar will be float64 and vice versa.
+using CastMatrixType = holo::numerics::MatrixT<CastScalar, -1, -1>;
+
+/*
+ * Create a zero matrix
+ */
+static MatrixType CreateZeroMatrix()
+{
+    MatrixType mat;
+    mat.Resize(RowValue, ColValue);
+    for(size_t i = 0; i < RowValue * ColValue; ++i)
+    {
+        mat(i) = static_cast<Scalar>(0);
+    }
+    return mat;
+}
+
+/*
+ * Create a matrix with integer sequence as elements.
+ */
+static MatrixType CreateSequenceMatrix()
+{
+    MatrixType mat;
+    mat.Resize(RowValue, ColValue);
+    for(size_t i = 0; i < RowValue; ++i)
+    {
+        for(size_t j = 0; j < ColValue; ++j)
+        {
+            mat(i, j) = i * ColValue + j;
+        }
+    }
+    return mat;
+}
+
+#undef SUITENAME
+#define SUITENAME FixedSizeMatrix_@_matrix_inst_scalar@_@_matrix_inst_row@_@_matrix_inst_col@_Base
+// include test cases for matrix base type
+#include "../test_matrix_base_operations.h"
+
+holo::int32_t main(holo::int32_t argc, holo::char_t** argv)
+{
+    ::testing::InitGoogleTest(&argc, argv);
+    return RUN_ALL_TESTS();
+}
+

@@ -1,0 +1,469 @@
+base: null
+commands:
+  configure:
+    command: cmake
+    arguments:
+    - ${SOURCE_ROOT}
+  build:
+    command: make
+    arguments: []
+    parallel_arg: -j
+  install:
+    command: make
+    arguments:
+    - install
+    parallel_arg: -j
+  test:
+    command: ''
+    arguments: []
+steps:
+- configure
+- build
+- install
+projects:
+  holo_3rdparty:
+    env:
+      PKG_CONFIG_PATH: ${HOLO_ROOT}/lib/pkgconfig:${HOLO_ROOT}/3rdparty/lib/pkgconfig:${PKG_CONFIG_PATH}
+      CFLAGS: -I${HOLO_ROOT}/3rdparty/include ${CFLAGS}
+      CXXFLAGS: -I${HOLO_ROOT}/3rdparty/include ${CXXFLAGS}
+      LDFLAGS: -L${HOLO_ROOT}/3rdparty/lib -Wl,-rpath-link,${HOLO_ROOT}/3rdparty/lib
+        ${LDFLAGS}
+      PATH: ${HOLO_ROOT}/../host/bin:${PATH}
+    url: ${git_url}/bccs/holo_3rdparty.git
+    branch: master
+    commands:
+      configure:
+        arguments:
+        - -DHOLO_3RDPARTY_FORCE_BUILD=ON
+        - -DOPENCV_WITH_GTK=ON
+        - -DOPENCV_SKIP_CACHE=ON
+        - -DPROTOBUF_VERSION=3.8.0
+        - ${SOURCE_ROOT}
+      build:
+        arguments:
+        - proj4
+        - yaml-cpp
+        - eigen3
+        - gperf
+        - ceres
+        - cfitsio
+        - healpix
+        - flann
+        - rply
+        - qhull
+        - opencv
+        - apriltag
+        - ffmpeg
+        - nanopb
+        - libsocket
+        - vector_blf
+        - serial
+        - x264
+        - jpeg
+        - qpOASES
+        - protobuf
+        - vptree
+        - polyclipping
+        - gtsam
+        - gtest-1.8.1
+        - log4cplus
+      install:
+        command: ''
+        arguments: []
+    steps: null
+    package:
+      manifest: null
+      files: []
+      directories:
+      - ${HOLO_ROOT}/3rdparty
+      - ${HOLO_ROOT}/../host
+  holo_cmake_scripts:
+    url: ${git_url}/base/holo_cmake_scripts.git
+    branch: master
+    commands:
+      build:
+        command: ''
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  dbow3:
+    url: ${git_url}/~luopei/dbow3.git
+    branch: master
+    dependencies:
+    - holo_3rdparty
+    commands:
+      configure:
+        arguments:
+        - -DCMAKE_INSTALL_PREFIX=${HOLO_ROOT}/3rdparty -DCMAKE_PREFIX_PATH=${HOLO_ROOT}/3rdparty
+        - ${SOURCE_ROOT}
+      test:
+        command: make
+        arguments:
+        - test
+        - '||'
+        - 'true'
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_base:
+    url: ${git_url}/bccs/holo_base.git
+    branch: hpp_dev_v1
+    dependencies:
+    - holo_3rdparty
+    commands:
+      test:
+        command: make
+        arguments:
+        - test
+        - '||'
+        - 'true'
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_3d:
+    url: ${git_url}/mlc/holo_3d.git
+    branch: hpp_dev_v1
+    dependencies:
+    - holo_base
+    commands:
+      test:
+        command: make
+        arguments:
+        - test
+        - '||'
+        - 'true'
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_sensors:
+    url: ${git_url}/vs/holo_sensors.git
+    branch: hpp_dev_v1
+    dependencies:
+    - holo_base
+    - holo_3d
+    commands: {}
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_sensors/cmw_app:
+    url: holo_sensors/cmw_app
+    dependencies:
+    - holo_sensors
+    - holo_cmw
+    commands: {}
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_data_provider:
+    url: ${git_url}/data_provider/holo_data_provider.git
+    branch: hpp_dev_v1
+    dependencies:
+    - holo_cmake_scripts
+    - holo_sensors
+    commands:
+      test:
+        command: make
+        arguments:
+        - test
+        - '||'
+        - 'true'
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_data_provider/cmw_app:
+    url: holo_data_provider/cmw_app
+    dependencies:
+    - holo_data_provider
+    - holo_cmw
+    commands: {}
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_gateway:
+    url: ${git_url}/vs/holo_gateway.git
+    branch: hpp_dev_v1
+    dependencies:
+    - holo_base
+    - holo_sensors
+    - holo_control
+    commands: {}
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_gateway/cmw_app:
+    url: holo_gateway/cmw_app
+    dependencies:
+    - holo_gateway
+    - holo_cmw
+    commands: {}
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_localization:
+    url: null
+    dependencies:
+    - holo_localization_base
+    - holo_localization_deep
+    - holo_localization_vision
+    commands:
+      configure:
+        command: ''
+        arguments:
+        - ${SOURCE_ROOT}
+      build:
+        command: ''
+        arguments: []
+      install:
+        command: ''
+        arguments: []
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_localization/cmw_app:
+    url: null
+    dependencies:
+    - holo_localization_vision/cmw_app
+    commands:
+      configure:
+        command: ''
+        arguments:
+        - ${SOURCE_ROOT}
+      build:
+        command: ''
+        arguments: []
+      install:
+        command: ''
+        arguments: []
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_localization_base:
+    url: ${git_url}/mlc/holo_localization_base.git
+    branch: hpp_dev_v1
+    dependencies:
+    - holo_base
+    - holo_3d
+    commands: {}
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_localization_deep:
+    url: ${git_url}/mlc/holo_localization_deep.git
+    branch: hpp_dev_v1
+    dependencies:
+    - holo_base
+    - holo_3d
+    commands: {}
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_localization_vision:
+    url: ${git_url}/mlc/holo_localization_vision.git
+    branch: hpp_dev_v1
+    dependencies:
+    - holo_localization_base
+    - holo_localization_deep
+    - dbow3
+    commands: {}
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_localization_vision/cmw_app:
+    url: holo_localization_vision/cmw_app
+    dependencies:
+    - holo_localization_vision
+    - holo_sensors
+    - holo_cmw
+    commands: {}
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_perception:
+    url: ${git_url}/per/holo_perception.git
+    branch: hpp_dev_v1
+    dependencies:
+    - holo_base
+    - holo_3d
+    - holo_sensors
+    commands: {}
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_perception/cmw_app:
+    url: holo_perception/cmw_app
+    dependencies:
+    - holo_perception
+    - holo_cmw
+    commands: {}
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_planning:
+    url: ${git_url}/pc/holo_planning.git
+    branch: hpp_dev_v1
+    dependencies:
+    - holo_base
+    commands: {}
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_planning/cmw_app:
+    url: holo_planning/cmw_app
+    dependencies:
+    - holo_planning
+    - holo_cmw
+    commands: {}
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_control:
+    url: ${git_url}/pc/holo_control.git
+    branch: hpp_dev_v1
+    dependencies:
+    - holo_base
+    commands: {}
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_control/cmw_app:
+    url: holo_control/cmw_app
+    dependencies:
+    - holo_control
+    - holo_cmw
+    commands: {}
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_cmw:
+    url: ${git_url}/bccs/holo_cmw.git
+    branch: hpp_dev_v1
+    dependencies:
+    - holo_base
+    - holo_3d
+    commands: {}
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_parking:
+    url: ${git_url}/base/holo_parking.git
+    branch: hpp_dev_v1
+    dependencies:
+    - holo_base
+    commands: {}
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_parking/cmw_app:
+    url: holo_parking/cmw_app
+    dependencies:
+    - holo_parking
+    - holo_cmw
+    commands: {}
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_sys:
+    url: ${git_url}/~liwenjun/holo_sys.git
+    branch: hpp_dev_v1
+    commands:
+      configure:
+        command: ''
+      build:
+        command: ''
+      install:
+        command: ''
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_sys/cmw_app:
+    url: holo_sys/cmw_app
+    dependencies:
+    - holo_sys
+    - holo_cmw
+    commands:
+      configure:
+        arguments:
+        - -DHOLO_BUILD_PARKING=ON
+        - ${SOURCE_ROOT}
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  ParkingHpp:
+    url: null
+    dependencies:
+    - holo_parking/cmw_app
+    - holo_sensors/cmw_app
+    - holo_data_provider/cmw_app
+    - holo_localization/cmw_app
+    - holo_perception/cmw_app
+    - holo_planning/cmw_app
+    - holo_control/cmw_app
+    - holo_gateway/cmw_app
+    - holo_sys/cmw_app
+    commands:
+      configure:
+        command: ''
+      build:
+        command: ''
+      install:
+        command: ''
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+version: 1

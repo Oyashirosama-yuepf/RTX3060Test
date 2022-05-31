@@ -1,0 +1,29 @@
+base:
+- BaseCamp/Library/CS/develop
+- BaseCamp/Library/VS/develop
+- BaseCamp/Library/MLC/develop
+- BaseCamp/Library/PER/develop
+- BaseCamp/Library/MAP/develop
+- BaseCamp/Library/PC/develop
+projects:
+  BaseCamp:
+    dependencies:
+    - CS
+    - VS
+    - MLC
+    - PER
+    - MAP
+    - PC
+    commands:
+      configure:
+        command: ''
+        arguments:
+        - ${SOURCE_ROOT}
+      build:
+        command: ''
+        arguments: []
+      install:
+        command: ''
+        arguments: []
+    steps: null
+version: 1

@@ -1,0 +1,233 @@
+base: BaseCamp/Library/release/2022.04
+projects:
+  holo_3rdparty:
+    commands:
+      configure:
+        arguments:
+        - -DHOLO_3RDPARTY_FORCE_BUILD=ON
+        - -DOPENCV_BUILD_opencv_objdetect=ON
+        - -DGTSAM_VERSION=4.0.2
+        - ${SOURCE_ROOT}
+      build:
+        arguments:
+        - sqlite3
+        - yaml-cpp
+        - eigen3
+        - glog
+        - flann
+        - rply
+        - opencv
+        - apriltag
+        - log4cplus
+        - qpOASES
+        - osqp
+        - protobuf
+        - gtsam
+        - gtest-1.8.1
+        - nanopb
+        - lz4
+        - libyuv
+  holo_cmw:
+    commands:
+      configure:
+        arguments_tda4_qnx-7.0.0:
+        - -DHOLO_CMW_BUILD_DDS_MICRO_WRAPPER=OFF
+        - -DHOLO_CMW_BUILD_OPENDDS_WRAPPER=OFF
+        - -DHOLO_CMW_BUILD_PPS_WRAPPER=ON
+        - ${SOURCE_ROOT}
+  holo_utils:
+    commands:
+      configure:
+        arguments:
+        - -DHOLO_LOG_TYPE=GLOG
+        - ${SOURCE_ROOT}
+  holo_map_local_service_server:
+    url: ${git_url}/map/holo_map_local_service_server.git
+    branch: release/v0.9
+    dependencies:
+    - holo_map_base
+    - holo_map_adapter
+    - holo_map_local_service_client
+    commands:
+      test:
+        command: make
+        arguments:
+        - test
+      doc:
+        command: make
+        arguments:
+        - doc
+      coverage:
+        command: make
+        arguments:
+        - coverage
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_calibration:
+    url: ${git_url}/mlc/holo_calibration.git
+    branch: release/v0.7
+    dependencies:
+    - holo_localization_base
+    - holo_3d
+    commands:
+      configure:
+          arguments:
+          - -DHOLO_BUILD_APP=OFF
+          - ${SOURCE_ROOT}
+      test:
+          command: make
+          arguments:
+          - test
+          - '||'
+          - 'true'
+      doc:
+          command: make
+          arguments:
+          - doc
+      coverage:
+          command: make
+          arguments:
+          - coverage
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_dnn_base/apps:
+    url: holo_dnn_base/apps
+    dependencies:
+    - PER
+    dependencies_MDC610-1.0.012-B0120000.B011:
+    - PER
+    - holo_dnn_mdc
+    dependencies_MDC610-1.0.017-T.B011:
+    - PER
+    - holo_dnn_mdc
+    dependencies_tda4_qnx-7.0.0:
+    - PER
+    - holo_dnn_tda4
+    dependencies_tda4_ubuntu-18.04:
+    - PER
+    - holo_dnn_tda4
+    commands:
+      test:
+        command: make
+        arguments:
+        - test
+        - '||'
+        - 'true'
+      doc:
+        command: make
+        arguments:
+        - doc
+      coverage:
+        command: make
+        arguments:
+        - coverage
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  BaseCampMapApplication:
+    dependencies:
+    - holo_map_local_service_server
+    commands:
+      configure:
+        command: ''
+        arguments:
+        - ${SOURCE_ROOT}
+      build:
+        command: ''
+        arguments: []
+      install:
+        command: ''
+        arguments: []
+    steps: null
+  BaseCampMlcApplication:
+    dependencies:
+    - holo_3d
+    - holo_localization_c
+    - holo_localization_base
+    - holo_calibration
+    commands:
+      configure:
+        command: ''
+        arguments:
+        - ${SOURCE_ROOT}
+      build:
+        command: ''
+        arguments: []
+      install:
+        command: ''
+        arguments: []
+    steps: null
+  BaseCampVsApplication:
+    dependencies:
+    - holo_sensors_base
+    commands:
+      configure:
+        command: ''
+        arguments:
+        - ${SOURCE_ROOT}
+      build:
+        command: ''
+        arguments: []
+      install:
+        command: ''
+        arguments: []
+    steps: null
+  BaseCampPerApplication:
+    dependencies:
+    - PER
+    - holo_dnn_base/apps
+    commands:
+      configure:
+        command: ''
+        arguments:
+        - ${SOURCE_ROOT}
+      build:
+        command: ''
+        arguments: []
+      install:
+        command: ''
+        arguments: []
+    steps: null
+  BaseCampPcApplication:
+    dependencies:
+    - holo_planning_base
+    commands:
+      configure:
+        command: ''
+        arguments:
+        - ${SOURCE_ROOT}
+      build:
+        command: ''
+        arguments: []
+      install:
+        command: ''
+        arguments: []
+    steps: null
+  BaseCampApplication:
+    dependencies:
+    - BaseCampMapApplication
+    - BaseCampMlcApplication
+    - BaseCampVsApplication
+    - BaseCampPerApplication
+    - BaseCampPcApplication
+    commands:
+      configure:
+        command: ''
+        arguments:
+        - ${SOURCE_ROOT}
+      build:
+        command: ''
+        arguments: []
+      install:
+        command: ''
+        arguments: []
+    steps: null
+version: 1

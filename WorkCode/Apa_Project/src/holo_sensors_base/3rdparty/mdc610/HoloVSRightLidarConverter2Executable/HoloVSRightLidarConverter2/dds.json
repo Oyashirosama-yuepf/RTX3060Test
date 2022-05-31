@@ -1,0 +1,73 @@
+{
+  "applicationName": "/SwComponent/HoloVSRightLidarConverter/HoloVSRightLidarConverter",
+  "services": [
+    {
+      "service": "/serivce_interface/Uint8BufferSI",
+      "serviceId": 20000,
+      "events": [
+        {
+          "event": "Uint8Buffer",
+          "id": 33429,
+          "isDpRawData": false,
+          "dataType": "/holo_base_msg/core/BuiltinBuffer",
+          "topicName": "/test"
+        }
+      ],
+      "fields": [],
+      "methods": [],
+      "instances": [
+        {
+          "shortName": "/DdsRequired/HoloVSRightLidarConverterUint8BufferRSI1015",
+          "instance": "1015",
+          "domainId": 30,
+          "network": "192.168.10.6",
+          "isClient": true,
+          "qosProfile": "large_buffer_qos.xml",
+          "events": [
+            {
+              "id": 33429,
+              "qosProfile": "large_buffer_qos.xml",
+              "dataIds": []
+            }
+          ],
+          "fields": [],
+          "methods": []
+        }
+      ]
+    },
+    {
+      "service": "/serivce_interface/Uint64SI",
+      "serviceId": 20002,
+      "events": [
+        {
+          "event": "Uint64",
+          "id": 33337,
+          "isDpRawData": false,
+          "dataType": "/HuaweiMDC/StdCppDataType/UInt64",
+          "topicName": "/test"
+        }
+      ],
+      "fields": [],
+      "methods": [],
+      "instances": [
+        {
+          "shortName": "/DdsProvided/HoloVSRightLidarConverterUint64PSI1209",
+          "instance": "1209",
+          "domainId": 30,
+          "network": "192.168.10.6",
+          "isClient": false,
+          "qosProfile": "default_qos.xml",
+          "events": [
+            {
+              "id": 33337,
+              "qosProfile": "large_buffer_qos.xml",
+              "dataIds": []
+            }
+          ],
+          "fields": [],
+          "methods": []
+        }
+      ]
+    }
+  ]
+}

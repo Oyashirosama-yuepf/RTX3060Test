@@ -1,0 +1,27 @@
+base: BaseCamp/Library/release/2022.03
+projects:
+  holo_cmw:
+    commands:
+      configure:
+        arguments:
+        - -DHOLO_CMW_BUILD_ROS_WRAPPER=OFF
+        - -DHOLO_CMW_BUILD_OPENDDS_WRAPPER=ON
+        - -DHOLO_CMW_BUILD_UMB_WRAPPER=OFF
+        - -DHOLO_CMW_BUILD_DDS_MICRO_WRAPPER=OFF
+        - ${SOURCE_ROOT}
+    steps: null
+
+  holo_x_client:
+    commands:
+      configure:
+        arguments:
+        - -DUSE_OPENDDS_WARPPER=ON
+        - -DUSE_MDC_CM_WARPPER=OFF
+        - ${SOURCE_ROOT}
+    url: ${git_url}/sim/holo_x_client.git
+    dependencies: [holo_cmw, holo_base_msg, holo_sensors_base]
+    branch: release/2022.03
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []

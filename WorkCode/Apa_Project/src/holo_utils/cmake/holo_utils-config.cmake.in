@@ -1,0 +1,7 @@
+find_package(YAML-CPP REQUIRED)
+find_package(Threads REQUIRED)
+if(@HOLO_LOG_TYPE@ STREQUAL "GLOG")
+    find_package(GLOG REQUIRED)
+endif()
+include(${CMAKE_CURRENT_LIST_DIR}/@PROJECT_NAME@-targets.cmake)
+

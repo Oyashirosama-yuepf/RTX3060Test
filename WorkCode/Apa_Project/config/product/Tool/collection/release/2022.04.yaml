@@ -1,0 +1,21 @@
+base:
+- BaseCamp/Application/Dev/release/2022.04
+- Tool/holobag/release/x86/opendds/2022.04
+projects:
+  COLLECTION:
+    dependencies:
+    - holo_sensors_cmw_app
+    - holo_bag/cmw_app
+    commands:
+      configure:
+        command: ''
+        arguments:
+        - ${SOURCE_ROOT}
+      build:
+        command: ''
+        arguments: []
+      install:
+        command: ''
+        arguments: []
+    steps: null
+version: 1

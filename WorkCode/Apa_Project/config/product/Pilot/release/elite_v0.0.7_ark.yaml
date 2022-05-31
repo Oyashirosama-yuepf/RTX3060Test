@@ -1,0 +1,2274 @@
+base: null
+commands:
+  configure:
+    command: cmake
+    arguments:
+    - ${SOURCE_ROOT}
+  build:
+    command: make
+    arguments: []
+    parallel_arg: -j
+  install:
+    command: make
+    arguments:
+    - install
+    parallel_arg: -j
+  test:
+    command: ''
+    arguments: []
+  doc:
+    command: ''
+    arguments: []
+  coverage:
+    command: ''
+    arguments: []
+steps:
+- configure
+- build
+- install
+projects:
+  holo_3rdparty:
+    env:
+      PATH: ${HOLO_ROOT}/../host/bin:${PATH}
+      CFLAGS: -I${HOLO_ROOT}/3rdparty/include ${CFLAGS}
+      LDFLAGS: -L${HOLO_ROOT}/3rdparty/lib -Wl,-rpath-link,${HOLO_ROOT}/3rdparty/lib
+        ${LDFLAGS}
+      CXXFLAGS: -I${HOLO_ROOT}/3rdparty/include ${CXXFLAGS}
+    url: ${git_url}/bccs/holo_3rdparty.git
+    branch: release/elite_v0.0.7
+    dependencies: []
+    commands:
+      configure:
+        command: cmake
+        arguments:
+        - -DHOLO_3RDPARTY_FORCE_BUILD=ON
+        - ${SOURCE_ROOT}
+      build:
+        command: make
+        arguments:
+        - dragonglass
+        - qpOASES
+        - nanopb
+      install:
+        command: ''
+        arguments: []
+      test:
+        command: ''
+        arguments: []
+      doc:
+        command: ''
+        arguments: []
+      coverage:
+        command: ''
+        arguments: []
+    steps: null
+    package:
+      manifest: null
+      files: []
+      directories:
+      - ${HOLO_ROOT}/3rdparty
+      - ${HOLO_ROOT}/../host
+  holo_cmake_scripts:
+    env: {}
+    url: ${git_url}/base/holo_cmake_scripts.git
+    branch: release/elite_v0.0.7
+    dependencies: []
+    commands:
+      configure:
+        command: cmake
+        arguments:
+        - ${SOURCE_ROOT}
+      build:
+        command: make
+        arguments: []
+      install:
+        command: make
+        arguments:
+        - install
+      test:
+        command: ''
+        arguments: []
+      doc:
+        command: ''
+        arguments: []
+      coverage:
+        command: ''
+        arguments: []
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_base_c:
+    env: {}
+    url: ${git_url}/bccs/holo_base_c.git
+    branch: release/elite_v0.0.7
+    dependencies:
+    - holo_3rdparty
+    - holo_cmake_scripts
+    commands:
+      configure:
+        command: cmake
+        arguments:
+        - ${SOURCE_ROOT}
+      build:
+        command: make
+        arguments: []
+      install:
+        command: make
+        arguments:
+        - install
+      test:
+        command: make
+        arguments:
+        - test
+        - '||'
+        - 'true'
+      doc:
+        command: make
+        arguments:
+        - doc
+      coverage:
+        command: make
+        arguments:
+        - coverage
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_sensors_c:
+    env: {}
+    url: ${git_url}/vs/holo_sensors_c.git
+    branch: release/elite_v0.0.7
+    dependencies:
+    - holo_base_c
+    commands:
+      configure:
+        command: cmake
+        arguments:
+        - ${SOURCE_ROOT}
+      build:
+        command: make
+        arguments: []
+      install:
+        command: make
+        arguments:
+        - install
+      test:
+        command: make
+        arguments:
+        - test
+        - '||'
+        - 'true'
+      doc:
+        command: make
+        arguments:
+        - doc
+      coverage:
+        command: make
+        arguments:
+        - coverage
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_control_base:
+    env: {}
+    url: ${git_url}/pc/holo_control_base.git
+    branch: release/elite_v0.0.7
+    dependencies:
+    - holo_base_c
+    commands:
+      configure:
+        command: cmake
+        arguments:
+        - ${SOURCE_ROOT}
+      build:
+        command: make
+        arguments: []
+      install:
+        command: make
+        arguments:
+        - install
+      test:
+        command: make
+        arguments: []
+      doc:
+        command: make
+        arguments: []
+      coverage:
+        command: make
+        arguments:
+        - coverage
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_control:
+    env: {}
+    url: ${git_url}/pc/holo_control.git
+    branch: release/elite_v0.0.7
+    dependencies:
+    - holo_base
+    - holo_control_base
+    commands:
+      configure:
+        command: cmake
+        arguments:
+        - ${SOURCE_ROOT}
+      build:
+        command: make
+        arguments: []
+      install:
+        command: make
+        arguments:
+        - install
+      test:
+        command: make
+        arguments: []
+      doc:
+        command: make
+        arguments: []
+      coverage:
+        command: make
+        arguments: []
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_control/cmw_app:
+    env: {}
+    url: null
+    branch: ''
+    dependencies:
+    - holo_control_base
+    - holo_base
+    - holo_control
+    - holo_cmw
+    - holo_planning_pilot
+    commands:
+      configure:
+        command: cmake
+        arguments:
+        - ${SOURCE_ROOT}
+      build:
+        command: make
+        arguments: []
+      install:
+        command: make
+        arguments:
+        - install
+      test:
+        command: ''
+        arguments: []
+      doc:
+        command: ''
+        arguments: []
+      coverage:
+        command: ''
+        arguments: []
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_control_cmw_app:
+    env: {}
+    url: null
+    branch: ''
+    dependencies:
+    - holo_control/cmw_app
+    commands:
+      configure:
+        command: ''
+        arguments:
+        - ${SOURCE_ROOT}
+      build:
+        command: ''
+        arguments: []
+      install:
+        command: ''
+        arguments: []
+      test:
+        command: ''
+        arguments: []
+      doc:
+        command: ''
+        arguments: []
+      coverage:
+        command: ''
+        arguments: []
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_base:
+    env:
+      CXXFLAGS: ${CXXFLAGS} -Wno-error=strict-aliasing
+    url: ${git_url}/bccs/holo_base.git
+    branch: release/elite_v0.0.7
+    dependencies:
+    - holo_base_c
+    commands:
+      configure:
+        command: cmake
+        arguments:
+        - ${SOURCE_ROOT}
+      build:
+        command: make
+        arguments: []
+      install:
+        command: make
+        arguments:
+        - install
+      test:
+        command: make
+        arguments: []
+      doc:
+        command: make
+        arguments: []
+      coverage:
+        command: make
+        arguments: []
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_dnn:
+    env: {}
+    url: ${git_url}/per/holo_dnn.git
+    branch: release/elite_v0.0.7
+    dependencies: []
+    commands:
+      configure:
+        command: cmake
+        arguments:
+        - -DHOLO_DNN_ENGINE_TENSOR_RT=ON
+        - -DHOLO_DNN_WITH_CUDA=OFF
+        - -DHOLO_DNN_ENGINE_MDC=ON
+        - -DHOLO_BUILD_WITH_DDK=OFF
+        - -DHOLO_BUILD_WITH_BASE=ON
+        - ${SOURCE_ROOT}
+      build:
+        command: make
+        arguments: []
+      install:
+        command: make
+        arguments:
+        - install
+      test:
+        command: make
+        arguments: []
+      doc:
+        command: make
+        arguments: []
+      coverage:
+        command: make
+        arguments: []
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_cmw:
+    env: {}
+    url: ${git_url}/bccs/holo_cmw.git
+    branch: release/elite_v0.0.7
+    dependencies:
+    - holo_base
+    commands:
+      configure:
+        command: cmake
+        arguments:
+        - -DHOLO_CMW_BUILD_OPENDDS_WRAPPER=OFF
+        - ${SOURCE_ROOT}
+      build:
+        command: make
+        arguments: []
+      install:
+        command: make
+        arguments:
+        - install
+      test:
+        command: ''
+        arguments: []
+      doc:
+        command: ''
+        arguments: []
+      coverage:
+        command: ''
+        arguments: []
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_localization_base:
+    env: {}
+    url: ${git_url}/mlc/holo_localization_base.git
+    branch: release/elite_v0.0.7
+    dependencies:
+    - holo_3rdparty
+    - holo_base
+    commands:
+      configure:
+        command: cmake
+        arguments:
+        - ${SOURCE_ROOT}
+      build:
+        command: make
+        arguments: []
+      install:
+        command: make
+        arguments:
+        - install
+      test:
+        command: make
+        arguments:
+        - test
+        - '||'
+        - 'true'
+      doc:
+        command: make
+        arguments:
+        - doc
+      coverage:
+        command: make
+        arguments:
+        - coverage
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_localization_fusion:
+    env: {}
+    url: ${git_url}/mlc/holo_localization_fusion.git
+    branch: release/elite_v0.0.7
+    dependencies:
+    - holo_localization_base
+    - holo_localization_semantic
+    commands:
+      configure:
+        command: cmake
+        arguments:
+        - ${SOURCE_ROOT}
+      build:
+        command: make
+        arguments: []
+      install:
+        command: make
+        arguments:
+        - install
+      test:
+        command: make
+        arguments:
+        - test
+        - '||'
+        - 'true'
+      doc:
+        command: make
+        arguments:
+        - doc
+      coverage:
+        command: make
+        arguments:
+        - coverage
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_localization_fusion/cmw_app:
+    env: {}
+    url: null
+    branch: ''
+    dependencies:
+    - holo_localization_fusion
+    - holo_cmw
+    commands:
+      configure:
+        command: cmake
+        arguments:
+        - ${SOURCE_ROOT}
+      build:
+        command: make
+        arguments: []
+      install:
+        command: make
+        arguments:
+        - install
+      test:
+        command: ''
+        arguments: []
+      doc:
+        command: ''
+        arguments: []
+      coverage:
+        command: ''
+        arguments: []
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_localization_semantic:
+    env: {}
+    url: ${git_url}/mlc/holo_localization_semantic.git
+    branch: release/elite_v0.0.7
+    dependencies:
+    - holo_localization_base
+    commands:
+      configure:
+        command: cmake
+        arguments:
+        - ${SOURCE_ROOT}
+      build:
+        command: make
+        arguments: []
+      install:
+        command: make
+        arguments:
+        - install
+      test:
+        command: make
+        arguments:
+        - test
+        - '||'
+        - 'true'
+      doc:
+        command: make
+        arguments:
+        - doc
+      coverage:
+        command: make
+        arguments:
+        - coverage
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_localization_vision:
+    env: {}
+    url: ${git_url}/mlc/holo_localization_vision.git
+    branch: release/elite_v0.0.7
+    dependencies:
+    - holo_localization_base
+    commands:
+      configure:
+        command: cmake
+        arguments:
+        - ${SOURCE_ROOT}
+      build:
+        command: make
+        arguments: []
+      install:
+        command: make
+        arguments:
+        - install
+      test:
+        command: make
+        arguments:
+        - test
+        - '||'
+        - 'true'
+      doc:
+        command: make
+        arguments:
+        - doc
+      coverage:
+        command: make
+        arguments:
+        - coverage
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_localization_vision/cmw_app:
+    env: {}
+    url: null
+    branch: ''
+    dependencies:
+    - holo_localization_vision
+    - holo_cmw
+    - holo_sensors
+    commands:
+      configure:
+        command: cmake
+        arguments:
+        - ${SOURCE_ROOT}
+      build:
+        command: make
+        arguments: []
+      install:
+        command: make
+        arguments:
+        - install
+      test:
+        command: ''
+        arguments: []
+      doc:
+        command: ''
+        arguments: []
+      coverage:
+        command: ''
+        arguments: []
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_calibration:
+    env: {}
+    url: ${git_url}/mlc/holo_calibration.git
+    branch: release/elite_v0.0.7
+    dependencies:
+    - holo_3rdparty
+    - holo_base
+    - holo_localization_base
+    commands:
+      configure:
+        command: cmake
+        arguments:
+        - ${SOURCE_ROOT}
+      build:
+        command: make
+        arguments: []
+      install:
+        command: make
+        arguments:
+        - install
+      test:
+        command: make
+        arguments:
+        - test
+        - '||'
+        - 'true'
+      doc:
+        command: make
+        arguments:
+        - doc
+      coverage:
+        command: make
+        arguments:
+        - coverage
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_calibration/cmw_app:
+    env: {}
+    url: null
+    branch: ''
+    dependencies:
+    - holo_calibration
+    - holo_cmw
+    - holo_sensors
+    commands:
+      configure:
+        command: cmake
+        arguments:
+        - ${SOURCE_ROOT}
+      build:
+        command: make
+        arguments: []
+      install:
+        command: make
+        arguments:
+        - install
+      test:
+        command: ''
+        arguments: []
+      doc:
+        command: ''
+        arguments: []
+      coverage:
+        command: ''
+        arguments: []
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_localization:
+    env: {}
+    url: null
+    branch: ''
+    dependencies:
+    - holo_localization_base
+    - holo_localization_fusion
+    - holo_localization_semantic
+    - holo_localization_vision
+    - holo_calibration
+    commands:
+      configure:
+        command: ''
+        arguments:
+        - ${SOURCE_ROOT}
+      build:
+        command: ''
+        arguments: []
+      install:
+        command: ''
+        arguments: []
+      test:
+        command: ''
+        arguments: []
+      doc:
+        command: ''
+        arguments: []
+      coverage:
+        command: ''
+        arguments: []
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_localization_cmw_app:
+    env: {}
+    url: null
+    branch: ''
+    dependencies:
+    - holo_localization_fusion/cmw_app
+    - holo_localization_vision/cmw_app
+    - holo_calibration/cmw_app
+    commands:
+      configure:
+        command: ''
+        arguments:
+        - ${SOURCE_ROOT}
+      build:
+        command: ''
+        arguments: []
+      install:
+        command: ''
+        arguments: []
+      test:
+        command: ''
+        arguments: []
+      doc:
+        command: ''
+        arguments: []
+      coverage:
+        command: ''
+        arguments: []
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_map_base:
+    env: {}
+    url: ${git_url}/map/holo_map_base.git
+    branch: release/elite_v0.0.7
+    dependencies:
+    - holo_base
+    commands:
+      configure:
+        command: cmake
+        arguments:
+        - ${SOURCE_ROOT}
+      build:
+        command: make
+        arguments: []
+      install:
+        command: make
+        arguments:
+        - install
+      test:
+        command: make
+        arguments:
+        - test
+        - '||'
+        - 'true'
+      doc:
+        command: make
+        arguments:
+        - doc
+      coverage:
+        command: make
+        arguments:
+        - coverage
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_map_common:
+    env: {}
+    url: ${git_url}/map/holo_map_common.git
+    branch: release/elite_v0.0.7
+    dependencies:
+    - holo_base
+    - holo_map_base
+    commands:
+      configure:
+        command: cmake
+        arguments:
+        - ${SOURCE_ROOT}
+      build:
+        command: make
+        arguments: []
+      install:
+        command: make
+        arguments:
+        - install
+      test:
+        command: make
+        arguments:
+        - test
+        - '||'
+        - 'true'
+      doc:
+        command: make
+        arguments:
+        - doc
+      coverage:
+        command: make
+        arguments:
+        - coverage
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_map_middleware:
+    env: {}
+    url: ${git_url}/map/holo_map_middleware.git
+    branch: release/elite_v0.0.7
+    dependencies:
+    - holo_base
+    commands:
+      configure:
+        command: cmake
+        arguments:
+        - ${SOURCE_ROOT}
+      build:
+        command: make
+        arguments: []
+      install:
+        command: make
+        arguments:
+        - install
+      test:
+        command: make
+        arguments:
+        - test
+        - '||'
+        - 'true'
+      doc:
+        command: make
+        arguments:
+        - doc
+      coverage:
+        command: make
+        arguments:
+        - coverage
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_map_format:
+    env: {}
+    url: ${git_url}/map/holo_map_format.git
+    branch: release/elite_v0.0.7
+    dependencies:
+    - holo_base
+    - holo_map_base
+    commands:
+      configure:
+        command: cmake
+        arguments:
+        - ${SOURCE_ROOT}
+      build:
+        command: make
+        arguments: []
+      install:
+        command: make
+        arguments:
+        - install
+      test:
+        command: make
+        arguments:
+        - test
+        - '||'
+        - 'true'
+      doc:
+        command: make
+        arguments:
+        - doc
+      coverage:
+        command: make
+        arguments:
+        - coverage
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_map_core:
+    env: {}
+    url: ${git_url}/map/holo_map_core.git
+    branch: release/elite_v0.0.7
+    dependencies:
+    - holo_base
+    - holo_map_base
+    - holo_map_format
+    - holo_map_common
+    commands:
+      configure:
+        command: cmake
+        arguments:
+        - ${SOURCE_ROOT}
+      build:
+        command: make
+        arguments: []
+      install:
+        command: make
+        arguments:
+        - install
+      test:
+        command: make
+        arguments:
+        - test
+        - '||'
+        - 'true'
+      doc:
+        command: make
+        arguments:
+        - doc
+      coverage:
+        command: make
+        arguments:
+        - coverage
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_map:
+    env: {}
+    url: null
+    branch: ''
+    dependencies:
+    - holo_map_base
+    - holo_map_format
+    - holo_map_common
+    - holo_map_core
+    commands:
+      configure:
+        command: ''
+        arguments:
+        - ${SOURCE_ROOT}
+      build:
+        command: ''
+        arguments: []
+      install:
+        command: ''
+        arguments: []
+      test:
+        command: ''
+        arguments: []
+      doc:
+        command: ''
+        arguments: []
+      coverage:
+        command: ''
+        arguments: []
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_map_cmw_app:
+    env: {}
+    url: ${git_url}/map/holo_map_cmw_app.git
+    branch: release/elite_v0.0.7
+    dependencies:
+    - holo_base
+    - holo_cmw
+    - holo_map_base
+    - holo_map_format
+    - holo_map_common
+    - holo_map_core
+    commands:
+      configure:
+        command: cmake
+        arguments:
+        - ${SOURCE_ROOT}
+      build:
+        command: make
+        arguments: []
+      install:
+        command: make
+        arguments:
+        - install
+      test:
+        command: ''
+        arguments: []
+      doc:
+        command: make
+        arguments:
+        - doc
+      coverage:
+        command: ''
+        arguments: []
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_sensors:
+    env: {}
+    url: ${git_url}/vs/holo_sensors.git
+    branch: release/elite_v0.0.7
+    dependencies:
+    - holo_3rdparty
+    - holo_base
+    - holo_sensors_c
+    commands:
+      configure:
+        command: cmake
+        arguments:
+        - -DHOLO_BUILD_SENSORS_ARK=ON
+        - ${SOURCE_ROOT}
+      build:
+        command: make
+        arguments: []
+      install:
+        command: make
+        arguments:
+        - install
+      test:
+        command: make
+        arguments:
+        - test
+        - '||'
+        - 'true'
+      doc:
+        command: make
+        arguments:
+        - doc
+      coverage:
+        command: make
+        arguments:
+        - coverage
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_sensors_mdc:
+    env: {}
+    url: ${git_url}/vs/holo_sensors_mdc.git
+    branch: dragonglass-master
+    dependencies:
+    - holo_sensors
+    commands:
+      configure:
+        command: cmake
+        arguments:
+        - ${SOURCE_ROOT}
+      build:
+        command: make
+        arguments: []
+      install:
+        command: make
+        arguments:
+        - install
+      test:
+        command: ''
+        arguments: []
+      doc:
+        command: ''
+        arguments: []
+      coverage:
+        command: ''
+        arguments: []
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_sensors_mdc/cmw_app:
+    env: {}
+    url: null
+    branch: ''
+    dependencies:
+    - holo_sensors_mdc
+    - holo_cmw
+    commands:
+      configure:
+        command: cmake
+        arguments:
+        - ${SOURCE_ROOT}
+      build:
+        command: make
+        arguments: []
+      install:
+        command: make
+        arguments:
+        - install
+      test:
+        command: ''
+        arguments: []
+      doc:
+        command: ''
+        arguments: []
+      coverage:
+        command: ''
+        arguments: []
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_agent:
+    env: {}
+    url: ${git_url}/arch/holo_agent.git
+    branch: release/elite_v0.0.7
+    dependencies:
+    - holo_base_c
+    - holo_base
+    - holo_cmw
+    - holo_control_base
+    commands:
+      configure:
+        command: cmake
+        arguments:
+        - ${SOURCE_ROOT}
+      build:
+        command: make
+        arguments: []
+      install:
+        command: make
+        arguments:
+        - install
+      test:
+        command: ''
+        arguments: []
+      doc:
+        command: ''
+        arguments: []
+      coverage:
+        command: ''
+        arguments: []
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_planning_base:
+    env: {}
+    url: ${git_url}/pc/holo_planning_base.git
+    branch: release/elite_v0.0.7
+    dependencies:
+    - holo_base
+    commands:
+      configure:
+        command: cmake
+        arguments:
+        - ${SOURCE_ROOT}
+      build:
+        command: make
+        arguments: []
+      install:
+        command: make
+        arguments:
+        - install
+      test:
+        command: make
+        arguments:
+        - test
+        - '||'
+        - 'true'
+      doc:
+        command: make
+        arguments:
+        - doc
+      coverage:
+        command: make
+        arguments:
+        - coverage
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_planning_pilot:
+    env: {}
+    url: ${git_url}/pc/holo_planning_pilot.git
+    branch: release/elite_v0.0.7
+    dependencies:
+    - holo_base
+    - holo_planning_base
+    commands:
+      configure:
+        command: cmake
+        arguments:
+        - ${SOURCE_ROOT}
+      build:
+        command: make
+        arguments: []
+      install:
+        command: make
+        arguments:
+        - install
+      test:
+        command: make
+        arguments:
+        - test
+        - '||'
+        - 'true'
+      doc:
+        command: make
+        arguments:
+        - doc
+      coverage:
+        command: make
+        arguments:
+        - coverage
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_planning_pilot/cmw_app:
+    env: {}
+    url: null
+    branch: ''
+    dependencies:
+    - holo_planning_pilot
+    - holo_cmw
+    commands:
+      configure:
+        command: cmake
+        arguments:
+        - ${SOURCE_ROOT}
+      build:
+        command: make
+        arguments: []
+      install:
+        command: make
+        arguments:
+        - install
+      test:
+        command: ''
+        arguments: []
+      doc:
+        command: ''
+        arguments: []
+      coverage:
+        command: ''
+        arguments: []
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_planning:
+    env: {}
+    url: null
+    branch: ''
+    dependencies:
+    - holo_planning_base
+    - holo_planning_pilot
+    commands:
+      configure:
+        command: ''
+        arguments:
+        - ${SOURCE_ROOT}
+      build:
+        command: ''
+        arguments: []
+      install:
+        command: ''
+        arguments: []
+      test:
+        command: ''
+        arguments: []
+      doc:
+        command: ''
+        arguments: []
+      coverage:
+        command: ''
+        arguments: []
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_planning_cmw_app:
+    env: {}
+    url: null
+    branch: ''
+    dependencies:
+    - holo_planning_pilot/cmw_app
+    commands:
+      configure:
+        command: ''
+        arguments:
+        - ${SOURCE_ROOT}
+      build:
+        command: ''
+        arguments: []
+      install:
+        command: ''
+        arguments: []
+      test:
+        command: ''
+        arguments: []
+      doc:
+        command: ''
+        arguments: []
+      coverage:
+        command: ''
+        arguments: []
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_prediction:
+    env: {}
+    url: ${git_url}/pc/holo_prediction.git
+    branch: release/elite_v0.0.7
+    dependencies:
+    - holo_base
+    commands:
+      configure:
+        command: cmake
+        arguments:
+        - ${SOURCE_ROOT}
+      build:
+        command: make
+        arguments: []
+      install:
+        command: make
+        arguments:
+        - install
+      test:
+        command: ''
+        arguments: []
+      doc:
+        command: ''
+        arguments: []
+      coverage:
+        command: ''
+        arguments: []
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_prediction/cmw_app:
+    env: {}
+    url: null
+    branch: ''
+    dependencies:
+    - holo_prediction
+    commands:
+      configure:
+        command: cmake
+        arguments:
+        - ${SOURCE_ROOT}
+      build:
+        command: make
+        arguments: []
+      install:
+        command: make
+        arguments:
+        - install
+      test:
+        command: ''
+        arguments: []
+      doc:
+        command: ''
+        arguments: []
+      coverage:
+        command: ''
+        arguments: []
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_prediction_cmw_app:
+    env: {}
+    url: null
+    branch: ''
+    dependencies:
+    - holo_prediction/cmw_app
+    commands:
+      configure:
+        command: ''
+        arguments:
+        - ${SOURCE_ROOT}
+      build:
+        command: ''
+        arguments: []
+      install:
+        command: ''
+        arguments: []
+      test:
+        command: ''
+        arguments: []
+      doc:
+        command: ''
+        arguments: []
+      coverage:
+        command: ''
+        arguments: []
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_cmw_bridge:
+    env: {}
+    url: ${git_url}/cmw/holo_cmw_bridge.git
+    branch: release/elite_v0.0.7
+    dependencies:
+    - holo_base
+    - holo_cmw
+    commands:
+      configure:
+        command: cmake
+        arguments:
+        - ${SOURCE_ROOT}
+      build:
+        command: make
+        arguments: []
+      install:
+        command: make
+        arguments:
+        - install
+      test:
+        command: ''
+        arguments: []
+      doc:
+        command: ''
+        arguments: []
+      coverage:
+        command: ''
+        arguments: []
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_sensors/cmw_app:
+    env: {}
+    url: null
+    branch: ''
+    dependencies:
+    - holo_sensors
+    - holo_cmw
+    commands:
+      configure:
+        command: cmake
+        arguments:
+        - -DHOLO_BUILD_SENSORS_ARK=ON
+        - ${SOURCE_ROOT}
+      build:
+        command: make
+        arguments: []
+      install:
+        command: make
+        arguments:
+        - install
+      test:
+        command: ''
+        arguments: []
+      doc:
+        command: ''
+        arguments: []
+      coverage:
+        command: ''
+        arguments: []
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_sensors_cmw_app:
+    env: {}
+    url: null
+    branch: ''
+    dependencies:
+    - holo_sensors/cmw_app
+    commands:
+      configure:
+        command: ''
+        arguments:
+        - ${SOURCE_ROOT}
+      build:
+        command: ''
+        arguments: []
+      install:
+        command: ''
+        arguments: []
+      test:
+        command: ''
+        arguments: []
+      doc:
+        command: ''
+        arguments: []
+      coverage:
+        command: ''
+        arguments: []
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_hmi_cmw_app:
+    env: {}
+    url: ${git_url}/base/holo_hmi_cmw_app.git
+    branch: release/elite_v0.0.7
+    dependencies:
+    - holo_base
+    commands:
+      configure:
+        command: cmake
+        arguments:
+        - ${SOURCE_ROOT}
+      build:
+        command: make
+        arguments: []
+      install:
+        command: make
+        arguments:
+        - install
+      test:
+        command: ''
+        arguments: []
+      doc:
+        command: ''
+        arguments: []
+      coverage:
+        command: ''
+        arguments: []
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_perception_base:
+    env: {}
+    url: ${git_url}/per/holo_perception_base.git
+    branch: release/elite_v0.0.7
+    dependencies:
+    - holo_3rdparty
+    - holo_base
+    commands:
+      configure:
+        command: cmake
+        arguments:
+        - ${SOURCE_ROOT}
+      build:
+        command: make
+        arguments: []
+      install:
+        command: make
+        arguments:
+        - install
+      test:
+        command: make
+        arguments:
+        - test
+        - '||'
+        - 'true'
+      doc:
+        command: make
+        arguments:
+        - doc
+      coverage:
+        command: make
+        arguments:
+        - coverage
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_perception_pilot:
+    env: {}
+    url: ${git_url}/per/holo_perception_pilot.git
+    branch: release/elite_v0.0.7
+    dependencies:
+    - holo_3rdparty
+    - holo_base
+    - holo_perception_base
+    commands:
+      configure:
+        command: cmake
+        arguments:
+        - -DHOLO_BUILD_MDC=ON
+        - ${SOURCE_ROOT}
+      build:
+        command: make
+        arguments: []
+      install:
+        command: make
+        arguments:
+        - install
+      test:
+        command: make
+        arguments:
+        - test
+        - '||'
+        - 'true'
+      doc:
+        command: make
+        arguments:
+        - doc
+      coverage:
+        command: make
+        arguments:
+        - coverage
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_perception_pilot/cmw_app:
+    env: {}
+    url: null
+    branch: ''
+    dependencies:
+    - holo_base
+    - holo_perception_base
+    - holo_perception_pilot
+    - holo_cmw
+    commands:
+      configure:
+        command: cmake
+        arguments:
+        - -DHOLO_BUILD_MDC=ON
+        - ${SOURCE_ROOT}
+      build:
+        command: make
+        arguments: []
+      install:
+        command: make
+        arguments:
+        - install
+      test:
+        command: ''
+        arguments: []
+      doc:
+        command: ''
+        arguments: []
+      coverage:
+        command: ''
+        arguments: []
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_perception:
+    env: {}
+    url: null
+    branch: ''
+    dependencies:
+    - holo_perception_base
+    - holo_perception_pilot
+    commands:
+      configure:
+        command: ''
+        arguments:
+        - ${SOURCE_ROOT}
+      build:
+        command: ''
+        arguments: []
+      install:
+        command: ''
+        arguments: []
+      test:
+        command: ''
+        arguments: []
+      doc:
+        command: ''
+        arguments: []
+      coverage:
+        command: ''
+        arguments: []
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_perception_cmw_app:
+    env: {}
+    url: null
+    branch: ''
+    dependencies:
+    - holo_perception_pilot/cmw_app
+    commands:
+      configure:
+        command: ''
+        arguments:
+        - ${SOURCE_ROOT}
+      build:
+        command: ''
+        arguments: []
+      install:
+        command: ''
+        arguments: []
+      test:
+        command: ''
+        arguments: []
+      doc:
+        command: ''
+        arguments: []
+      coverage:
+        command: ''
+        arguments: []
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  odm:
+    env: {}
+    url: ${git_url}/fun/odm.git
+    branch: release/elite_v0.0.7
+    dependencies:
+    - holo_base
+    - holo_cmw
+    commands:
+      configure:
+        command: cmake
+        arguments:
+        - ${SOURCE_ROOT}
+      build:
+        command: make
+        arguments: []
+      install:
+        command: make
+        arguments:
+        - install
+      test:
+        command: make
+        arguments:
+        - test
+        - '||'
+        - 'true'
+      doc:
+        command: make
+        arguments:
+        - doc
+      coverage:
+        command: make
+        arguments:
+        - coverage
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  odm/cmw_app:
+    env: {}
+    url: null
+    branch: ''
+    dependencies:
+    - odm
+    - holo_cmw
+    commands:
+      configure:
+        command: cmake
+        arguments:
+        - ${SOURCE_ROOT}
+      build:
+        command: make
+        arguments: []
+      install:
+        command: make
+        arguments:
+        - install
+      test:
+        command: ''
+        arguments: []
+      doc:
+        command: ''
+        arguments: []
+      coverage:
+        command: ''
+        arguments: []
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_x_client:
+    env: {}
+    url: ${git_url}/~gaochengbin/holo_x_client.git
+    branch: release/elite_v0.0.7
+    dependencies:
+    - holo_base
+    - holo_cmw
+    commands:
+      configure:
+        command: cmake
+        arguments:
+        - ${SOURCE_ROOT}
+      build:
+        command: make
+        arguments: []
+      install:
+        command: make
+        arguments:
+        - install
+      test:
+        command: ''
+        arguments: []
+      doc:
+        command: ''
+        arguments: []
+      coverage:
+        command: ''
+        arguments: []
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_bag:
+    env: {}
+    url: ${git_url}/win/holo_bag.git
+    branch: release/elite_v0.0.7
+    dependencies:
+    - holo_base
+    - holo_cmw
+    commands:
+      configure:
+        command: cmake
+        arguments:
+        - ${SOURCE_ROOT}
+      build:
+        command: make
+        arguments: []
+      install:
+        command: make
+        arguments:
+        - install
+      test:
+        command: ''
+        arguments: []
+      doc:
+        command: ''
+        arguments: []
+      coverage:
+        command: ''
+        arguments: []
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_bag/cmw_app:
+    env: {}
+    url: null
+    branch: ''
+    dependencies:
+    - holo_bag
+    - holo_msg
+    commands:
+      configure:
+        command: cmake
+        arguments:
+        - ${SOURCE_ROOT}
+      build:
+        command: make
+        arguments: []
+      install:
+        command: make
+        arguments:
+        - install
+      test:
+        command: ''
+        arguments: []
+      doc:
+        command: ''
+        arguments: []
+      coverage:
+        command: ''
+        arguments: []
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_msg:
+    env: {}
+    url: ${git_url}/win/holo_msg.git
+    branch: release/elite_v0.0.7
+    dependencies:
+    - holo_base
+    - holo_cmw
+    commands:
+      configure:
+        command: cmake
+        arguments:
+        - ${SOURCE_ROOT}
+      build:
+        command: make
+        arguments: []
+      install:
+        command: make
+        arguments:
+        - install
+      test:
+        command: ''
+        arguments: []
+      doc:
+        command: ''
+        arguments: []
+      coverage:
+        command: ''
+        arguments: []
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_msg/cmw_app:
+    env: {}
+    url: null
+    branch: ''
+    dependencies:
+    - holo_msg
+    commands:
+      configure:
+        command: cmake
+        arguments:
+        - ${SOURCE_ROOT}
+      build:
+        command: make
+        arguments: []
+      install:
+        command: make
+        arguments:
+        - install
+      test:
+        command: ''
+        arguments: []
+      doc:
+        command: ''
+        arguments: []
+      coverage:
+        command: ''
+        arguments: []
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_winterfell:
+    env: {}
+    url: ${git_url}/win/holo_winterfell.git
+    branch: release/elite_v0.0.7
+    dependencies:
+    - holo_base
+    - holo_bag
+    commands:
+      configure:
+        command: cmake
+        arguments:
+        - ${SOURCE_ROOT}
+      build:
+        command: make
+        arguments: []
+      install:
+        command: make
+        arguments:
+        - install
+      test:
+        command: make
+        arguments:
+        - test
+        - '||'
+        - 'true'
+      doc:
+        command: make
+        arguments:
+        - doc
+      coverage:
+        command: make
+        arguments:
+        - coverage
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_winterfell/cmw_app:
+    env: {}
+    url: null
+    branch: ''
+    dependencies:
+    - holo_winterfell
+    - holo_cmw
+    commands:
+      configure:
+        command: cmake
+        arguments:
+        - ${SOURCE_ROOT}
+      build:
+        command: make
+        arguments: []
+      install:
+        command: make
+        arguments:
+        - install
+      test:
+        command: ''
+        arguments: []
+      doc:
+        command: ''
+        arguments: []
+      coverage:
+        command: ''
+        arguments: []
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_daemon:
+    env: {}
+    url: ${git_url}/win/holo_daemon.git
+    branch: release/elite_v0.0.7
+    dependencies:
+    - holo_base
+    commands:
+      configure:
+        command: cmake
+        arguments:
+        - ${SOURCE_ROOT}
+      build:
+        command: make
+        arguments: []
+      install:
+        command: make
+        arguments:
+        - install
+      test:
+        command: make
+        arguments:
+        - test
+        - '||'
+        - 'true'
+      doc:
+        command: make
+        arguments:
+        - doc
+      coverage:
+        command: make
+        arguments:
+        - coverage
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_daemon/cmw_app:
+    env: {}
+    url: null
+    branch: ''
+    dependencies:
+    - holo_daemon
+    - holo_cmw
+    commands:
+      configure:
+        command: cmake
+        arguments:
+        - ${SOURCE_ROOT}
+      build:
+        command: make
+        arguments: []
+      install:
+        command: make
+        arguments:
+        - install
+      test:
+        command: ''
+        arguments: []
+      doc:
+        command: ''
+        arguments: []
+      coverage:
+        command: ''
+        arguments: []
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  functions_app:
+    env: {}
+    url: null
+    branch: ''
+    dependencies:
+    - odm/cmw_app
+    - holo_bag/cmw_app
+    - holo_msg/cmw_app
+    commands:
+      configure:
+        command: ''
+        arguments:
+        - ${SOURCE_ROOT}
+      build:
+        command: ''
+        arguments: []
+      install:
+        command: ''
+        arguments: []
+      test:
+        command: ''
+        arguments: []
+      doc:
+        command: ''
+        arguments: []
+      coverage:
+        command: ''
+        arguments: []
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_dragonglass_libs:
+    env: {}
+    url: null
+    branch: ''
+    dependencies:
+    - holo_sensors
+    - holo_planning
+    - holo_prediction
+    - holo_control
+    - holo_map
+    - holo_localization
+    - holo_perception
+    - holo_agent
+    - holo_cmw
+    commands:
+      configure:
+        command: ''
+        arguments:
+        - ${SOURCE_ROOT}
+      build:
+        command: ''
+        arguments: []
+      install:
+        command: ''
+        arguments: []
+      test:
+        command: ''
+        arguments: []
+      doc:
+        command: ''
+        arguments: []
+      coverage:
+        command: ''
+        arguments: []
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_dragonglass_apps:
+    env: {}
+    url: null
+    branch: ''
+    dependencies:
+    - holo_sensors_cmw_app
+    - holo_hmi_cmw_app
+    - holo_planning_cmw_app
+    - holo_prediction_cmw_app
+    - holo_control_cmw_app
+    - holo_map_cmw_app
+    - holo_localization_cmw_app
+    - holo_perception_cmw_app
+    - functions_app
+    commands:
+      configure:
+        command: ''
+        arguments:
+        - ${SOURCE_ROOT}
+      build:
+        command: ''
+        arguments: []
+      install:
+        command: ''
+        arguments: []
+      test:
+        command: ''
+        arguments: []
+      doc:
+        command: ''
+        arguments: []
+      coverage:
+        command: ''
+        arguments: []
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_dragonglass:
+    env: {}
+    url: null
+    branch: ''
+    dependencies:
+    - holo_dragonglass_libs
+    - holo_dragonglass_apps
+    commands:
+      configure:
+        command: ''
+        arguments:
+        - ${SOURCE_ROOT}
+      build:
+        command: ''
+        arguments: []
+      install:
+        command: ''
+        arguments: []
+      test:
+        command: ''
+        arguments: []
+      doc:
+        command: ''
+        arguments: []
+      coverage:
+        command: ''
+        arguments: []
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  Pilot:
+    url: null
+    dependencies:
+    - holo_dragonglass
+    commands: {}
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+version: 1

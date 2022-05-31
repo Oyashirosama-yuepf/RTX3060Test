@@ -1,0 +1,17 @@
+time    timestamp
+uint8   path_gear
+uint8   path_id
+uint8   path_type
+uint8   path_size
+uint8   plan_complete
+uint8   plan_error
+float32 path_len
+float32 remain_path_len
+uint8   brk_flag
+float32 brk_dist
+float32 speed_limit
+uint8   lamp_req
+uint8   read_file_status
+float32 ref_lat_error
+float32 ref_heading_error
+float32 road_curvature

@@ -1,0 +1,39 @@
+#ifndef HOLO_PARKING_MSG_PLANNING_PATH_ATTRIBUTE_IDL_
+#define HOLO_PARKING_MSG_PLANNING_PATH_ATTRIBUTE_IDL_
+
+#include <holo_parking_msg/common/Common.idl>
+
+module holo_parking_msg
+{
+    module planning
+    {
+        typedef holo_parking_msg::core::float32_t float32_t;
+        typedef holo_parking_msg::core::uint8_t   uint8_t;
+
+#pragma DCPS_DATA_TYPE "holo_parking_msg::planning::PathAttribute"
+
+        struct PathAttribute
+        {
+            holo_parking_msg::common::Timestamp timestamp;
+
+            uint8_t   path_gear;
+            uint8_t   path_id;
+            uint8_t   path_type;
+            uint8_t   path_size;
+            uint8_t   plan_complete;
+            uint8_t   plan_error;
+            float32_t path_len;
+            float32_t remain_path_len;
+            uint8_t   brk_flag;
+            float32_t brk_dist;
+            float32_t speed_limit;
+            uint8_t   lamp_req;
+            uint8_t   read_file_status;
+            float32_t ref_lat_error;
+            float32_t ref_heading_error;
+            float32_t road_curvature;
+        };
+    };
+};
+
+#endif

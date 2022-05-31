@@ -1,0 +1,146 @@
+base: BaseCamp/Library/CS/release/2021.11
+projects:
+  holo_map_base:
+    url: ${git_url}/map/holo_map_base.git
+    branch: release/v0.4
+    dependencies:
+    - CS
+    commands:
+      test:
+        command: make
+        arguments:
+        - test
+      doc:
+        command: make
+        arguments:
+        - doc
+      coverage:
+        command: make
+        arguments:
+        - coverage
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_map_format:
+    url: ${git_url}/map/holo_map_format.git
+    branch: release/v0.4
+    dependencies:
+    - CS
+    - holo_map_base
+    commands:
+      test:
+        command: make
+        arguments:
+        - test
+      doc:
+        command: make
+        arguments:
+        - doc
+      coverage:
+        command: make
+        arguments:
+        - coverage
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_map_common:
+    url: ${git_url}/map/holo_map_common.git
+    branch: release/v0.4
+    dependencies:
+    - CS
+    - holo_map_base
+    - holo_map_format
+    commands:
+      test:
+        command: make
+        arguments:
+        - test
+      doc:
+        command: make
+        arguments:
+        - doc
+      coverage:
+        command: make
+        arguments:
+        - coverage
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_map_adapter:
+    url: ${git_url}/map/holo_map_adapter.git
+    branch: release/v0.4
+    dependencies:
+    - CS
+    - holo_map_base
+    - holo_map_format
+    - holo_map_common
+    commands:
+      test:
+        command: make
+        arguments:
+        - test
+      doc:
+        command: make
+        arguments:
+        - doc
+      coverage:
+        command: make
+        arguments:
+        - coverage
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_map_local_service_client:
+    url: ${git_url}/map/holo_map_local_service_client.git
+    branch: release/v0.4
+    dependencies:
+    - CS
+    - holo_map_base
+    - holo_map_format
+    - holo_map_common
+    commands:
+      test:
+        command: make
+        arguments:
+        - test
+      doc:
+        command: make
+        arguments:
+        - doc
+      coverage:
+        command: make
+        arguments:
+        - coverage
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  MAP:
+    dependencies:
+    - holo_map_base
+    - holo_map_common
+    - holo_map_format
+    - holo_map_adapter
+    - holo_map_local_service_client
+    commands:
+      configure:
+        command: ''
+        arguments:
+        - ${SOURCE_ROOT}
+      build:
+        command: ''
+        arguments: []
+      install:
+        command: ''
+        arguments: []
+    steps: null
+version: 1

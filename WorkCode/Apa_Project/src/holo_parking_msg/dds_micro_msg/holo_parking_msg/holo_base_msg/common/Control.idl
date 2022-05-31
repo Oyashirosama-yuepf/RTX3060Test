@@ -1,0 +1,68 @@
+#ifndef HOLO_BASE_MSG_COMMON_CONTROL_IDL_
+#define HOLO_BASE_MSG_COMMON_CONTROL_IDL_
+
+#include <holo_base_msg/common/Common.idl>
+
+module holo_base_msg { module common {
+
+#pragma DCPS_DATA_TYPE "holo_base_msg::common::ControlCommand"
+struct ControlCommand
+{
+    Timestamp stamp;
+    holo_base_msg::core::float32_t acceleration;
+    holo_base_msg::core::float32_t front_wheel_angle;
+    
+    /*
+        uint16_t :1;                            ///< Rear fog light: 1=on, 0=off
+        uint16_t :1;                            ///< Front fog light: 1=on, 0=off
+        uint16_t brake_light_:1;                 ///< Break light signal: 1=on, 0=off
+        uint16_t :1;                            ///< High beam light: 1=on, 0=off
+        uint16_t :1;                            ///< Low beam light: 1=on, 0=off
+        uint16_t hazard_flasher_:1;              ///< Warning blink signal: 1=on, 0=off
+        uint16_t right_turn_signal_:1;           ///< Right turn signal: 1=on, 0=off
+        uint16_t left_turn_signal_:1;            ///< Left turn signal: 1=on, 0=off
+        uint16_t :8;
+    */
+    holo_base_msg::core::uint16_t light_control_command;
+
+    /*
+        uint16_t :1;                            ///< Rear window defroster: 1=open, 0=close
+        uint16_t :1;                            ///< Front window defroster: 1=open, 0=close
+        uint16_t :1;                            ///< Rear wiper: 1=open, 0=close
+        uint16_t :1;                            ///< Front wiper: 1=open, 0=close
+        uint16_t :1;                            ///< Rear right window: 1=open, 0=close
+        uint16_t :1;                            ///< Rear left window: 1=open, 0=close
+        uint16_t :1;                            ///< Front right window: 1=open, 0=close
+        uint16_t :1;                            ///< Front left window: 1=open, 0=close
+        uint16_t :1;                            ///< Trunk door: 1=open, 0=close
+        uint16_t :1;                            ///< Rear left door: 1=open, 0=close
+        uint16_t :1;                            ///< Rear right door: 1=open, 0=close
+        uint16_t :1;                            ///< Front right door: 1=open, 0=close
+        uint16_t :1;                            ///< Front left door: 1=open, 0=close
+        uint16_t :1;                            ///< Driver seat belt: 1=on, 0=off
+        uint16_t reserved:2;
+    */
+    holo_base_msg::core::uint16_t cockpit_control_command;
+
+    /*
+        uint8_t handbrake_:1;                    ///< Hand brake status: 1=hold, 0=release
+        uint8_t gear_level_:4;                   ///< 0: Invalid, 1-15: gear level 1-15
+        uint8_t gear_position_:3;                ///< See enum GearPosition for possible values.
+    */
+    holo_base_msg::core::uint8_t gear_control_command;
+
+    /*
+        uint8_t :1;                             ///< reserved to keep this struct compliant with ChassisActuatorState
+        uint8_t gear_actuator_enable_:1;         ///< gear actuator enable flag.
+        uint8_t :1;                             ///< reserved to keep this struct compliant with ChassisActuatorState
+        uint8_t lateral_actuator_enable_:1;      ///< lateral actuator enable flag.
+        uint8_t :1;                             ///< reserved to keep this struct compliant with ChassisActuatorState
+        uint8_t longitudinal_actuator_enable_:1; ///< lateral actuator enable flag.
+        uint8_t :2;
+    */
+    holo_base_msg::core::uint8_t actuator_control_command;
+};
+
+}; };
+
+#endif

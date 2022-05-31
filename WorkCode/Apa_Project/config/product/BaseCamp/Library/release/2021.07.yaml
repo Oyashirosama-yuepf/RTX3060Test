@@ -1,0 +1,29 @@
+base:
+- BaseCamp/Library/CS/release/2021.07
+- BaseCamp/Library/VS/release/2021.07
+- BaseCamp/Library/PER/release/2021.07
+- BaseCamp/Library/MLC/release/2021.07
+- BaseCamp/Library/MAP/release/2021.07
+- BaseCamp/Library/PC/release/2021.07
+projects:
+  BaseCamp:
+    dependencies:
+    - CS
+    - VS
+    - MLC
+    - PER
+    - MAP
+    - PC
+    commands:
+      configure:
+        command: ''
+        arguments:
+        - ${SOURCE_ROOT}
+      build:
+        command: ''
+        arguments: []
+      install:
+        command: ''
+        arguments: []
+    steps: null
+version: 1

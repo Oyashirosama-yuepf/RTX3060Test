@@ -1,0 +1,171 @@
+base:
+
+commands:
+  configure:
+    command: cmake
+    arguments:
+    - ${SOURCE_ROOT}
+    retcode: [0]
+  build:
+    command: make
+    arguments: []
+    parallel_arg: -j
+    retcode: [0]
+  install:
+    command: make
+    arguments:
+    - install
+    parallel_arg: -j
+    retcode: [0]
+  test:
+    command: ''
+    arguments: []
+  doc:
+    command: ''
+    arguments: []
+  coverage:
+    command: ''
+    arguments: []
+
+steps:
+- patch
+- configure
+- build
+- install
+
+projects:
+  pybind11:
+    url: ssh://git@bitbucket.holomatic.ai:7999/thdpty/pybind11.git
+    branch: v2.9.1
+    dependencies: []
+    commands:
+      "configure":
+        env:
+          CMAKE_PREFIX_PATH: ${HOLO_ROOT}/3rdparty:$ENV{CMAKE_PREFIX_PATH}
+        arguments:
+        - -DCMAKE_INSTALL_PREFIX=${HOLO_ROOT}/3rdparty
+        - -DPYBIND11_TEST=OFF
+        - -DPYBIND11_NOPYTHON=ON
+        - ${SOURCE_ROOT}
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+
+  Pangolin:
+    url: ssh://git@bitbucket.holomatic.ai:7999/thdpty/pangolin.git
+    branch: v0.6
+    dependencies: [pybind11]
+    commands:
+      "configure":
+        env:
+          CMAKE_PREFIX_PATH: ${HOLO_ROOT}/3rdparty:$ENV{CMAKE_PREFIX_PATH}
+        arguments:
+        - -DCMAKE_INSTALL_PREFIX=${HOLO_ROOT}/3rdparty
+        - -DCMAKE_INSTALL_RPATH=$ORIGIN
+        - -DBUILD_TESTS=OFF
+        - -DBUILD_TOOLS=OFF
+        - -DBUILD_EXAMPLES=OFF
+        - -DBUILD_PANGOLIN_PYTHON=OFF
+        - -DCMAKE_BUILD_TYPE=RELEASE
+        - -DCMAKE_EXPORT_NO_PACKAGE_REGISTRY=ON
+        - -DCMAKE_FIND_NO_INSTALL_PREFIX=ON
+        - -DCMAKE_POSITION_INDEPENDENT_CODE=ON
+        - ${SOURCE_ROOT}
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+
+  mosquitto:
+    url: ssh://git@bitbucket.holomatic.ai:7999/thdpty/mosquitto.git
+    branch: v2.0.14
+    dependencies: []
+    commands:
+      "configure":
+        env:
+          CMAKE_PREFIX_PATH: ${HOLO_ROOT}/3rdparty:$ENV{CMAKE_PREFIX_PATH}
+        arguments:
+        - -DCMAKE_INSTALL_PREFIX=${HOLO_ROOT}/3rdparty
+        - -DCMAKE_INSTALL_RPATH=$ORIGIN
+        - ${SOURCE_ROOT}
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+
+  psdk_rtos_0701:
+    url: ssh://git@bitbucket.holomatic.ai:7999/thdpty/psdk_rtos_0701.git
+    branch: dragonglass-develop
+    patch: [gh01-gac-patch, gh01-holo-patch]
+    dependencies: []
+    env:
+      CC: ""
+      CXX: ""
+      RANLIB: ""
+      AR: ""
+      LD: ""
+      NM: ""
+      OBJDUMP: ""
+      STRIP: ""
+      CFLAGS: ""
+      CXXFLAGS: ""
+    commands:
+      "configure":
+        env:
+          CROSSTOOL_ROOT: ${CROSSTOOL_ROOT}
+        command: "psdk_rtos/scripts/setup_psdk_rtos.sh"
+        arguments: 
+        - "&&"
+        - "psdkqa/qnx/scripts/psdk_qnx_setup.sh"
+        working_directory: ${SOURCE_ROOT}
+        signature: ["${SOURCE_ROOT}/bootfs", "${SOURCE_ROOT}/targetfs"]
+      "build":
+        env:
+          CROSSTOOL_ROOT: ${CROSSTOOL_ROOT}
+        command: "make"
+        arguments:
+        - sdk
+        - -j
+        - "&&"
+        - make
+        - vision_apps
+        working_directory: ${SOURCE_ROOT}/vision_apps
+      "install":
+        command: ""
+
+  qt5:
+    url: git://code.qt.io/qt/qt5.git
+    branch: "5.12.12"
+    dependencies: []
+    env:
+      CC: ""
+      CXX: ""
+      RANLIB: ""
+      AR: ""
+      LD: ""
+      NM: ""
+      OBJDUMP: ""
+      STRIP: ""
+      CFLAGS: ""
+      CXXFLAGS: ""
+    commands:
+      patch: 
+        command: "${SOURCE_ROOT}/init-repository"
+        arguments: []
+        working_directory: ${SOURCE_ROOT}
+      configure:
+        command: "${SOURCE_ROOT}/configure"
+        arguments_tda4_qnx-7.0.0:
+        - -xplatform 
+        - qnx-aarch64le-qcc 
+        - -release 
+        - -prefix 
+        - ${HOLO_ROOT}/3rdparty 
+        - -confirm-license 
+        - -opensource 
+        - -nomake 
+        - examples 
+        - -nomake 
+        - tests
+

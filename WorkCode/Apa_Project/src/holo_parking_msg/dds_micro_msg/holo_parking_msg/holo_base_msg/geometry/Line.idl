@@ -1,0 +1,27 @@
+#ifndef HOLO_BASE_MSG_GEOMETRY_LINE_IDL_
+#define HOLO_BASE_MSG_GEOMETRY_LINE_IDL_
+
+#include <holo_base_msg/numerics/Vector.idl>
+
+module holo_base_msg { module geometry {
+
+/*
+ * a * x + b * y + c = 0
+ */
+struct Line2f
+{
+    holo_base_msg::numerics::Vector3f cofficients;
+};
+
+/*
+ * a * x + b * y + c = 0
+ */
+struct Line2d
+{
+    holo_base_msg::numerics::Vector3d cofficients;
+};
+
+}; };
+
+#endif
+

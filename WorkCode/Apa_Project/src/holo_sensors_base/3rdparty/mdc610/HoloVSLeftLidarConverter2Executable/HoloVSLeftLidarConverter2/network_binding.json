@@ -1,0 +1,24 @@
+{
+  "instanceSpecifiers": [
+    {
+      "instanceSpecifier": "HoloVSLeftLidarConverter/HoloVSLeftLidarConverter/HoloVSLeftLidarConverterUint8BufferSubscriber_holo_sensors_rsm1_scan_left",
+      "service": "/serivce_interface/Uint8BufferSI",
+      "instanceIdentifiers": [
+        {
+          "protocol": "DDS",
+          "instanceIdentifier": "1014"
+        }
+      ]
+    },
+    {
+      "instanceSpecifier": "HoloVSLeftLidarConverter/HoloVSLeftLidarConverter/HoloVSLeftLidarConverterUint64Publisher_holo_sensors_rsm1_pcd_left",
+      "service": "/serivce_interface/Uint64SI",
+      "instanceIdentifiers": [
+        {
+          "protocol": "DDS",
+          "instanceIdentifier": "1208"
+        }
+      ]
+    }
+  ]
+}

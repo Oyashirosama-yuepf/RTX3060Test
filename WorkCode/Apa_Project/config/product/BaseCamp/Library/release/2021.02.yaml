@@ -1,0 +1,37 @@
+base: BaseCamp/Library/develop
+projects:
+  holo_3rdparty:
+    branch: master
+    commands: {}
+    steps: null
+    package:
+      manifest: null
+      files: []
+      directories:
+      - ${HOLO_ROOT}/3rdparty
+      - ${HOLO_ROOT}/../host
+  holo_base:
+    branch: release/v0.5
+    commands: {}
+    steps: null
+  holo_cmw:
+    branch: release/v0.3
+    commands: {}
+    steps: null
+  holo_base_msg:
+    branch: release/v0.5
+    commands: {}
+    steps: null
+  holo_sensors_c:
+    branch: wh01/r1
+    commands: {}
+    steps: null
+  holo_sensors_base:
+    branch: wh01/r1
+    commands: {}
+    steps: null
+  holo_sensors_cmw_app:
+    branch: wh01/r1
+    commands: {}
+    steps: null
+version: 1

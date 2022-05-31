@@ -1,0 +1,58 @@
+map_file: "heduo/imgpost_part.txt"
+images_path: "heduo/Camera0"
+# define map database manager parameters
+mdm_params:
+    # all file will located under directory ${HOLO_CONFIG_ROOT}
+    map_data_dir: "holo_localization_parking/vslam/"
+    map_names: ["route_1"]
+    mode: "avp_mapping" #{online_data_association, offline_optimization}
+    keyframe_selection_params:
+        minimum_distance_interval: 2.0 # meter
+        minimum_angle_interval: 10.0 # degree
+        minimum_observed_landmark_num: 2
+# define global optimizer parameters
+deep_camera_params:
+    camera_number: 1
+    camera_coords: ["front_center"] # eg: ["front_center", "rear_center", "left"]
+    front_center:
+        intrinsic: "holo_sensors/intrinsics/camera/front_center_avp.yaml"
+vslam_camera_params:
+        camera_number: 1
+        camera_coords: ["front_center"] # eg: ["front_center", "rear_center", "left"]
+        lidar_extrinsic_file: "holo_sensors/extrinsics/camera/novatel_vlp_extrinsic.yaml"
+        body_gnss_extrinsic_file: "holo_sensors/extrinsics/camera/body_gnss_extrinsic.yaml"
+        front_center:
+            intrinsic: "holo_sensors/intrinsics/camera/front_center_avp.yaml"
+            lidar_camera_extrinsic_file: "holo_sensors/extrinsics/camera/lidar_front_center_camera_extrinsic.yaml"
+            body_camera_extrinsic_file: "holo_sensors/extrinsics/camera/front_center_camera_imu_extrinsic.yaml" # if has such a file, add the file name here.
+            camera_extrinsic_bias: [-0.9, 0, 6.0]
+            available_fov: -1 # available fov for feature extraction, in degree. less than zero means all pixels are available
+            # covariance for create unit3 factor
+            sigma_uv: 1.5 # feature detection noise at image center. [pixel]
+            huber_loss: 2.5 # huber loss for visual factor. [pixel]
+# raw measurement preprocessor parameters
+rmpp_params:
+    spe_params:
+        framework: pytorch_int16 # {pytorch, tensorrt}
+        image_resize_width: 640
+        image_resize_height: 480
+        image_margin: 10
+        max_feature_num: 500
+        min_feature_distance: 4
+        confidence_threshold: 0.015
+        network_weight: "/opt/holo/hpp/superpoint_resnet18_th_new_bilinear_nms.pt"
+# EpipolarLineMatching parameters
+elm_max_tracking_lost_frame: 3  # tracks whose tracking lost times is less than this parameters will still be matching in new frame
+elm_epipolar_dist_th: 15e-3 # 4.0 pixel. [pixel_error / focal_length]
+elm_descriptor_dist_th: 0.8
+elm_ratio_test_th: 0.75
+triangulator_params:
+    minimum_track_length: 5
+    max_acceptable_reproject_error: 3.5
+    minimum_disparity_angle: 1.0
+    maximum_landmark_distance: 60
+    minimum_landmark_distance: 2.0
+    minimum_triangulation_baseline: 0.5
+enable_visualizer: false
+start_frame_id: 1
+end_frame_id: 100

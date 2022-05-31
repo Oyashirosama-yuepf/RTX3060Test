@@ -1,0 +1,25 @@
+#ifndef HOLO_PARKING_MSG_VISION_POINT_FEATUREF_LIST_IDL_
+#define HOLO_PARKING_MSG_VISION_POINT_FEATUREF_LIST_IDL_
+
+#include <holo_parking_msg/common/Common.idl>
+#include <holo_parking_msg/vision/PointFeaturef.idl>
+
+module holo_parking_msg
+{
+    module vision
+    {
+        typedef holo_parking_msg::common::SensorId  SensorId;
+        typedef holo_parking_msg::common::Timestamp Timestamp;
+        typedef sequence<PointFeaturef>             PointFeaturefVector;
+
+#pragma DCPS_DATA_TYPE "holo_parking_msg::vision::PointFeaturefList"
+        struct PointFeaturefList
+        {
+            Timestamp           stamp;
+            SensorId            sensor_id;
+            PointFeaturefVector point_feature_list;
+        };
+    };
+};
+
+#endif

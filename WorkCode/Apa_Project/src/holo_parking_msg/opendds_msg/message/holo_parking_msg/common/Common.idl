@@ -1,0 +1,20 @@
+#ifndef HOLO_PARKING_MSG_COMMON_COMMON_IDL_
+#define HOLO_PARKING_MSG_COMMON_COMMON_IDL_
+
+#include <holo_parking_msg/core/Types.idl>
+
+module holo_parking_msg
+{
+    module common
+    {
+        typedef holo_parking_msg::core::uint32_t SensorId;
+
+        struct Timestamp
+        {
+            holo_parking_msg::core::uint32_t sec;
+            holo_parking_msg::core::uint32_t nsec;
+        };
+    };
+};
+
+#endif

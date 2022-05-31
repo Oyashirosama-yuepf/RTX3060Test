@@ -1,0 +1,26 @@
+#ifndef HOLO_PARKING_MSG_COMMON_VEHPOS_IDL_
+#define HOLO_PARKING_MSG_COMMON_VEHPOS_IDL_
+
+#include <holo_parking_msg/common/Common.idl>
+#include <holo_parking_msg/core/Types.idl>
+
+module holo_parking_msg
+{
+    module localization
+    {
+#pragma DCPS_DATA_TYPE "holo_parking_msg::localization::VehPosX3V"
+        struct VehPosX3V
+        {
+            holo_parking_msg::core::float32_t curv;
+            holo_parking_msg::core::float32_t vehPos_X;
+            holo_parking_msg::core::float32_t vehPos_Y;
+            holo_parking_msg::core::float32_t vehPos_Yaw;
+            holo_parking_msg::core::float32_t vehPosPred_X;
+            holo_parking_msg::core::float32_t vehPosPred_Y;
+            holo_parking_msg::core::float32_t vehPosPred_Yaw;
+            holo_parking_msg::core::uint8_t   vehStatus;
+        };
+    };
+};
+
+#endif

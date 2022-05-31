@@ -1,0 +1,119 @@
+base: Pilot/release/elite_v0.0.7
+projects:
+  holo_localization_benchmark:
+    env: {}
+    url: ${git_url}/mlc/holo_localization_benchmark.git
+    branch: release/elite_v0.0.7
+    dependencies:
+    - holo_localization_base
+    commands:
+      configure:
+        command: cmake
+        arguments:
+        - ${SOURCE_ROOT}
+      build:
+        command: make
+        arguments: []
+      install:
+        command: make
+        arguments:
+        - install
+      test:
+        command: ''
+        arguments: []
+      doc:
+        command: make
+        arguments:
+        - doc
+      coverage:
+        command: ''
+        arguments: []
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_io:
+    env: {}
+    url: ${git_url}/base/holo_io.git
+    branch: release/elite_v0.0.7
+    dependencies:
+    - holo_base
+    - holo_cmw
+    commands:
+      configure:
+        command: cmake
+        arguments:
+        - ${SOURCE_ROOT}
+      build:
+        command: make
+        arguments: []
+      install:
+        command: make
+        arguments:
+        - install
+      test:
+        command: ''
+        arguments: []
+      doc:
+        command: ''
+        arguments: []
+      coverage:
+        command: ''
+        arguments: []
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  holo_localization_benchmark/cmw_app:
+    env: {}
+    url: null
+    branch: ''
+    dependencies:
+    - holo_localization_benchmark
+    - holo_cmw
+    - holo_io
+    commands:
+      configure:
+        command: cmake
+        arguments:
+        - ${SOURCE_ROOT}
+      build:
+        command: make
+        arguments: []
+      install:
+        command: make
+        arguments:
+        - install
+      test:
+        command: ''
+        arguments: []
+      doc:
+        command: ''
+        arguments: []
+      coverage:
+        command: ''
+        arguments: []
+    steps: null
+    package:
+      manifest: ${BUILD_ROOT}/install_manifest.txt
+      files: []
+      directories: []
+  PilotBenchmark:
+    dependencies:
+    - Pilot
+    - holo_localization_benchmark/cmw_app
+    commands:
+      configure:
+        command: ''
+        arguments:
+        - ${SOURCE_ROOT}
+      build:
+        command: ''
+        arguments: []
+      install:
+        command: ''
+        arguments: []
+    steps: null
+version: 1

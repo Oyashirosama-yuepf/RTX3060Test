@@ -1,0 +1,27 @@
+# tracker parameters
+image_margin: 30
+maximum_feature_number: 150
+minimum_feature_distance: 30
+minimum_disparity: 3
+tracking_algorithm: "KLT"
+
+# dataset related
+dataset: "LGSimulator" # {LGSimulator, ApolloScape}
+
+# intrinsic
+intrinsic:
+    K: [2249.99994551763, 2250.00005029142, 960.0, 540.0, 0.0] # camera intrinsic matrix. the order is: fx, fy, cx, cy, skew
+    D: [] # distortion co-efficiency, the order is: k1, k2, p1, p2, k3, k4, k5, k6, empty is OK.
+    width: 1920
+    height: 1080
+    model: "PINHOLE"
+
+# body-camera extrinsic
+# eg: for dataset LGSimulator, the order is tx, ty, tz in meter, and roll pitch and yaw in degree.
+# one should change the value and order according to the new dataset's character
+# empty is ok, it mean all pose in this dataset is camera pose in world frame, just ignore this parameters.
+extrinsic: [0.0, 1.7, -0.2, 0.0, 0.0, 0.0]
+
+# common parameters
+focused_track_ids: []
+check_dataset: false

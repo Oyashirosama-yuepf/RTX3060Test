@@ -1,0 +1,66 @@
+{
+  "instanceSpecifiers": [
+    {
+      "instanceSpecifier": "LidarDetectionExecutable/LidarDetectionRootSwComponent/LidarDetectionLidarDataRPort",
+      "service": "/HuaweiMDC/PlatformServiceInterface/LidarServiceInterface/LidarServiceInterface",
+      "instanceIdentifiers": [
+        {
+          "protocol": "DDS",
+          "instanceIdentifier": "3"
+        },
+        {
+          "protocol": "DDS",
+          "instanceIdentifier": "4"
+        },
+        {
+          "protocol": "DDS",
+          "instanceIdentifier": "5"
+        },
+        {
+          "protocol": "DDS",
+          "instanceIdentifier": "6"
+        },
+        {
+          "protocol": "DDS",
+          "instanceIdentifier": "7"
+        }
+      ]
+    },
+    {
+      "instanceSpecifier": "LidarDetectionExecutable/LidarDetectionRootSwComponent/LidarDetectionLocationDataRPort",
+      "service": "/HuaweiMDC/FunctionalSoftware/LocationServiceInterface/LocationServiceInterface",
+      "instanceIdentifiers": [
+        {
+          "protocol": "DDS",
+          "instanceIdentifier": "113"
+        }
+      ]
+    },
+    {
+      "instanceSpecifier": "LidarDetectionExecutable/LidarDetectionRootSwComponent/LidarDetectionObjectArrayPPort",
+      "service": "/HuaweiMDC/FunctionalSoftware/ObjectArrayServiceInterface/ObjectArrayInterface",
+      "instanceIdentifiers": [
+        {
+          "protocol": "DDS",
+          "instanceIdentifier": "2001"
+        },
+        {
+          "protocol": "DDS",
+          "instanceIdentifier": "2002"
+        },
+        {
+          "protocol": "DDS",
+          "instanceIdentifier": "2003"
+        },
+        {
+          "protocol": "DDS",
+          "instanceIdentifier": "2004"
+        },
+        {
+          "protocol": "DDS",
+          "instanceIdentifier": "2005"
+        }
+      ]
+    }
+  ]
+}

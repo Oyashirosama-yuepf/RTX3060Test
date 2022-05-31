@@ -1,0 +1,86 @@
+base: Pilot/GH02/develop
+projects:
+  holo_cmw:
+    branch: dragonglass-develop
+    commands:
+      configure:
+        arguments:
+        - -DHOLO_CMW_BUILD_MDC_CM_WRAPPER=OFF
+        - -DHOLO_CMW_BUILD_OPENDDS_WRAPPER=ON
+        - ${SOURCE_ROOT}
+  gh02_msg:
+    commands:
+      configure:
+        arguments:
+        - -DHOLO_BUILD_CM_TRAITS=OFF
+        - ${SOURCE_ROOT}
+  holo_sensors_cmw_app:
+    commands:
+      configure:
+        arguments:
+        - -DHOLO_BUILD_MDC_CM_APP=OFF
+        - ${SOURCE_ROOT}
+  holo_perception_pilot:
+    commands:
+      configure:
+        arguments:
+        - -DHOLO_BUILD_MDC_CM_APP=OFF
+        - -DHOLO_BUILD_MAP_SDK=OFF
+        - ${SOURCE_ROOT}
+  holo_perception_pilot/cmw_app:
+    commands:
+      configure:
+        arguments:
+        - -DHOLO_BUILD_MDC_CM_APP=OFF
+        - -DHOLO_BUILD_MAP_SDK=OFF
+        - ${SOURCE_ROOT}
+  holo_map_adapter/cmw_app:
+    commands:
+      configure:
+        arguments:
+        - -DHOLO_BUILD_WITH_GH02_MSG=ON
+        - ${SOURCE_ROOT}
+  holo_map_local_service_server:
+    commands:
+      configure:
+        arguments:
+        - -DHOLO_BUILD_WITH_GH02_MSG=ON
+        - ${SOURCE_ROOT}
+  holo_map_navigator_cmw_app:
+    commands:
+      configure:
+        arguments:
+        - -DHOLO_BUILD_WITH_GH02_MSG=ON
+        - -DHOLO_MAP_ENABLE_BUILD_LOCAL_MAP_GRAPH=ON
+        - ${SOURCE_ROOT}
+  BYH01:
+    dependencies:
+    - holo_map_adapter/cmw_app
+    - holo_map_local_service_server
+    - holo_map_local_service_client/tools
+    - holo_localization_fusion_cmw_app
+    - holo_sensors_cmw_app
+    - holo_perception_pilot/cmw_app
+    #- holo_prediction/cmw_app
+    - holo_planning_pilot/cmw_app
+    - holo_control_cmw_app
+    #- holo_pctoolkits/cmw_app
+    - holo_map_navigator_cmw_app
+    - gh02_automaton
+    - gh02_cid
+    - holo_map_cmw_app
+    #- holo_x_client
+    #- holo_vehicles
+    commands:
+      configure:
+        command: ''
+        arguments:
+        - ${SOURCE_ROOT}
+      build:
+        command: ''
+        arguments: []
+      install:
+        command: ''
+        arguments: []
+    steps: null
+
