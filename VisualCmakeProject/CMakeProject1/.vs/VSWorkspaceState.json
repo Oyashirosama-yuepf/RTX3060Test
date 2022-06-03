@@ -1,7 +1,18 @@
 {
+  "ActiveTargetSystem": "本地计算机",
+  "MRUPresetsPerTargetSystem": {
+    "本地计算机": {
+      "configure": "x64-debug"
+    },
+    "WSL: Ubuntu": {
+      "configure": "linux-debug"
+    }
+  },
   "ExpandedNodes": [
-    ""
+    "",
+    "\\AStarLib",
+    "\\Hanoi"
   ],
-  "SelectedNode": "\\CMakeSettings.json",
+  "SelectedNode": "\\CMakeLists.txt",
   "PreviewInSolutionExplorer": false
 }
