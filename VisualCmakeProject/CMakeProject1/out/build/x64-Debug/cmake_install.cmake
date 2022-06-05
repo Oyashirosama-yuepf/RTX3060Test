@@ -1,8 +1,8 @@
-# Install script for directory: D:/GitProject/VisualCmake/CMakeProject1
+# Install script for directory: D:/CodeGitProject/VisualCmakeProject/CMakeProject1
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "D:/GitProject/VisualCmake/CMakeProject1/out/install/x64-Debug")
+  set(CMAKE_INSTALL_PREFIX "D:/CodeGitProject/VisualCmakeProject/CMakeProject1/out/install/x64-debug")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 
@@ -33,13 +33,9 @@ if(NOT DEFINED CMAKE_CROSSCOMPILING)
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
-  # Include the install script for the subdirectory.
-  include("D:/GitProject/VisualCmake/CMakeProject1/out/build/x64-Debug/AStarLib/cmake_install.cmake")
-endif()
+  # Include the install script for each subdirectory.
+  include("D:/CodeGitProject/VisualCmakeProject/CMakeProject1/out/build/x64-debug/AStarLib/cmake_install.cmake")
 
-if(NOT CMAKE_INSTALL_LOCAL_ONLY)
-  # Include the install script for the subdirectory.
-  include("D:/GitProject/VisualCmake/CMakeProject1/out/build/x64-Debug/Hanoi/cmake_install.cmake")
 endif()
 
 if(CMAKE_INSTALL_COMPONENT)
@@ -50,5 +46,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "D:/GitProject/VisualCmake/CMakeProject1/out/build/x64-Debug/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "D:/CodeGitProject/VisualCmakeProject/CMakeProject1/out/build/x64-debug/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

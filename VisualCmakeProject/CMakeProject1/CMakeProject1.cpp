@@ -7,12 +7,12 @@
 #include "MultiFunction/MultiFunction.h"
 #include "AstarLib/AStarBase.h"
 #include "SingleTon/SingleTon.h"
-#include "ExternFunction/ExternFunction.h"
+#include "ExternFunction.h"
 
 using namespace std;
 
-extern ExternFunction externFunction;
-extern ExternFunction* externFunctionPoint;
+ExternFunction externFunction;
+ExternFunction* externFunctionPoint;
 
 SingleTon* SingleTon::instance = NULL;
 int main(int argc, char* argv[])

@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.20)
+cmake_minimum_required(VERSION 3.12)
 project(CMakeProject1)
 
 # 收集指定路径下的所有源文件：aux_source_directory(dir variable), 列表存入variable中
@@ -7,7 +7,9 @@ aux_source_directory(. DIR_SRCS)
 #add_subdirectory(sourcedir [binarydir] [exclude_form_all]) sourcedir: 子目录路径
 #include 、include_directories添加文件名,用于包含头文件
 add_subdirectory(AStarLib)
-add_subdirectory(Hanoi)
+find_package(Hanoi)
+link_directories(Hanoi)
+include_directories(ExternFunction)
 # 指定生成目标
 add_executable(demo ${DIR_SRCS})
 

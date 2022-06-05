@@ -1,8 +1,8 @@
-# Install script for directory: D:/GitProject/VisualCmake/CMakeProject1/AStarLib
+# Install script for directory: D:/CodeGitProject/VisualCmakeProject/CMakeProject1/AStarLib
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "D:/GitProject/VisualCmake/CMakeProject1/out/install/x64-Debug")
+  set(CMAKE_INSTALL_PREFIX "D:/CodeGitProject/VisualCmakeProject/CMakeProject1/out/install/x64-debug")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 

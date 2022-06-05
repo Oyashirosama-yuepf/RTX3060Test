@@ -1,3 +1,0 @@
-/mnt/d/CodeGitProject/VisualCmakeProject/CMakeProject2/CMakeProject1/out/build/linux-debug/CMakeFiles/rebuild_cache.dir
-/mnt/d/CodeGitProject/VisualCmakeProject/CMakeProject2/CMakeProject1/out/build/linux-debug/CMakeFiles/edit_cache.dir
-/mnt/d/CodeGitProject/VisualCmakeProject/CMakeProject2/CMakeProject1/out/build/linux-debug/CMakeFiles/CMakeProject1.dir
