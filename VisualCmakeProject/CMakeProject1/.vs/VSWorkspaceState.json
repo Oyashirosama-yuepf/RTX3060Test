@@ -10,10 +10,8 @@
   },
   "ExpandedNodes": [
     "",
-    "\\out",
-    "\\out\\build",
-    "\\out\\Hanoi\\Debug",
-    "\\out\\Hanoi\\Hanoi.dir"
+    "\\Hanoi"
   ],
+  "SelectedNode": "\\SingleTon",
   "PreviewInSolutionExplorer": false
 }

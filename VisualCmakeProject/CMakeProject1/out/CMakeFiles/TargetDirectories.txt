@@ -1,5 +1,0 @@
-D:/CodeGitProject/VisualCmakeProject/CMakeProject1/out/CMakeFiles/demo.dir
-D:/CodeGitProject/VisualCmakeProject/CMakeProject1/out/CMakeFiles/ALL_BUILD.dir
-D:/CodeGitProject/VisualCmakeProject/CMakeProject1/out/CMakeFiles/ZERO_CHECK.dir
-D:/CodeGitProject/VisualCmakeProject/CMakeProject1/out/AStarLib/CMakeFiles/AStarFunctions.dir
-D:/CodeGitProject/VisualCmakeProject/CMakeProject1/out/Hanoi/CMakeFiles/Hanoi.dir

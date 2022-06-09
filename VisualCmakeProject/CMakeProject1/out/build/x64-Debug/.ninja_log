@@ -1,9 +1,5 @@
 # ninja log v5
-28	825	6758047554306017	AStarLib/CMakeFiles/AStarFunctions.dir/AStarBase.cpp.obj	8d96e117cb23de54
-1	907	6758047554306017	CMakeFiles/demo.dir/CMakeProject1.cpp.obj	9110587a23b37641
-827	956	6758047555556197	AStarLib/AStarFunctions.lib	55f2971f20574f01
-0	152	0	clean	97f541059e92112
-0	148	0	clean	97f541059e92112
-32	1367	6758726329832687	AStarLib/CMakeFiles/AStarFunctions.dir/AStarBase.cpp.obj	8d96e117cb23de54
-0	1449	6758726329852633	CMakeFiles/demo.dir/CMakeProject1.cpp.obj	9110587a23b37641
-1368	1517	6758726331332085	AStarLib/AStarFunctions.lib	55f2971f20574f01
+27	702	6767551444658235	AStarLib/CMakeFiles/AStarFunctions.dir/AStarBase.cpp.obj	8d96e117cb23de54
+0	783	6767551444718078	CMakeFiles/demo.dir/CMakeProject1.cpp.obj	9110587a23b37641
+703	829	6767551445954771	AStarLib/AStarFunctions.lib	55f2971f20574f01
+829	1207	6767551449648646	demo.exe	52bcde75fef56f2f

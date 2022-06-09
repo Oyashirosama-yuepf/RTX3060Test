@@ -1,7 +1,0 @@
-project(${PROJECT_NAME}_unit_test)
-
-foreach(comp ${HOLO_PARKING_MSG_COMPONENTS})
-    SET(TEST_DOXYGEN_INPUT ${TEST_DOXYGEN_INPUT} ${comp}/test)
-endforeach()
-
-GENERATE_DOXYGEN(INPUT ${TEST_DOXYGEN_INTPUT})

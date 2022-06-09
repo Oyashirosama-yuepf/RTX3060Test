@@ -7,14 +7,15 @@ aux_source_directory(. DIR_SRCS)
 #add_subdirectory(sourcedir [binarydir] [exclude_form_all]) sourcedir: 子目录路径
 #include 、include_directories添加文件名,用于包含头文件
 add_subdirectory(AStarLib)
+
 find_package(Hanoi)
-link_directories(Hanoi)
+
 include_directories(ExternFunction)
 # 指定生成目标
 add_executable(demo ${DIR_SRCS})
 
 # 添加链接库
 target_link_libraries(demo AStarFunctions)
-target_link_libraries(demo Hanoi)     
+target_link_libraries(demo ${Hanoi_LIBS})     
 
 

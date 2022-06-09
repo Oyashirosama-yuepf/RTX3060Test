@@ -1,5 +1,0 @@
-﻿  Building Custom Rule D:/CodeGitProject/VisualCmakeProject/CMakeProject1/CMakeLists.txt
-  CMakeProject1.cpp
-CMakeProject1.obj : error LNK2001: 无法解析的外部符号 "class ExternFunction externFunction" (?externFunction@@3VExternFunction@@A)
-CMakeProject1.obj : error LNK2001: 无法解析的外部符号 "class ExternFunction * externFunctionPoint" (?externFunctionPoint@@3PEAVExternFunction@@EA)
-D:\CodeGitProject\VisualCmakeProject\CMakeProject1\out\Debug\demo.exe : fatal error LNK1120: 2 个无法解析的外部命令

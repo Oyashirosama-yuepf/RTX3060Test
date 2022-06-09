@@ -50,16 +50,16 @@ The CXX compiler identification is MSVC, found in "D:/CodeGitProject/VisualCmake
 Detecting C compiler ABI info compiled with the following output:
 Change Dir: D:/CodeGitProject/VisualCmakeProject/CMakeProject1/out/build/x64-debug/CMakeFiles/CMakeTmp
 
-Run Build Command(s):F:/Visual Studio/IDE/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe cmTC_722e8 && [1/2] Building C object CMakeFiles\cmTC_722e8.dir\CMakeCCompilerABI.c.obj
-[2/2] Linking C executable cmTC_722e8.exe
+Run Build Command(s):F:/Visual Studio/IDE/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe cmTC_90087 && [1/2] Building C object CMakeFiles\cmTC_90087.dir\CMakeCCompilerABI.c.obj
+[2/2] Linking C executable cmTC_90087.exe
 
 
 
 Detecting CXX compiler ABI info compiled with the following output:
 Change Dir: D:/CodeGitProject/VisualCmakeProject/CMakeProject1/out/build/x64-debug/CMakeFiles/CMakeTmp
 
-Run Build Command(s):F:/Visual Studio/IDE/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe cmTC_41c79 && [1/2] Building CXX object CMakeFiles\cmTC_41c79.dir\CMakeCXXCompilerABI.cpp.obj
-[2/2] Linking CXX executable cmTC_41c79.exe
+Run Build Command(s):F:/Visual Studio/IDE/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe cmTC_25fcf && [1/2] Building CXX object CMakeFiles\cmTC_25fcf.dir\CMakeCXXCompilerABI.cpp.obj
+[2/2] Linking CXX executable cmTC_25fcf.exe
 
 
 

@@ -1,0 +1,1 @@
+add_library(libHelloSlam SHARED libHelloSlam.cpp "libHelloSlam.h")
