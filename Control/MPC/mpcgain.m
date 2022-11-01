@@ -1,4 +1,4 @@
-function [Phi,F,Phi_Phi,Phi_F,Phi_R,A_e, B_e,C_e]=mpcgain(Ap,Bp,Cp,Nc,Np)
+function [Phi,F,Phi_Phi,Phi_F,Phi_R,A_e, B_e,C_e]=mpcgain(Ap,Bp,Cp,Nc,Np)  %不考虑扰动量
 [m1,n1]=size(Cp);
 [n1,n_in]=size(Bp);
 A_e=eye(n1+m1,n1+m1);
@@ -9,13 +9,13 @@ B_e(1:n1,:)=Bp;
 B_e(n1+1:n1+m1,:)=Cp*Bp;
 C_e=zeros(m1,n1+m1);
 C_e(:,n1+1:n1+m1)=eye(m1,m1);
- 
+
 n=n1+m1;
 h(1,:)=C_e;
 F(1,:)=C_e*A_e;
 for kk=2:Np
-h(kk,:)=h(kk-1,:)*A_e;
-F(kk,:)= F(kk-1,:)*A_e;
+h(kk,:)=h(kk-1,:)*A_e;    %Sx
+F(kk,:)= F(kk-1,:)*A_e;   %Su  B = 1 Bd = 0；
 end
 v=h*B_e;
 Phi=zeros(Np,Nc); %declare the dimension of Phi
