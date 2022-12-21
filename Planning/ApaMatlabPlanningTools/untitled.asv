@@ -42,8 +42,8 @@ p3 = plot(0,0,'m*', 'linewidth',3); hold on;
 p4 = plot(0,0,'m*', 'linewidth',3); hold on;
 p0 = plot(0,0,'ks', 'linewidth',4); hold on; grid on;
 
-p_freespace = plot(0,0,'k--', 'linewidth',1); hold on;
-p_obs = plot(0,0,'s', 'linewidth',3,'color', [1 - 0.5,0.3,0.5]); hold on;
+p_freespace = plot(0,0,'c-', 'linewidth',1); hold on;
+p_obs = plot(0,0,'cs-', 'linewidth',3); hold on;
 for k = 1:length(vehicle_position_array.x)
     % first line
     v_center_x = vehicle_position_array.x(k);
@@ -63,17 +63,17 @@ for k = 1:length(vehicle_position_array.x)
     set( p0, 'Xdata', v_center_x, 'Ydata', v_center_y );
 
     %freespace 绘制
-    for i = 1:1:max(size(freespace_point_group))
-        if sqrt((v_center_x - freespace_point_group(i).single_frame.v_x) ^2 + (v_center_y - freespace_point_group(i).single_frame.v_y)) <= 0.01
-            single_frame_freespace.x = freespace_point_group(i).single_frame.x;
-            single_frame_freespace.y = freespace_point_group(i).single_frame.y;
-            set( p_freespace, 'Xdata', single_frame_freespace.x, 'Ydata', single_frame_freespace.y);
-            break;
-        end
-    end
+%     for i = 1:1:max(size(freespace_point_group))
+%         if sqrt((v_center_x - freespace_point_group(i).single_frame.v_x) ^2 + (v_center_y - freespace_point_group(i).single_frame.v_y)) <= 0.01
+%             single_frame_freespace.x = freespace_point_group(i).single_frame.x;
+%             single_frame_freespace.y = freespace_point_group(i).single_frame.y;
+%             set( p_freespace, 'Xdata', single_frame_freespace.x, 'Ydata', single_frame_freespace.y);
+%             break;
+%         end
+%     end
     
     %obstacle 绘制
-    j = 1;  %绘制出同一帧下所有的障碍物
+    j = 1;  %绘制出同一帧下所有的
     for i = 1:1:max(size(obstacle_point_group))
         if sqrt((v_center_x - obstacle_point_group(i).single_frame.v_x) ^2 + (v_center_y - obstacle_point_group(i).single_frame.v_y)) <= 0.01
             single_frame_obs.x(j) = obstacle_point_group(i).single_frame.x;
