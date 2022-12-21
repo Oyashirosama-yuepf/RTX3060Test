@@ -10,8 +10,9 @@
   },
   "ExpandedNodes": [
     "",
+    "\\AStarLib",
     "\\Hanoi"
   ],
-  "SelectedNode": "\\SingleTon",
+  "SelectedNode": "\\CMakeLists.txt",
   "PreviewInSolutionExplorer": false
 }
