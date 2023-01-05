@@ -11,8 +11,9 @@ log_file = 'holo_planning.log';
 %configure
 flag_plot_path = 1;  %使能绘制path信息
 flag_plot_slot = 1;  %使能绘制车位信息
-flag_plot_slot_stopper =1; %使能绘制车位内的停车点信息
-flag_plot_freespace_and_obs = 0; %使能绘制freespace和obs信息
+flag_plot_slot_stopper = 0; %使能绘制车位内的停车点信息
+flag_plot_freespace = 1;  %使能绘制freespace信息
+flag_plot_obstacle = 1;   %使能绘制障碍物信息
 flag_plot_odo_and_vehicle = 1;  %使能绘制车辆实时位置信息
 
 %车身尺寸 取后轴中心为原点，然后向四个方向延展开。
@@ -40,13 +41,21 @@ if flag_plot_slot_stopper == 1
     fid_log = fclose(fid_log);
 end
 
-if flag_plot_freespace_and_obs == 1
-    fid_log = fopen(log_file,'r');  %障碍物和freespace触发时的位置信息
-    [freespace_point_group, obstacle_point_group] = obs_and_freespace_point_info_get(fid_log);
+if flag_plot_obstacle == 1
+    fid_log = fopen(log_file,'r');  %障碍物触发时的位置信息
+    [obstacle_point_group] = obs_point_info_get(fid_log);
     fid_log = fclose(fid_log);
-    
-    fid_log = fopen(log_file,'r');  %障碍物和freespace的信息
-    [freespace_point_array, obstacle_point_array] = obs_and_freespace_info_get(fid_log);
+    fid_log = fopen(log_file,'r');  %障碍物的信息
+    [obstacle_point_array] = obs_info_get(fid_log);
+    fid_log = fclose(fid_log);
+end
+
+if flag_plot_freespace == 1
+    fid_log = fopen(log_file,'r');  %freespace触发时的位置信息
+    [freespace_point_group] = freespace_point_info_get(fid_log);
+    fid_log = fclose(fid_log);
+    fid_log = fopen(log_file,'r');  %freespace的信息
+    [freespace_point_array] = freespace_info_get(fid_log);
     fid_log = fclose(fid_log);
 end
 
@@ -90,20 +99,23 @@ if flag_plot_path == 1
     end
 end
 
-if flag_plot_freespace_and_obs == 1
+if flag_plot_obstacle == 1
     %区分每一帧的障碍物信息
     j = 1;
     k = 1;
-    for i = 1 : 1 : max(max(size(obstacle_point_array.x)))
-        obstacle_point_group(j).single_frame.x(k) = obstacle_point_array.x(i);
-        obstacle_point_group(j).single_frame.y(k) = obstacle_point_array.y(i);
-        obstacle_point_group(j).single_frame.distance(k) = obstacle_point_array.distance(i);
+    for i = 1 : 1 : max(max(size(obstacle_point_array))) - 1
+        obstacle_point_group(j).single_frame.x(k) = obstacle_point_array(i).x;
+        obstacle_point_group(j).single_frame.y(k) = obstacle_point_array(i).y;
+        obstacle_point_group(j).single_frame.distance(k) = obstacle_point_array(i).distance;
         k = k + 1;
-        if obstacle_point_array.count(i + 1) == 1   % 下一个count是1 说明已经到了当前obs的最后一个点,那么障碍物帧号+1
+        if obstacle_point_array(i + 1).count == 1   % 下一个count是1 说明已经到了当前obs的最后一个点,那么障碍物帧号+1
            j = j + 1;
            k = 1;
         end
     end
+end
+
+if flag_plot_freespace == 1
     %区分每一帧的freespace信息
     total_frame_num =  max(size(freespace_point_array.count)) / max(freespace_point_array.count); %判断一共输入了多少帧freespace
     single_frame_point_num = max(freespace_point_array.count); % 单帧有多少个点
@@ -127,6 +139,11 @@ function [vehicle_pose_array] = vehicle_pose_info_get(fid_log,vehicle)
         [status, section_info, section_index] = find_info(log_content, feature_content, 0, 10);   %在完整log中找到指定行
         if status == 1
             vehicle_pose_group = vehicle_pose_group +1;
+            feature_content = '0726 ';
+            [status, time_s_info, time_s_index] = find_info(log_content, feature_content, 0, 0);
+            feature_content = 'PID:';
+            [status, time_e_info, time_e_index] = find_info(log_content, feature_content, 0, 0);
+            time_info = log_content(time_s_index + 4 : time_e_index - 1);
             feature_content = ': (rot3: (';
             [status, x_info, x_index] = find_info(log_content, feature_content, 0, 0);
             feature_content = ', 1)';
@@ -160,7 +177,15 @@ function [vehicle_pose_array] = vehicle_pose_info_get(fid_log,vehicle)
             verticle1_transit = vehicle_pose_rotate * vehicle.verticle1;
             verticle2_transit = vehicle_pose_rotate * vehicle.verticle2;
             verticle3_transit = vehicle_pose_rotate * vehicle.verticle3;
-    
+            
+            vehicle_pose_array.timeinfo.hour(vehicle_pose_group) = str2num(time_info(2:3));
+            vehicle_pose_array.timeinfo.minute(vehicle_pose_group) = str2num(time_info(5:6));
+            vehicle_pose_array.timeinfo.second(vehicle_pose_group) = str2num(time_info(8:9));
+            vehicle_pose_array.timeinfo.millisecond(vehicle_pose_group) = str2num(time_info(11:end));
+            vehicle_pose_array.timeinfo.timestamp(vehicle_pose_group) = 3600 * vehicle_pose_array.timeinfo.hour(vehicle_pose_group) + ...
+                                                                        60 * vehicle_pose_array.timeinfo.minute(vehicle_pose_group) + ...
+                                                                        vehicle_pose_array.timeinfo.second(vehicle_pose_group) + ...
+                                                                        10^-6 * vehicle_pose_array.timeinfo.millisecond(vehicle_pose_group);
             vehicle_pose_array.verticle0_t.x(vehicle_pose_group) = verticle0_transit(1);
             vehicle_pose_array.verticle0_t.y(vehicle_pose_group) = verticle0_transit(2);
             vehicle_pose_array.verticle1_t.x(vehicle_pose_group) = verticle1_transit(1);
@@ -198,34 +223,11 @@ function[vehicle_position_array] = vehicle_position_info_get(fid_log)
     end
 end
 
-%获取障碍物信息和freespace信息
-function[freespace_point_array, obstacle_point_array] = obs_and_freespace_info_get(fid_log)
-    obstacle_point_num = 0;
+%获取freespace信息
+function[freespace_point_array] = freespace_info_get(fid_log)
     freespace_point_num = 0;
     while ~feof(fid_log)
         log_content = fgetl(fid_log);   % 根据句柄打开文件，内容写入log_content
-        feature_content = 'INFO]detect distance: ';
-        [status, section_info, section_index] = find_info(log_content, feature_content, 0, 20);   %在完整log中找到指定行
-        if status == 1
-            obstacle_point_num = obstacle_point_num +1;
-            feature_content = 'distance: ';
-            [status, d_info, d_index] = find_info(log_content, feature_content, 0, 0);
-            feature_content = 'obstacle count: ';
-            [status, obs_point_info, obs_point_index] = find_info(log_content, feature_content, 0, 0);
-            feature_content = 'obstacle in world: point2: (';
-            [status, x_info, x_index] = find_info(log_content, feature_content, 0, 0);
-            feature_content = ', ';
-            [status, y_info, y_index] = find_info(log_content, feature_content, 0, 0);
-            
-            obstacle_point.distance = str2num(log_content(d_index + 11: obs_point_index - 3));
-            obstacle_point.count = str2num(log_content(obs_point_index + 16: x_index - 3));
-            obstacle_point.x = str2num(log_content(x_index + 28 : y_index - 1));
-            obstacle_point.y = str2num(log_content(y_index + 2 : end - 1));
-            obstacle_point_array.x(obstacle_point_num) = obstacle_point.x;
-            obstacle_point_array.y(obstacle_point_num) = obstacle_point.y;
-            obstacle_point_array.distance(obstacle_point_num) = obstacle_point.distance;
-            obstacle_point_array.count(obstacle_point_num) = obstacle_point.count;
-        end
         feature_content = '  INFO]count: ';
         [status, section_info, section_index] = find_info(log_content, feature_content, 0, 20);   %在完整log中找到指定行
         if status == 1
@@ -245,12 +247,79 @@ function[freespace_point_array, obstacle_point_array] = obs_and_freespace_info_g
             freespace_point_array.count(freespace_point_num) = freespace_point.count;
         end
     end
-    obstacle_point_array.count(obstacle_point_num + 1) = 1;  % 为下面摘取障碍物单帧信息的判断，在最后面补偿一个1
 end
 
-%freespace 和 obs关键信息，是freespace和obs接收到时的车位坐标信息，用于在指定位置时更新周边的环境信息
-function [freespace_point_group, obstacle_point_group] = obs_and_freespace_point_info_get(fid_log)
+%获取障碍物信息信息
+function[obstacle_point_array] = obs_info_get(fid_log)
     obstacle_point_num = 0;
+    while ~feof(fid_log)
+        log_content = fgetl(fid_log);   % 根据句柄打开文件，内容写入log_content
+        feature_content = 'INFO]detect distance: ';
+        [status, section_info, section_index] = find_info(log_content, feature_content, 0, 20);   %在完整log中找到指定行
+        if status == 1
+            obstacle_point_num = obstacle_point_num +1;
+            feature_content = 'distance: ';
+            [status, d_info, d_index] = find_info(log_content, feature_content, 0, 0);
+            feature_content = 'obstacle count: ';
+            [status, obs_point_info, obs_point_index] = find_info(log_content, feature_content, 0, 0);
+            feature_content = 'obstacle in world: point2: (';
+            [status, x_info, x_index] = find_info(log_content, feature_content, 0, 0);
+            feature_content = ', ';
+            [status, y_info, y_index] = find_info(log_content, feature_content, 0, 0);
+            
+            obstacle_point.distance = str2num(log_content(d_index + 10: obs_point_index - 3));
+            obstacle_point.count = str2num(log_content(obs_point_index + 16: x_index - 3));
+            obstacle_point.x = str2num(log_content(x_index + 28 : y_index - 1));
+            obstacle_point.y = str2num(log_content(y_index + 2 : end - 1));
+            obstacle_point_array(obstacle_point_num).x = obstacle_point.x;
+            obstacle_point_array(obstacle_point_num).y = obstacle_point.y;
+            obstacle_point_array(obstacle_point_num).distance = obstacle_point.distance;
+            obstacle_point_array(obstacle_point_num).count = obstacle_point.count;
+        end
+    end
+    obstacle_point_array(obstacle_point_num + 1).count = 1;  % 为下面摘取障碍物单帧信息的判断，在最后面补偿一个1
+end
+
+%obs关键信息，obs接收到时的车位坐标信息，用于在指定位置时更新周边的环境信息
+function [obstacle_point_group] = obs_point_info_get(fid_log)
+    obstacle_point_num = 0;
+    while ~feof(fid_log)
+        log_content = fgetl(fid_log);   % 根据句柄打开文件，内容写入log_content 
+        feature_content = 'INFO]point for obs:';
+        [status, section_info, section_index] = find_info(log_content, feature_content, 0, 20);   %在完整log中找到指定行
+        if status == 1
+            obstacle_point_num = obstacle_point_num + 1;
+            feature_content = '0726 ';
+            [status, time_info, time_index] = find_info(log_content, feature_content, 0, 0);
+            feature_content = ' PID:';
+            [status, pid_info, pid_index] = find_info(log_content, feature_content, 0, 0);
+            obstacle_point_group(obstacle_point_num).time_info = log_content(time_index + 5 : pid_index);
+            
+            %提取当前帧对应的系统时间
+            [obstacle_point_group(obstacle_point_num).single_frame.hour, last] = strtok(obstacle_point_group(obstacle_point_num).time_info,':');  % [token, remainder] = strtok(string, delimiters)
+            [obstacle_point_group(obstacle_point_num).single_frame.min, last] = strtok(last,':');  % [token, remainder] = strtok(string, delimiters)
+            [obstacle_point_group(obstacle_point_num).single_frame.s, obstacle_point_group(obstacle_point_num).single_frame.ms] = strtok(last,'.');
+            obstacle_point_group(obstacle_point_num).single_frame.hour = str2num(obstacle_point_group(obstacle_point_num).single_frame.hour(1:end));
+            obstacle_point_group(obstacle_point_num).single_frame.min = str2num(obstacle_point_group(obstacle_point_num).single_frame.min(1:end));
+            obstacle_point_group(obstacle_point_num).single_frame.s = str2num(obstacle_point_group(obstacle_point_num).single_frame.s(2:end));
+            obstacle_point_group(obstacle_point_num).single_frame.ms = str2num(obstacle_point_group(obstacle_point_num).single_frame.ms(2:end));
+            obstacle_point_group(obstacle_point_num).single_frame.timestamp = 3600 * obstacle_point_group(obstacle_point_num).single_frame.hour + ...
+                                                                        60 * obstacle_point_group(obstacle_point_num).single_frame.min + ...
+                                                                        obstacle_point_group(obstacle_point_num).single_frame.s + ...
+                                                                        10^-6 * obstacle_point_group(obstacle_point_num).single_frame.ms;
+
+            feature_content = 'obs';
+            [status, x_info, x_index] = find_info(log_content, feature_content, 0, 0);
+            feature_content = ',  ';
+            [status, y_info, y_index] = find_info(log_content, feature_content, 0, 0);
+            obstacle_point_group(obstacle_point_num).single_frame.v_x = str2num(log_content(x_index + 5 : y_index - 1));
+            obstacle_point_group(obstacle_point_num).single_frame.v_y = str2num(log_content(y_index + 3 : end));
+        end
+    end
+end
+
+%freespace关键信息，是freespace接收到时的车位坐标信息，用于在指定位置时更新周边的环境信息
+function [freespace_point_group] = freespace_point_info_get(fid_log)
     freespace_point_num = 0;
     while ~feof(fid_log)
         log_content = fgetl(fid_log);   % 根据句柄打开文件，内容写入log_content 
@@ -258,23 +327,31 @@ function [freespace_point_group, obstacle_point_group] = obs_and_freespace_point
         [status, section_info, section_index] = find_info(log_content, feature_content, 0, 20);   %在完整log中找到指定行
         if status == 1
             freespace_point_num = freespace_point_num + 1;
+            feature_content = '0726 ';
+            [status, time_info, time_index] = find_info(log_content, feature_content, 0, 0);
+            feature_content = ' PID:';
+            [status, pid_info, pid_index] = find_info(log_content, feature_content, 0, 0);
+            freespace_point_group(freespace_point_num).time_info = log_content(time_index + 5 : pid_index);
+            
+            %提取当前帧对应的系统时间
+            [freespace_point_group(freespace_point_num).single_frame.hour, last] = strtok(freespace_point_group(freespace_point_num).time_info,':');  % [token, remainder] = strtok(string, delimiters)
+            [freespace_point_group(freespace_point_num).single_frame.min, last] = strtok(last,':');  % [token, remainder] = strtok(string, delimiters)
+            [freespace_point_group(freespace_point_num).single_frame.s, freespace_point_group(freespace_point_num).single_frame.ms] = strtok(last,'.');
+            freespace_point_group(freespace_point_num).single_frame.hour = str2num(freespace_point_group(freespace_point_num).single_frame.hour(1:end));
+            freespace_point_group(freespace_point_num).single_frame.min = str2num(freespace_point_group(freespace_point_num).single_frame.min(1:end));
+            freespace_point_group(freespace_point_num).single_frame.s = str2num(freespace_point_group(freespace_point_num).single_frame.s(2:end));
+            freespace_point_group(freespace_point_num).single_frame.ms = str2num(freespace_point_group(freespace_point_num).single_frame.ms(2:end));
+            freespace_point_group(freespace_point_num).single_frame.timestamp = 3600 * freespace_point_group(freespace_point_num).single_frame.hour + ...
+                                                                        60 * freespace_point_group(freespace_point_num).single_frame.min + ...
+                                                                        freespace_point_group(freespace_point_num).single_frame.s + ...
+                                                                        10^-6 * freespace_point_group(freespace_point_num).single_frame.ms;
+            %提取对应的信息
             feature_content = 'freespace:';
             [status, x_info, x_index] = find_info(log_content, feature_content, 0, 0);
             feature_content = ',  ';
             [status, y_info, y_index] = find_info(log_content, feature_content, 0, 0);
             freespace_point_group(freespace_point_num).single_frame.v_x = str2num(log_content(x_index + 11 : y_index - 1));
             freespace_point_group(freespace_point_num).single_frame.v_y = str2num(log_content(y_index + 3 : end ));
-        end
-        feature_content = 'INFO]point for obs:';
-        [status, section_info, section_index] = find_info(log_content, feature_content, 0, 20);   %在完整log中找到指定行
-        if status == 1
-            obstacle_point_num = obstacle_point_num + 1;
-            feature_content = 'obs';
-            [status, x_info, x_index] = find_info(log_content, feature_content, 0, 0);
-            feature_content = ',  ';
-            [status, y_info, y_index] = find_info(log_content, feature_content, 0, 0);
-            obstacle_point_group(obstacle_point_num).single_frame.v_x = str2num(log_content(x_index + 5 : y_index - 1));
-            obstacle_point_group(obstacle_point_num).single_frame.v_y = str2num(log_content(y_index + 3 : end));
         end
     end
 end
