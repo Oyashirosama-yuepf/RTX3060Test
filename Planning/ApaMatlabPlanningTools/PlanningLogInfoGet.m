@@ -11,8 +11,8 @@ log_file = 'holo_planning.log';
 %configure
 flag_plot_path = 1;  %使能绘制path信息
 flag_plot_slot = 1;  %使能绘制车位信息
-flag_plot_slot_stopper = 0; %使能绘制车位内的停车点信息
-flag_plot_freespace = 1;  %使能绘制freespace信息
+flag_plot_slot_stopper = 1; %使能绘制车位内的停车点信息
+flag_plot_freespace = 0;  %使能绘制freespace信息
 flag_plot_obstacle = 1;   %使能绘制障碍物信息
 flag_plot_odo_and_vehicle = 1;  %使能绘制车辆实时位置信息
 
@@ -82,7 +82,7 @@ vehicle_position_array.y3 = vehicle_position_array.y+vehicle_pose_array.verticle
 if flag_plot_path == 1
     choose_index_1 = size(path_info_array);
     choose_index_1 = choose_index_1(2);
-    choose_index_2 = size(slot_info.slotworld0.x);
+    choose_index_2 = size(slot_info);
     choose_index_2 = choose_index_2(2);
     choose_index = min(choose_index_1, choose_index_2);
     %path info摘取零速度段
@@ -381,6 +381,24 @@ function [stopper_array] = stopper_info_get(fid_log)
         [status, section_info, section_index] = find_info(log_content, feature_content, 0, 20);   %在完整log中找到指定行
         if status == 1
             stopper_point_num = stopper_point_num +1;
+            feature_content = '0726 ';
+            [status, time_info, time_index] = find_info(log_content, feature_content, 0, 0);
+            feature_content = ' PID:';
+            [status, pid_info, pid_index] = find_info(log_content, feature_content, 0, 0);
+            stopper_array(stopper_point_num).time_info = log_content(time_index + 5 : pid_index);
+            
+            %提取当前帧对应的系统时间
+            [stopper_array(stopper_point_num).hour, last] = strtok(stopper_array(stopper_point_num).time_info,':');  % [token, remainder] = strtok(string, delimiters)
+            [stopper_array(stopper_point_num).min, last] = strtok(last,':');  % [token, remainder] = strtok(string, delimiters)
+            [stopper_array(stopper_point_num).s, stopper_array(stopper_point_num).ms] = strtok(last,'.');
+            stopper_array(stopper_point_num).hour = str2num(stopper_array(stopper_point_num).hour(1:end));
+            stopper_array(stopper_point_num).min = str2num(stopper_array(stopper_point_num).min(1:end));
+            stopper_array(stopper_point_num).s = str2num(stopper_array(stopper_point_num).s(2:end));
+            stopper_array(stopper_point_num).ms = str2num(stopper_array(stopper_point_num).ms(2:end));
+            stopper_array(stopper_point_num).timestamp = 3600 * stopper_array(stopper_point_num).hour + ...
+                                                        60 * stopper_array(stopper_point_num).min + ...
+                                                        stopper_array(stopper_point_num).s + ...
+                                                        10^-6 * stopper_array(stopper_point_num).ms;
             feature_content = ' (';
             [status, x_info, x_index] = find_info(log_content, feature_content, 0, 0);
             feature_content = ', ';
@@ -390,8 +408,8 @@ function [stopper_array] = stopper_info_get(fid_log)
     
             stopper.x = str2num(log_content(x_index + 2 : y_index - 1));
             stopper.y = str2num(log_content(y_index + 2 : z_index - 1));
-            stopper_array.x0(stopper_point_num) = stopper.x;
-            stopper_array.y0(stopper_point_num) = stopper.y;
+            stopper_array(stopper_point_num).x0 = stopper.x;
+            stopper_array(stopper_point_num).y0 = stopper.y;
         end
         feature_content = 'stopper_vertices 1 before transfer : point3: ';
         [status, section_info, section_index] = find_info(log_content, feature_content, 0, 20);   %在完整log中找到指定行
@@ -405,8 +423,8 @@ function [stopper_array] = stopper_info_get(fid_log)
     
             stopper.x = str2num(log_content(x_index + 2 : y_index - 1));
             stopper.y = str2num(log_content(y_index + 2 : z_index - 1));
-            stopper_array.x1(stopper_point_num) = stopper.x;
-            stopper_array.y1(stopper_point_num) = stopper.y;
+            stopper_array(stopper_point_num).x1 = stopper.x;
+            stopper_array(stopper_point_num).y1 = stopper.y;
         end
     end
 end
@@ -420,6 +438,24 @@ function [slot_info] = slot_info_get(fid_log)
         [status, section_info, section_index] = find_info(log_content, feature_content, 0, 20);   %在完整log中找到指定行
         if status == 1
             slot_info_group = slot_info_group +1;
+            feature_content = '0726 ';
+            [status, time_info, time_index] = find_info(log_content, feature_content, 0, 0);
+            feature_content = ' PID:';
+            [status, pid_info, pid_index] = find_info(log_content, feature_content, 0, 0);
+            slot_info(slot_info_group).time_info = log_content(time_index + 5 : pid_index);
+            
+            %提取当前帧对应的系统时间
+            [slot_info(slot_info_group).hour, last] = strtok(slot_info(slot_info_group).time_info,':');  % [token, remainder] = strtok(string, delimiters)
+            [slot_info(slot_info_group).min, last] = strtok(last,':');  % [token, remainder] = strtok(string, delimiters)
+            [slot_info(slot_info_group).s, slot_info(slot_info_group).ms] = strtok(last,'.');
+            slot_info(slot_info_group).hour = str2num(slot_info(slot_info_group).hour(1:end));
+            slot_info(slot_info_group).min = str2num(slot_info(slot_info_group).min(1:end));
+            slot_info(slot_info_group).s = str2num(slot_info(slot_info_group).s(2:end));
+            slot_info(slot_info_group).ms = str2num(slot_info(slot_info_group).ms(2:end));
+            slot_info(slot_info_group).timestamp = 3600 * slot_info(slot_info_group).hour + ...
+                                                    60 * slot_info(slot_info_group).min + ...
+                                                    slot_info(slot_info_group).s + ...
+                                                    10^-6 * slot_info(slot_info_group).ms;
             feature_content = ': (';
             [status, x_info, x_index] = find_info(log_content, feature_content, 0, 0);
             feature_content = ', ';
@@ -428,9 +464,9 @@ function [slot_info] = slot_info_get(fid_log)
             slot.worldvertices0.x = str2num(log_content(x_index + 3 : y_index - 1));
             slot.worldvertices0.y = str2num(log_content(y_index + 2 : end - 3));
     
-            slot_info.slot_info_group(slot_info_group) = slot_info_group;
-            slot_info.slotworld0.x(slot_info_group) = slot.worldvertices0.x;
-            slot_info.slotworld0.y(slot_info_group) = slot.worldvertices0.y;
+            slot_info(slot_info_group).slot_info_group = slot_info_group;
+            slot_info(slot_info_group).slotworld0.x = slot.worldvertices0.x;
+            slot_info(slot_info_group).slotworld0.y = slot.worldvertices0.y;
         end
     
         feature_content = '1before transfer : point3';
@@ -444,8 +480,8 @@ function [slot_info] = slot_info_get(fid_log)
             slot.worldvertices1.x = str2num(log_content(x_index + 3 : y_index - 1));
             slot.worldvertices1.y = str2num(log_content(y_index + 2 : end - 3));
     
-            slot_info.slotworld1.x(slot_info_group) = slot.worldvertices1.x;
-            slot_info.slotworld1.y(slot_info_group) = slot.worldvertices1.y;
+            slot_info(slot_info_group).slotworld1.x = slot.worldvertices1.x;
+            slot_info(slot_info_group).slotworld1.y = slot.worldvertices1.y;
         end
     
         feature_content = '2before transfer : point3';
@@ -459,8 +495,8 @@ function [slot_info] = slot_info_get(fid_log)
             slot.worldvertices2.x = str2num(log_content(x_index + 3 : y_index - 1));
             slot.worldvertices2.y = str2num(log_content(y_index + 2 : end - 3));
     
-            slot_info.slotworld2.x(slot_info_group) = slot.worldvertices2.x;
-            slot_info.slotworld2.y(slot_info_group) = slot.worldvertices2.y;
+            slot_info(slot_info_group).slotworld2.x = slot.worldvertices2.x;
+            slot_info(slot_info_group).slotworld2.y = slot.worldvertices2.y;
         end
     
         feature_content = '3before transfer : point3';
@@ -474,8 +510,8 @@ function [slot_info] = slot_info_get(fid_log)
             slot.worldvertices3.x = str2num(log_content(x_index + 3 : y_index - 1));
             slot.worldvertices3.y = str2num(log_content(y_index + 2 : end - 3));
     
-            slot_info.slotworld3.x(slot_info_group) = slot.worldvertices3.x;
-            slot_info.slotworld3.y(slot_info_group) = slot.worldvertices3.y;
+            slot_info(slot_info_group).slotworld3.x = slot.worldvertices3.x;
+            slot_info(slot_info_group).slotworld3.y = slot.worldvertices3.y;
         end
     end
 end

@@ -33,21 +33,21 @@ end
 
 % 车库位信息
 if flag_plot_slot == 1
-    choose_index = max(size(slot_info.slotworld0));
-    plot(slot_info.slotworld0.x, slot_info.slotworld0.y, 'bo', 'linewidth',3); hold on;
-    plot(slot_info.slotworld1.x, slot_info.slotworld1.y, 'bo', 'linewidth',3); hold on;
-    plot(slot_info.slotworld2.x, slot_info.slotworld2.y, 'bo', 'linewidth',3); hold on;
-    plot(slot_info.slotworld3.x, slot_info.slotworld3.y, 'bo', 'linewidth',3); hold on;
-    line([slot_info.slotworld0.x(choose_index),slot_info.slotworld1.x(choose_index)],[slot_info.slotworld0.y(choose_index), slot_info.slotworld1.y(choose_index)]);
-    line([slot_info.slotworld1.x(choose_index),slot_info.slotworld2.x(choose_index)],[slot_info.slotworld1.y(choose_index), slot_info.slotworld2.y(choose_index)]);
-    line([slot_info.slotworld2.x(choose_index),slot_info.slotworld3.x(choose_index)],[slot_info.slotworld2.y(choose_index), slot_info.slotworld3.y(choose_index)]);
-    line([slot_info.slotworld3.x(choose_index),slot_info.slotworld0.x(choose_index)],[slot_info.slotworld3.y(choose_index), slot_info.slotworld0.y(choose_index)]);
+    p_slot0 = plot(slot_info(1).slotworld0.x, slot_info(1).slotworld0.y, 'ko-', 'linewidth',3); hold on;
+    p_slot1 = plot(slot_info(1).slotworld1.x, slot_info(1).slotworld1.y, 'ko-', 'linewidth',3); hold on;
+    p_slot2 = plot(slot_info(1).slotworld2.x, slot_info(1).slotworld2.y, 'ko-', 'linewidth',3); hold on;
+    p_slot3 = plot(slot_info(1).slotworld3.x, slot_info(1).slotworld3.y, 'ko-', 'linewidth',3); hold on;
+    line1 = line([slot_info(j).slotworld0.x,slot_info(j).slotworld1.x],[slot_info(j).slotworld0.y, slot_info(j).slotworld1.y], 'linestyle','-','color','k');
+    line2 = line([slot_info(j).slotworld1.x,slot_info(j).slotworld2.x],[slot_info(j).slotworld1.y, slot_info(j).slotworld2.y], 'linestyle','-','color','k');
+    line3 = line([slot_info(j).slotworld2.x,slot_info(j).slotworld3.x],[slot_info(j).slotworld2.y, slot_info(j).slotworld3.y], 'linestyle','-','color','k');
+    line4 = line([slot_info(j).slotworld3.x,slot_info(j).slotworld0.x],[slot_info(j).slotworld3.y, slot_info(j).slotworld0.y], 'linestyle','-','color','k');
 end
 
 %车位内停车点信息
 if flag_plot_slot_stopper == 1
-    plot(stopper_array.x0, stopper_array.y0, 'bs', 'linewidth',3); hold on;
-    plot(stopper_array.x1, stopper_array.y1, 'bs', 'linewidth',3); hold on;
+    p_stopper0 = plot(stopper_array(1).x0, stopper_array(1).y0, 'ks-', 'linewidth',3); hold on;
+    p_stopper1 = plot(stopper_array(1).x1, stopper_array(1).y1, 'ks-', 'linewidth',3); hold on;
+    line_stopper = line([stopper_array(1).x0,stopper_array(1).x1],[stopper_array(1).y0, stopper_array(1).y1],'linestyle','--','color','k');
 end
 
 if flag_plot_odo_and_vehicle == 1
@@ -58,7 +58,7 @@ if flag_plot_odo_and_vehicle == 1
     p0 = plot(0,0,'ks', 'linewidth',4); hold on; grid on;
 end
 if flag_plot_freespace == 1
-      p_freespace = plot(vehicle_position_array.x(1),vehicle_position_array.y(1),'k--', 'linewidth',1); hold on;
+    p_freespace = plot(vehicle_position_array.x(1),vehicle_position_array.y(1),'k--', 'linewidth',1); hold on;
 end
 if flag_plot_obstacle == 1
     p_obs = plot(vehicle_position_array.x(1),vehicle_position_array.y(1), 's', 'linewidth',1 ,'color', [1 - 0.5,0.3,0.5]); hold on;
@@ -77,7 +77,8 @@ for k = 1:length(vehicle_position_array.x)
             if abs(freespace_point_group(j).single_frame.timestamp - vehicle_pose_array.timeinfo.timestamp(k)) <= 0.02 
                 single_frame_freespace.x = freespace_point_group(j).single_frame.x;
                 single_frame_freespace.y = freespace_point_group(j).single_frame.y;
-                set( p_freespace, 'Xdata', single_frame_freespace.x, 'Ydata', single_frame_freespace.y);
+                set(p_freespace, 'Xdata', single_frame_freespace.x, 'Ydata', single_frame_freespace.y);
+                break;
             end
         end
     end
@@ -86,12 +87,43 @@ for k = 1:length(vehicle_position_array.x)
             if abs(obstacle_point_group(j).single_frame.timestamp - vehicle_pose_array.timeinfo.timestamp(k)) <= 0.02 
                 single_frame_obs.x = obstacle_point_group(j).single_frame.x;
                 single_frame_obs.y = obstacle_point_group(j).single_frame.y;
-                set(p_obs, 'Xdata', single_frame_obs.x, 'Ydata', single_frame_obs.y);               
+                set(p_obs, 'Xdata', single_frame_obs.x, 'Ydata', single_frame_obs.y);     
+                break;
+            end
+        end
+    end
+    % 车库位信息
+    if flag_plot_slot == 1
+        for j = 1 : length(slot_info)
+            if abs(slot_info(j).timestamp - vehicle_pose_array.timeinfo.timestamp(k)) <= 0.02
+                delete(line1);delete(line2);delete(line3);delete(line4);
+                set(p_slot0, 'Xdata', slot_info(j).slotworld0.x, 'Ydata', slot_info(j).slotworld0.y);  
+                set(p_slot1, 'Xdata', slot_info(j).slotworld1.x, 'Ydata', slot_info(j).slotworld1.y);  
+                set(p_slot2, 'Xdata', slot_info(j).slotworld2.x, 'Ydata', slot_info(j).slotworld2.y);  
+                set(p_slot3, 'Xdata', slot_info(j).slotworld3.x, 'Ydata', slot_info(j).slotworld3.y);  
+                line1 = line([slot_info(j).slotworld0.x,slot_info(j).slotworld1.x],[slot_info(j).slotworld0.y, slot_info(j).slotworld1.y],'linestyle','-','color','k');
+                line2 = line([slot_info(j).slotworld1.x,slot_info(j).slotworld2.x],[slot_info(j).slotworld1.y, slot_info(j).slotworld2.y],'linestyle','-','color','k');
+                line3 = line([slot_info(j).slotworld2.x,slot_info(j).slotworld3.x],[slot_info(j).slotworld2.y, slot_info(j).slotworld3.y],'linestyle','-','color','k');
+                line4 = line([slot_info(j).slotworld3.x,slot_info(j).slotworld0.x],[slot_info(j).slotworld3.y, slot_info(j).slotworld0.y],'linestyle','-','color','k');
+                break;
             end
         end
     end
     
-    pause(0.001);
+    %车位内停车点信息
+    if flag_plot_slot_stopper == 1
+        for j = 1 :length(stopper_array)
+            if abs(stopper_array(j).timestamp - vehicle_pose_array.timeinfo.timestamp(k)) <= 0.02
+                delete(line_stopper);
+                set(p_stopper0, 'Xdata', stopper_array(j).x0, 'Ydata', stopper_array(j).y0); hold on;
+                set(p_stopper1, 'Xdata', stopper_array(j).x1, 'Ydata', stopper_array(j).y1); hold on;
+                line_stopper = line([stopper_array(j).x0,stopper_array(j).x1],[stopper_array(j).y0, stopper_array(j).y1],'linestyle','--','color','k');
+                break;
+            end
+        end
+    end
+    
+    pause(0.00001);
     axis equal;
     % update screen
 end
