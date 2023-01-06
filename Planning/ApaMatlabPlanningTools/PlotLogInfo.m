@@ -17,11 +17,6 @@ end
 %     end
 % end
 
-%摘取车辆在指定位置时的障碍物和freespace信息，根据时间戳信息判断
-for k = 1:length(vehicle_position_array.x)    %寻找每个点的位置
-
-end
-
 % 车辆全轨迹信息
 if flag_plot_odo_and_vehicle == 1
     plot(vehicle_position_array.x, vehicle_position_array.y, 'k-', 'linewidth',3);hold on; grid on;
@@ -63,10 +58,10 @@ if flag_plot_odo_and_vehicle == 1
     p0 = plot(0,0,'ks', 'linewidth',4); hold on; grid on;
 end
 if flag_plot_freespace == 1
-      p_freespace = plot(0,0,'k--', 'linewidth',1); hold on;
+      p_freespace = plot(vehicle_position_array.x(1),vehicle_position_array.y(1),'k--', 'linewidth',1); hold on;
 end
 if flag_plot_obstacle == 1
-      p_obs = plot(0,0,'s', 'linewidth',3,'color', [1 - 0.5,0.3,0.5]); hold on;
+    p_obs = plot(vehicle_position_array.x(1),vehicle_position_array.y(1), 's', 'linewidth',1 ,'color', [1 - 0.5,0.3,0.5]); hold on;
 end
 for k = 1:length(vehicle_position_array.x)
     % first line
@@ -79,7 +74,7 @@ for k = 1:length(vehicle_position_array.x)
     end
     if flag_plot_freespace == 1
         for j = 1:length(freespace_point_group)   %判断当前点时刻的freespace信息
-            if abs(freespace_point_group(j).single_frame.timestamp - vehicle_pose_array.timeinfo.timestamp(k)) <= 0.03 
+            if abs(freespace_point_group(j).single_frame.timestamp - vehicle_pose_array.timeinfo.timestamp(k)) <= 0.02 
                 single_frame_freespace.x = freespace_point_group(j).single_frame.x;
                 single_frame_freespace.y = freespace_point_group(j).single_frame.y;
                 set( p_freespace, 'Xdata', single_frame_freespace.x, 'Ydata', single_frame_freespace.y);
@@ -87,11 +82,11 @@ for k = 1:length(vehicle_position_array.x)
         end
     end
     if flag_plot_obstacle == 1
-        for j = 1:length(obstacle_point_group)   %判断当前点时刻的障碍物信息
-            if abs(obstacle_point_group(j).single_frame.timestamp - vehicle_pose_array.timeinfo.timestamp(k)) <= 0.03 
+        for j = 1:obstacle_point_group_frame_num  %判断当前点时刻的障碍物信息
+            if abs(obstacle_point_group(j).single_frame.timestamp - vehicle_pose_array.timeinfo.timestamp(k)) <= 0.02 
                 single_frame_obs.x = obstacle_point_group(j).single_frame.x;
                 single_frame_obs.y = obstacle_point_group(j).single_frame.y;
-                set(p_obs, 'Xdata', single_frame_obs.x, 'Ydata', single_frame_obs.y); 
+                set(p_obs, 'Xdata', single_frame_obs.x, 'Ydata', single_frame_obs.y);               
             end
         end
     end

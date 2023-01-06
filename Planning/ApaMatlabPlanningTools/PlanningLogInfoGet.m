@@ -100,20 +100,36 @@ if flag_plot_path == 1
 end
 
 if flag_plot_obstacle == 1
-    %区分每一帧的障碍物信息
+    %区分每一个障碍物的信息，但是单帧可能存在多个障碍物，此处筛选出不同的障碍物
     j = 1;
     k = 1;
     for i = 1 : 1 : max(max(size(obstacle_point_array))) - 1
-        obstacle_point_group(j).single_frame.x(k) = obstacle_point_array(i).x;
-        obstacle_point_group(j).single_frame.y(k) = obstacle_point_array(i).y;
-        obstacle_point_group(j).single_frame.distance(k) = obstacle_point_array(i).distance;
+        obstacle_point_group(j).single_obs.x(k) = obstacle_point_array(i).x;
+        obstacle_point_group(j).single_obs.y(k) = obstacle_point_array(i).y;
+        obstacle_point_group(j).single_obs.distance(k) = obstacle_point_array(i).distance;
         k = k + 1;
-        if obstacle_point_array(i + 1).count == 1   % 下一个count是1 说明已经到了当前obs的最后一个点,那么障碍物帧号+1
+        if obstacle_point_array(i + 1).count == 1   % 下一个count是1 说明已经到了当前obs的最后一个点,那么障碍物号+1
            j = j + 1;
            k = 1;
         end
     end
+    %将同一帧内的不同障碍物汇总,用于后续单帧绘制
+    j = 1;
+    obstacle_point_group(j).single_frame.x = [];
+    obstacle_point_group(j).single_frame.y = [];
+    for i = 1 : 1 : max(max(size(obstacle_point_group))) - 1
+        obstacle_point_group(j).single_frame.x = [obstacle_point_group(j).single_frame.x, obstacle_point_group(i).single_obs.x];
+        obstacle_point_group(j).single_frame.y = [obstacle_point_group(j).single_frame.y, obstacle_point_group(i).single_obs.y];
+         obstacle_point_group(j).single_frame.timestamp = obstacle_point_group(j).single_obs.timestamp;
+        if abs(obstacle_point_group(i + 1).single_obs.timestamp - obstacle_point_group(i).single_obs.timestamp) >= 0.09   %打印时间戳超过90ms 认为已经到了下一帧
+            j = j + 1;
+            obstacle_point_group(j).single_frame.x = [];
+            obstacle_point_group(j).single_frame.y = [];
+        end
+    end
+    obstacle_point_group_frame_num = j - 1;
 end
+
 
 if flag_plot_freespace == 1
     %区分每一帧的freespace信息
@@ -296,24 +312,24 @@ function [obstacle_point_group] = obs_point_info_get(fid_log)
             obstacle_point_group(obstacle_point_num).time_info = log_content(time_index + 5 : pid_index);
             
             %提取当前帧对应的系统时间
-            [obstacle_point_group(obstacle_point_num).single_frame.hour, last] = strtok(obstacle_point_group(obstacle_point_num).time_info,':');  % [token, remainder] = strtok(string, delimiters)
-            [obstacle_point_group(obstacle_point_num).single_frame.min, last] = strtok(last,':');  % [token, remainder] = strtok(string, delimiters)
-            [obstacle_point_group(obstacle_point_num).single_frame.s, obstacle_point_group(obstacle_point_num).single_frame.ms] = strtok(last,'.');
-            obstacle_point_group(obstacle_point_num).single_frame.hour = str2num(obstacle_point_group(obstacle_point_num).single_frame.hour(1:end));
-            obstacle_point_group(obstacle_point_num).single_frame.min = str2num(obstacle_point_group(obstacle_point_num).single_frame.min(1:end));
-            obstacle_point_group(obstacle_point_num).single_frame.s = str2num(obstacle_point_group(obstacle_point_num).single_frame.s(2:end));
-            obstacle_point_group(obstacle_point_num).single_frame.ms = str2num(obstacle_point_group(obstacle_point_num).single_frame.ms(2:end));
-            obstacle_point_group(obstacle_point_num).single_frame.timestamp = 3600 * obstacle_point_group(obstacle_point_num).single_frame.hour + ...
-                                                                        60 * obstacle_point_group(obstacle_point_num).single_frame.min + ...
-                                                                        obstacle_point_group(obstacle_point_num).single_frame.s + ...
-                                                                        10^-6 * obstacle_point_group(obstacle_point_num).single_frame.ms;
+            [obstacle_point_group(obstacle_point_num).single_obs.hour, last] = strtok(obstacle_point_group(obstacle_point_num).time_info,':');  % [token, remainder] = strtok(string, delimiters)
+            [obstacle_point_group(obstacle_point_num).single_obs.min, last] = strtok(last,':');  % [token, remainder] = strtok(string, delimiters)
+            [obstacle_point_group(obstacle_point_num).single_obs.s, obstacle_point_group(obstacle_point_num).single_obs.ms] = strtok(last,'.');
+            obstacle_point_group(obstacle_point_num).single_obs.hour = str2num(obstacle_point_group(obstacle_point_num).single_obs.hour(1:end));
+            obstacle_point_group(obstacle_point_num).single_obs.min = str2num(obstacle_point_group(obstacle_point_num).single_obs.min(1:end));
+            obstacle_point_group(obstacle_point_num).single_obs.s = str2num(obstacle_point_group(obstacle_point_num).single_obs.s(2:end));
+            obstacle_point_group(obstacle_point_num).single_obs.ms = str2num(obstacle_point_group(obstacle_point_num).single_obs.ms(2:end));
+            obstacle_point_group(obstacle_point_num).single_obs.timestamp = 3600 * obstacle_point_group(obstacle_point_num).single_obs.hour + ...
+                                                                        60 * obstacle_point_group(obstacle_point_num).single_obs.min + ...
+                                                                        obstacle_point_group(obstacle_point_num).single_obs.s + ...
+                                                                        10^-6 * obstacle_point_group(obstacle_point_num).single_obs.ms;
 
             feature_content = 'obs';
             [status, x_info, x_index] = find_info(log_content, feature_content, 0, 0);
             feature_content = ',  ';
             [status, y_info, y_index] = find_info(log_content, feature_content, 0, 0);
-            obstacle_point_group(obstacle_point_num).single_frame.v_x = str2num(log_content(x_index + 5 : y_index - 1));
-            obstacle_point_group(obstacle_point_num).single_frame.v_y = str2num(log_content(y_index + 3 : end));
+            obstacle_point_group(obstacle_point_num).single_obs.v_x = str2num(log_content(x_index + 5 : y_index - 1));
+            obstacle_point_group(obstacle_point_num).single_obs.v_y = str2num(log_content(y_index + 3 : end));
         end
     end
 end
