@@ -555,7 +555,25 @@ function [path_info_array] = path_info_get(fid_log)
             path_info.kappa(index+1) = kappa;
             path_info.speed(index+1) = speed;
             path_info.s(index+1) = s;
-            if index == 0
+            if index == 0    % index是0 说明是path上的第一个点，那么提取这个点的时间戳
+                feature_content = '0726 ';
+                [status, time_info, time_index] = find_info(log_content, feature_content, 0, 0);
+                feature_content = ' PID:';
+                [status, pid_info, pid_index] = find_info(log_content, feature_content, 0, 0);
+                path_info.time_info = log_content(time_index + 5 : pid_index);
+
+                [path_info.hour, last] = strtok(path_info.time_info,':');  % [token, remainder] = strtok(string, delimiters)
+                [path_info.min, last] = strtok(last,':');  % [token, remainder] = strtok(string, delimiters)
+                [path_info.s, path_info.ms] = strtok(last,'.');
+                path_info.hour = str2num(path_info.hour(1:end));
+                path_info.min = str2num(path_info.min(1:end));
+                path_info.s = str2num(path_info.s(2:end));
+                path_info.ms = str2num(path_info.ms(2:end));
+                path_info.timestamp = 3600 * path_info.hour + ...
+                                        60 * path_info.min + ...
+                                        path_info.s + ...
+                                        10^-6 * path_info.ms;
+                
                 path_info.path_info_group = path_info_group;
                 path_info_group = path_info_group + 1;
                 path_info_array(path_info_group) = path_info;

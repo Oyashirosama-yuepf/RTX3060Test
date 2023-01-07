@@ -1,13 +1,14 @@
 figure(1);
-if flag_plot_path == 1
-    choose_index = max(size(path_info_array));
-    for i =1 : 1 : choose_index
-        plot(path_info_array(i).x, path_info_array(i).y, 'r-', 'LineWidth',3); hold on; grid on;
-    end
-    for i =1 : 1 : choose_index
-        plot(path_info_array(i).x_zv, path_info_array(i).y_zv, 'b-', 'LineWidth',3); hold on; grid on;
-    end
-end
+% path的所有帧绘制
+% if flag_plot_path == 1
+%     choose_index = max(size(path_info_array));
+%     for i =1 : 1 : choose_index
+%         plot(path_info_array(i).x, path_info_array(i).y, 'r-', 'LineWidth',1); hold on; grid on;
+%     end
+%     for i =1 : 1 : choose_index
+%         plot(path_info_array(i).x_zv, path_info_array(i).y_zv, 'b-', 'LineWidth',1); hold on; grid on;
+%     end
+% end
 
 % 障碍物的所有帧绘制
 % if  flag_plot_obstacle == 1
@@ -19,7 +20,7 @@ end
 
 % 车辆全轨迹信息
 if flag_plot_odo_and_vehicle == 1
-    plot(vehicle_position_array.x, vehicle_position_array.y, 'k-', 'linewidth',3);hold on; grid on;
+    plot(vehicle_position_array.x, vehicle_position_array.y, 'k-', 'linewidth',1);hold on; grid on;
     plot(vehicle_position_array.x0, vehicle_position_array.y0, 'm--', 'linewidth',1);hold on; grid on;
     plot(vehicle_position_array.x1, vehicle_position_array.y1, 'm--', 'linewidth',1);hold on; grid on;
     plot(vehicle_position_array.x2, vehicle_position_array.y2, 'm--', 'linewidth',1);hold on; grid on;
@@ -49,7 +50,7 @@ if flag_plot_slot_stopper == 1
     p_stopper1 = plot(stopper_array(1).x1, stopper_array(1).y1, 'ks-', 'linewidth',3); hold on;
     line_stopper = line([stopper_array(1).x0,stopper_array(1).x1],[stopper_array(1).y0, stopper_array(1).y1],'linestyle','--','color','k');
 end
-
+% 车辆位置信息
 if flag_plot_odo_and_vehicle == 1
     p1 = plot(0,0,'m*', 'linewidth',3); hold on;
     p2 = plot(0,0,'m*', 'linewidth',3); hold on;
@@ -57,11 +58,18 @@ if flag_plot_odo_and_vehicle == 1
     p4 = plot(0,0,'m*', 'linewidth',3); hold on;
     p0 = plot(0,0,'ks', 'linewidth',4); hold on; grid on;
 end
+% freespace信息
 if flag_plot_freespace == 1
     p_freespace = plot(vehicle_position_array.x(1),vehicle_position_array.y(1),'k--', 'linewidth',1); hold on;
 end
+% 障碍物信息
 if flag_plot_obstacle == 1
     p_obs = plot(vehicle_position_array.x(1),vehicle_position_array.y(1), 's', 'linewidth',1 ,'color', [1 - 0.5,0.3,0.5]); hold on;
+end
+%path信息
+if flag_plot_path == 1
+    plot_path = plot(path_info_array(1).x, path_info_array(1).y, 'r-', 'LineWidth',3); hold on; grid on;
+    plot_path_zero = plot(path_info_array(1).x, path_info_array(1).y, 'b-', 'LineWidth',3); hold on; grid on;
 end
 for k = 1:length(vehicle_position_array.x)
     % first line
@@ -70,7 +78,19 @@ for k = 1:length(vehicle_position_array.x)
         set( p2, 'Xdata', vehicle_position_array.x1(k), 'Ydata',  vehicle_position_array.y1(k) );
         set( p3, 'Xdata', vehicle_position_array.x2(k), 'Ydata',  vehicle_position_array.y2(k) );
         set( p4, 'Xdata', vehicle_position_array.x3(k), 'Ydata',  vehicle_position_array.y3(k) );
-        set( p0, 'Xdata', vehicle_position_array.x(k), 'Ydata', vehicle_position_array.y(k) );
+        set( p0, 'Xdata', vehicle_position_array.x(k), 'Ydata', vehicle_position_array.y(k) );        
+%         plot(vehicle_position_array.x0(k), vehicle_position_array.y0(k), 'm--.', 'linewidth',1);hold on; grid on;
+%         plot(vehicle_position_array.x1(k), vehicle_position_array.y1(k), 'm--.', 'linewidth',1);hold on; grid on;
+%         plot(vehicle_position_array.x2(k), vehicle_position_array.y2(k), 'm--.', 'linewidth',1);hold on; grid on;
+%         plot(vehicle_position_array.x3(k), vehicle_position_array.y3(k), 'm--.', 'linewidth',1);hold on; grid on;
+%         plot(vehicle_position_array.x(k), vehicle_position_array.y(k), 'k--.', 'linewidth',1);hold on; grid on;
+%         if k == length(vehicle_position_array.x)
+%             find_position = length(vehicle_position_array.x);
+%             line([vehicle_position_array.x0(find_position),vehicle_position_array.x1(find_position)],[vehicle_position_array.y0(find_position), vehicle_position_array.y1(find_position)]);
+%             line([vehicle_position_array.x1(find_position),vehicle_position_array.x2(find_position)],[vehicle_position_array.y1(find_position), vehicle_position_array.y2(find_position)]);
+%             line([vehicle_position_array.x2(find_position),vehicle_position_array.x3(find_position)],[vehicle_position_array.y2(find_position), vehicle_position_array.y3(find_position)]);
+%             line([vehicle_position_array.x3(find_position),vehicle_position_array.x0(find_position)],[vehicle_position_array.y3(find_position), vehicle_position_array.y0(find_position)]);
+%         end
     end
     if flag_plot_freespace == 1
         for j = 1:length(freespace_point_group)   %判断当前点时刻的freespace信息
@@ -122,8 +142,21 @@ for k = 1:length(vehicle_position_array.x)
             end
         end
     end
+
+    %path信息
+    if flag_plot_slot_stopper == 1
+        for j = 1 :length(path_info_array)
+            if abs(path_info_array(j).timestamp - vehicle_pose_array.timeinfo.timestamp(k)) <= 0.02
+                set(plot_path, 'Xdata', path_info_array(j).x, 'Ydata', path_info_array(j).y); 
+                set(plot_path_zero, 'Xdata', path_info_array(j).x_zv, 'Ydata', path_info_array(j).y_zv);
+                plot(path_info_array(j).x, path_info_array(j).y, 'r-', 'LineWidth',1); hold on; grid on;
+                plot(path_info_array(j).x_zv, path_info_array(j).y_zv, 'b-', 'LineWidth',1); hold on; grid on;
+                break;
+            end
+        end
+    end
     
-    pause(0.00001);
+    pause(0.000001);
     axis equal;
     % update screen
 end
